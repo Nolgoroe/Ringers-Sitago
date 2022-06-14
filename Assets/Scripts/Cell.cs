@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Cell : MonoBehaviour, IDropHandler
+public class Cell : MonoBehaviour/*, IDropHandler*/
 {    
     public bool isFull;
 
-    public void OnDrop(PointerEventData eventData)
-    {
-        Debug.Log(transform.name);
+    //public void OnDrop(PointerEventData eventData)
+    //{
+    //    Debug.Log(transform.name);
 
-        if (isFull)
-        {
-            GameplayController.instance.ReturnHome();
-        }
-        else
-        {
-            isFull = true;
+    //    //if (isFull)
+    //    //{
+    //    //    GameplayController.instance.ReturnHome();
+    //    //}
+    //    //else
+    //    //{
+    //    //    isFull = true;
 
-            GameplayController.instance.draggingPiece.transform.SetParent(transform);
+    //    //    GameplayController.instance.draggingPiece.transform.SetParent(transform);
 
-            SnapFollowerToCell();
+    //    //    SnapFollowerToCell();
 
-            GameplayController.instance.draggingPiece.rightChild.EnableRaycast();
-            GameplayController.instance.draggingPiece.leftChild.EnableRaycast();
-        }
+    //    //    GameplayController.instance.draggingPiece.rightChild.EnableRaycast();
+    //    //    GameplayController.instance.draggingPiece.leftChild.EnableRaycast();
+    //    //}
 
 
-        GameplayController.instance.ResetControlData();
-    }
+    //    //GameplayController.instance.ResetControlData();
+    //}
 
     public void SnapFollowerToCell()
     {

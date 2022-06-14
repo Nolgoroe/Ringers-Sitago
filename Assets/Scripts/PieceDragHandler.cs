@@ -26,8 +26,12 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         GameplayController.instance.draggingPiece = transform.GetComponent<Piece>();
         GameplayController.instance.originalPiecePos = transform.GetComponent<RectTransform>().anchoredPosition;
 
+        if (GameplayController.instance.CheckOriginalParentIsCell())
+        {
+            GameplayController.instance.originalParent.GetComponent<Cell>().isFull = false;
+        }
 
-        GameplayController.instance.draggingPiece.rightChild.DisableRaycast();
+        GameplayController.instance.draggingPiece.rightChild.DisableRaycast(); // so we don't check against ourselves what we hit
         GameplayController.instance.draggingPiece.leftChild.DisableRaycast();
 
         canvas = GetComponentInParent<Canvas>();
@@ -62,6 +66,42 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
             if (cell)
             {
+                if (GameplayController.instance.CheckOriginalParentIsCell()) // if I hit the cell I was already on
+                {
+                    if (cell == GameplayController.instance.originalParent.GetComponent<Cell>())
+                    {
+                        GameplayController.instance.ReturnHome();
+                        return;
+                    }
+                }
+
+
+                if (!cell.isFull && GameplayController.instance.CheckOriginalParentIsClip()) // check if we came from clip. if we did we need to repopulate the clip
+                {
+                    ClipManager.instance.PopulateSlot(GameplayController.instance.originalParent.GetComponent<Clip>());
+                }
+
+                if (cell.isFull) // check if going in a cell that is already full
+                {
+                    GameplayController.instance.ReturnHome();
+                }
+                else // fill cell with piece
+                {
+                    cell.isFull = true;
+
+                    GameplayController.instance.draggingPiece.transform.SetParent(cell.transform);
+
+                    cell.SnapFollowerToCell();
+
+                    GameplayController.instance.draggingPiece.rightChild.EnableRaycast();
+                    GameplayController.instance.draggingPiece.leftChild.EnableRaycast();
+                }
+
+
+
+                GameplayController.instance.ResetControlData();
+
+
                 return;
             }
         }

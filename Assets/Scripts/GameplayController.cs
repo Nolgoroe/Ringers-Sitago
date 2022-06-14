@@ -48,6 +48,11 @@ public class GameplayController: MonoBehaviour
     {
         draggingPiece.transform.SetParent(originalParent);
 
+        if (CheckOriginalParentIsCell())
+        {
+            originalParent.GetComponent<Cell>().isFull = true;
+        }
+
         draggingPiece.GetComponent<RectTransform>().anchoredPosition = originalPiecePos;
         draggingPiece.transform.localRotation = originalPieceRotation; ///// reset piece rotation to it's original local rotation
 
@@ -71,6 +76,25 @@ public class GameplayController: MonoBehaviour
         originalParent = null;
         originalPieceRotation = Quaternion.Euler(Vector3.zero);
         originalPiecePos = Vector3.zero;
+    }
+
+    public bool CheckOriginalParentIsClip()
+    {
+        if (originalParent.GetComponent<Clip>())
+        {
+            return true;
+        }
+
+        return false;
+    }
+    public bool CheckOriginalParentIsCell()
+    {
+        if (originalParent.GetComponent<Cell>())
+        {
+            return true;
+        }
+
+        return false;
     }
 
     //public void NormalControls()
