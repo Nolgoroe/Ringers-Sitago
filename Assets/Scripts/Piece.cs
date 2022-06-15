@@ -29,9 +29,6 @@ public class Piece : MonoBehaviour
 {
     public SubPiece rightChild, leftChild;
 
-    //public bool isLocked;
-    //public bool isStone;
-    //public bool isDuringConnectionAnim;
     public bool partOfBoard;
 
     public void SetPieces()
@@ -146,98 +143,4 @@ public class Piece : MonoBehaviour
 
         return false; //// There was no repeat, is same piece = false
     }
-
-
-    //public void SetStonePiece(stonePieceDataStruct SPDS)
-    //{
-    //    bool isRepeatPieceSides = true;
-    //    bool isRepeatPieceOnBoard = true;
-    //    int repeatIndicator = 0;
-
-    //    rightChild.SetStonePiece(SPDS);
-    //    leftChild.SetStonePiece(SPDS);
-
-    //    while (isRepeatPieceSides || isRepeatPieceOnBoard)
-    //    {
-    //        if (repeatIndicator > 0)
-    //        {
-    //            rightChild.SetStonePiece(SPDS);
-    //            leftChild.SetStonePiece(SPDS);
-
-    //            repeatIndicator = 0;
-    //        }
-
-    //        isRepeatPieceSides = CheckNoRepeatPieceSides();
-    //        isRepeatPieceOnBoard = ConnectionManager.Instance.CheckRepeatingStonePieces(this);
-
-    //        //Debug.LogError("Same Pieces? " + isRepeatPieceSides);
-    //        Debug.LogError("Same Pieces on board? " + isRepeatPieceOnBoard);
-
-    //        if (GameManager.Instance.currentLevel.levelAvailablesymbols.Length > 0)
-    //        {
-    //            if (GameManager.Instance.currentLevel.levelAvailablesymbols.Length == 1)
-    //            {
-    //                isRepeatPieceSides = false;
-    //            }
-    //            else
-    //            {
-    //                // This loop checkes to see if someone accidentaly filled the "levelAvailablesymbols" list
-    //                // with multiples of the same symbol - like 3 times goat.
-    //                for (int i = 0; i < System.Enum.GetValues(typeof(PieceSymbol)).Length; i++)
-    //                {
-    //                    int same = 0;
-    //                    foreach (PieceSymbol PS in GameManager.Instance.currentLevel.levelAvailablesymbols)
-    //                    {
-    //                        if (PS == (PieceSymbol)i)
-    //                        {
-    //                            same++;
-    //                        }
-
-    //                        if (same > 1)
-    //                        {
-    //                            Debug.LogError("Found duplicates in the level Available symbols array!");
-    //                        }
-
-
-    //                        if (same == GameManager.Instance.currentLevel.levelAvailablesymbols.Length)
-    //                        {
-    //                            isRepeatPieceSides = false;
-    //                            break;
-    //                        }
-    //                    }
-
-    //                    //if (!isSamePiece)
-    //                    //{
-    //                    //    break;
-    //                    //}
-    //                }
-    //            }
-    //        }
-
-    //        if (isRepeatPieceSides || isRepeatPieceOnBoard)
-    //        {
-    //            repeatIndicator++;
-    //        }
-    //    }
-
-    //    //rightChild.SetStonePiece(SPDS, true);
-    //    //leftChild.SetStonePiece(SPDS, false);
-    //}
-
-    //public bool CheckNoRepeatPieceSides() // for now it's only for stone pieces
-    //{
-    //    Piece currectCheckPiece = GetComponent<Piece>();
-
-    //    if (currectCheckPiece.rightChild.symbolOfPiece == currectCheckPiece.leftChild.symbolOfPiece)
-    //    {
-    //        return true;
-    //    }
-    //    else
-    //    {
-    //        return false;
-    //    }
-
-    //}
-
-
 }

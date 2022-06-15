@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-//using UnityEditor;
 
 [System.Serializable]
 public class stonePieceDataStruct
@@ -22,10 +21,6 @@ public class stonePieceDataStruct
 public class sliceToSpawnDataStruct
 {
     public SliceCatagory sliceToSpawn;
-    //public bool isLock;
-    //public bool isLoot;
-    //public bool isLimiter;
-
 }
 
 [CreateAssetMenu(fileName = "Level", menuName = "ScriptableObjects/Create Level")]
@@ -50,23 +45,4 @@ public class LevelScriptableObject : ScriptableObject
     public PieceSymbol[] levelAvailableSymbols;
 
     public int[] specificSliceSpots;
-
-    //[ContextMenu("THIS")]
-    //public void actionhere()
-    //{
-    //    string n = name;
-    //    n = n.Replace("Level ", "");
-
-    //    int num = Convert.ToInt32(n);
-
-    //    levelNum = num;
-    //    levelIndexInZone = num;
-
-    //    Debug.Log(num);
-    //}
-    //[ContextMenu("THIS Leaderboard")]
-    //public void actionhere2()
-    //{
-    //    numIndexForLeaderBoard = 105 + levelNum;
-    //}
 }

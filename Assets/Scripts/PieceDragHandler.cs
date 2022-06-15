@@ -113,12 +113,23 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
                 if (!myCell.isFull && GameplayController.instance.CheckOriginalParentIsClip()) // check if we came from clip. if we did we need to repopulate the clip
                 {
+                    GameManager.instance.totalPlacedPieces++; // to check for end of level
+
+                    if (GameManager.instance.totalPlacedPieces == GameManager.instance.currentMap.cellsCountInLevel)
+                    {
+                        myCell.PopulateCellHeldPiece(relatedPiece);
+
+                        LastPieceLogic(myCell);
+
+                        return;
+                    }
+
                     relatedPiece.partOfBoard = true;
 
                     ClipManager.instance.PopulateSlot(GameplayController.instance.originalParent.GetComponent<Clip>());
 
-                    GameManager.instance.totalPlacedPieces++; // to check for end of level
                 }
+
 
                 if (myCell.isFull) // check if going in a cell that is already full
                 {
@@ -126,30 +137,24 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 }
                 else // fill cell with piece
                 {
-                    myCell.isFull = true;
 
+                    myCell.isFull = true;                    
                     relatedPiece.transform.SetParent(myCell.transform);
-
                     myCell.SnapFollowerToCell();
                     myCell.PopulateCellHeldPiece(relatedPiece);
-
-                    relatedPiece.rightChild.EnableRaycast();
-                    relatedPiece.leftChild.EnableRaycast();
-
-
-
 
                     // Send to check connection here
 
                     int myCellIndex = System.Array.IndexOf(SliceManager.instance.boardCells, myCell);
 
                     ConnectionManager.instance.CheckConnection(myCell, myCellIndex);
-
-                    GameManager.instance.CheckEndLevel();
-
                 }
 
-
+                if (GameManager.instance.totalPlacedPieces == GameManager.instance.currentMap.cellsCountInLevel)
+                {
+                    GameManager.instance.CheckEndLevel();
+                    return;
+                }
 
                 GameplayController.instance.ResetControlData();
 
@@ -161,5 +166,30 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         GameplayController.instance.ReturnHome();
 
         Debug.Log("pointer up");
+    }
+
+    private void LastPieceLogic(Cell myCell)
+    {
+        int myCellIndex = System.Array.IndexOf(SliceManager.instance.boardCells, myCell);
+
+        ConnectionManager.instance.CheckConnection(myCell, myCellIndex);
+
+        bool goodFinish = GameManager.instance.CheckEndLevel();
+
+        if (goodFinish)
+        {
+            GameManager.instance.currentMapIndex++;
+        }
+        else
+        {
+            GameManager.instance.totalPlacedPieces--;
+
+            ConnectionManager.instance.CheckConnectionsOnPickup(myCell, myCellIndex); // check connection here to see how many "bad connections" are left
+
+            myCell.ResetCellHeldPiece();
+            GameplayController.instance.ReturnHome();
+
+            UIManager.instance.RingCouldNotBeCompletedText();
+        }
     }
 }
