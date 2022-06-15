@@ -7,47 +7,43 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class PowerupProperties : MonoBehaviour
+public class PowerupProperties : MonoBehaviour, IPointerClickHandler
 {
-    //public Sprite icon;
-    //public string powerupText;
-    //public PowerUp powerupType;
-    //public int numOfUses;
-    /////public TMP_Text nameOfPowerup;
-    //public PieceColor transformColor;
-    //public PieceSymbol transformSymbol;
-    ////public EquipmentData connectedEquipment;
-    //public TMP_Text numOfUsesText;
+    public PowerUp powerupType;
 
-    ////public bool isSelected = false;
-    //public bool canBeSelected = false;
+    public int numOfUses;
 
-    //public UnityEvent interactEvent;
+    public PieceColor transformColor;
+    public PieceSymbol transformSymbol;
 
-    //public void SetProperties(PowerUp type)
-    //{
-    //    string path = GameManager.Instance.powerupManager.spriteByType[type];
+    public bool canBeSelected = false;
 
-    //    icon = Resources.Load<Sprite>(path);
-    //    powerupText = GameManager.Instance.powerupManager.nameTextByType[type];
-    //    powerupType = type;
+    public UnityEvent interactEvent;
 
-    //    GetComponent<SpriteRenderer>().sprite = icon;
+    public void SetProperties(PowerUp type)
+    {
+        //string path = GameManager.Instance.powerupManager.spriteByType[type];
+
+        //icon = Resources.Load<Sprite>(path);
+        //powerupText = GameManager.Instance.powerupManager.nameTextByType[type];
+        powerupType = type;
+
+        //GetComponent<SpriteRenderer>().sprite = icon;
 
 
-    //    //if(type == PowerUp.FourColorTransform)
-    //    //{
-    //    //    //nameOfPowerup.text = powerupText + "\n" + connectedEquipment.specificColor;
-    //    //}
-    //    //else if(type == PowerUp.FourShapeTransform)
-    //    //{
-    //    //    //nameOfPowerup.text = powerupText + "\n" + connectedEquipment.specificSymbol;
-    //    //}
-    //    //else
-    //    //{
-    //    //    //nameOfPowerup.text = powerupText;
-    //    //}
-    //}
+        //if(type == PowerUp.FourColorTransform)
+        //{
+        //    //nameOfPowerup.text = powerupText + "\n" + connectedEquipment.specificColor;
+        //}
+        //else if(type == PowerUp.FourShapeTransform)
+        //{
+        //    //nameOfPowerup.text = powerupText + "\n" + connectedEquipment.specificSymbol;
+        //}
+        //else
+        //{
+        //    //nameOfPowerup.text = powerupText;
+        //}
+    }
 
     //public void FindNumOfUsesTextObject()
     //{
@@ -65,18 +61,18 @@ public class PowerupProperties : MonoBehaviour
     //{
     //    numOfUsesText.text = numOfUses.ToString();
 
-    //    if(numOfUses == 0)
+    //    if (numOfUses == 0)
     //    {
     //        numOfUsesText.transform.parent.gameObject.SetActive(false);
     //    }
     //}
 
-    //public void OnPointerClick(PointerEventData eventData)
-    //{
-    //    if (canBeSelected)
-    //    {
-    //        interactEvent.Invoke();
-    //    }
-    //    Debug.Log("Shooting event powerup");
-    //}
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (numOfUses > 0 && canBeSelected)
+        {
+            interactEvent.Invoke();
+        }
+        Debug.Log("Shooting event powerup");
+    }
 }

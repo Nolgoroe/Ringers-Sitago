@@ -22,9 +22,9 @@ public class stonePieceDataStruct
 public class sliceToSpawnDataStruct
 {
     public SliceCatagory sliceToSpawn;
-    public bool isLock;
-    public bool isLoot;
-    public bool isLimiter;
+    //public bool isLock;
+    //public bool isLoot;
+    //public bool isLimiter;
 
 }
 
@@ -41,7 +41,7 @@ public class LevelScriptableObject : ScriptableObject
     public bool RandomSlicePositions;
     public bool allowRepeatSlices;
 
-    //public PowerUp[] powerupsForLevel;
+    public PowerUp[] powerupsForMap;
 
     public stonePieceDataStruct[] stoneTiles;
     public sliceToSpawnDataStruct[] slicesToSpawn;
@@ -49,6 +49,7 @@ public class LevelScriptableObject : ScriptableObject
     public PieceColor[] levelAvailableColors;
     public PieceSymbol[] levelAvailableSymbols;
 
+    public int[] specificSliceSpots;
 
     //[ContextMenu("THIS")]
     //public void actionhere()

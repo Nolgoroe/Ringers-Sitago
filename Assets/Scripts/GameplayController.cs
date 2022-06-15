@@ -91,8 +91,6 @@ public class GameplayController: MonoBehaviour
 
 
 
-
-
     //public float gameplayDepth;
     //public float distanceFromBoard;
     //public float rayLength;
@@ -1089,7 +1087,7 @@ public class GameplayController: MonoBehaviour
     //}
     //private bool SpecialTutorialConnectionLogic(int cellindex, Piece pieceHeld)
     //{
-    //    Slice relavent = GameManager.Instance.sliceManager.sliceSlots[cellindex].GetComponent<Slice>();
+    //    Slice relavent = GameManager.Instance.sliceManager.boardSlices[cellindex].GetComponent<Slice>();
 
     //    if (relavent.sliceCatagory == SliceCatagory.None)
     //    {

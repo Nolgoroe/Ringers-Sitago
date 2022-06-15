@@ -13,10 +13,22 @@ public class SliceManager : MonoBehaviour
 {
     public static SliceManager instance;
 
+    [Header("Prefabs")]
+    public GameObject slicePrefab;
+
     [Header("Board Parts")]
     public Cell[] boardCells;  
     public Slice[] boardSlices;
+    public List<Slice> populatedSlices;
 
+    [Header("Dictionairy datas")]
+    public Sprite[] limiterSliceColors;
+    public Dictionary<PieceColor, Sprite> limiterSlicecolorToSprite;
+
+    public Sprite[] limiterSliceSymbolsSprites;
+    public Dictionary<PieceSymbol, Sprite> limiterSliceSymbolToSprite;
+
+    private List<int> possibleSlotsTemp;
     private void Awake()
     {
         instance = this;
@@ -27,8 +39,8 @@ public class SliceManager : MonoBehaviour
         //sliceSymbolToSprite = new Dictionary<PieceSymbol, Texture>();
         //slicecolorToSprite = new Dictionary<PieceColor, Texture>();
 
-        //limiterSliceSymbolToSprite = new Dictionary<PieceSymbol, Sprite>();
-        //limiterSlicecolorToSprite = new Dictionary<PieceColor, Sprite>();
+        limiterSliceSymbolToSprite = new Dictionary<PieceSymbol, Sprite>();
+        limiterSlicecolorToSprite = new Dictionary<PieceColor, Sprite>();
 
         //activeLocksLockAnims = new List<GameObject>();
 
@@ -42,17 +54,145 @@ public class SliceManager : MonoBehaviour
         //    slicecolorToSprite.Add((PieceColor)i, sliceColors[i]);
         //}
 
-        //for (int i = 0; i < limiterSliceSymbolsSprites.Length; i++)
-        //{
-        //    limiterSliceSymbolToSprite.Add((PieceSymbol)i, limiterSliceSymbolsSprites[i]);
-        //}
+        for (int i = 0; i < limiterSliceSymbolsSprites.Length; i++)
+        {
+            limiterSliceSymbolToSprite.Add((PieceSymbol)i, limiterSliceSymbolsSprites[i]);
+        }
 
-        //for (int i = 0; i < limiterSliceColors.Length; i++)
-        //{
-        //    limiterSlicecolorToSprite.Add((PieceColor)i, limiterSliceColors[i]);
-        //}
+        for (int i = 0; i < limiterSliceColors.Length; i++)
+        {
+            limiterSlicecolorToSprite.Add((PieceColor)i, limiterSliceColors[i]);
+        }
     }
 
+
+    public void SpawnSlices(int numOfSlices)
+    {
+        if (numOfSlices > 0)
+        {
+            populatedSlices = new List<Slice>();
+
+            possibleSlotsTemp = new List<int>();
+
+            for (int i = 0; i < boardSlices.Length; i++)
+            {
+                possibleSlotsTemp.Add(i);
+            }
+
+            if (GameManager.instance.currentMap.is12PieceRing)
+            {
+                //SpawnTwelveRingSlices(numOfSlices);
+            }
+            else
+            {
+                SpawnEightRingSlices(numOfSlices);
+            }
+        }
+    }
+
+    public void SpawnEightRingSlices(int numOfSlices)
+    {
+        if (GameManager.instance.currentMap.RandomSlicePositions)
+        {
+            int randomPos = Random.Range(0, boardSlices.Length);
+
+            populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
+
+            if (numOfSlices == 2)
+            {
+                for (int i = 1; i < numOfSlices; i++)
+                {
+                    randomPos += 4;
+
+                    if (randomPos >= boardSlices.Length)
+                    {
+                        randomPos -= boardSlices.Length;
+                    }
+
+                    populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
+
+                }
+
+            }
+            else if (numOfSlices == 3)
+            {
+                for (int i = 1; i < numOfSlices; i++)
+                {
+                    randomPos += 3;
+
+                    if (randomPos >= boardSlices.Length)
+                    {
+                        randomPos -= boardSlices.Length;
+                    }
+
+                    populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
+
+                }
+            }
+            else if (numOfSlices == 4)
+            {
+                for (int i = 1; i < numOfSlices; i++)
+                {
+                    randomPos += 2;
+
+                    if (randomPos >= boardSlices.Length)
+                    {
+                        randomPos -= boardSlices.Length;
+                    }
+                    populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
+
+                }
+            }
+            else if (numOfSlices > 4)
+            {
+                possibleSlotsTemp.Remove(randomPos);
+
+                for (int i = 0; i < 3; i++)
+                {
+                    randomPos += 2;
+
+                    if (randomPos >= boardSlices.Length)
+                    {
+                        randomPos -= boardSlices.Length;
+                    }
+
+                    populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
+
+                    possibleSlotsTemp.Remove(randomPos);
+                }
+
+                int slicesLeft = numOfSlices - populatedSlices.Count;
+
+                for (int i = 0; i < slicesLeft; i++)
+                {
+                    randomPos = Random.Range(0, possibleSlotsTemp.Count);
+
+                    populatedSlices.Add(boardSlices[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
+
+                    possibleSlotsTemp.Remove(possibleSlotsTemp[randomPos]);
+                }
+            }
+
+            for (int i = 0; i < populatedSlices.Count; i++)
+            {
+                populatedSlices[i].SetSliceData(populatedSlices[i].transform, GameManager.instance.currentMap.slicesToSpawn[i].sliceToSpawn);
+            }
+        }
+        else
+        {
+
+            for (int i = 0; i < GameManager.instance.currentMap.slicesToSpawn.Length; i++)
+            {
+                populatedSlices.Add(boardSlices[GameManager.instance.currentMap.specificSliceSpots[i]].transform.GetComponent<Slice>());
+            }
+
+
+            for (int i = 0; i < populatedSlices.Count; i++)
+            {
+                populatedSlices[i].SetSliceData(boardSlices[GameManager.instance.currentMap.specificSliceSpots[i]].transform, GameManager.instance.currentMap.slicesToSpawn[i].sliceToSpawn);
+            }
+        }
+    }
     ////public GameObject lootSlicePrefab;
     ////public GameObject lootLockSlicePrefab;
     ////public GameObject lootLockLimiterSlicePrefab;
@@ -85,9 +225,7 @@ public class SliceManager : MonoBehaviour
     //public Sprite[] sliceCompletedSpritesShapes;
 
     ////public Texture[] limiterSliceColors; // this was used for 3D limiters
-    //public Sprite[] limiterSliceColors;
     ////public Texture[] limiterSliceSymbolsSprites;
-    //public Sprite[] limiterSliceSymbolsSprites;
 
     ////public Sprite[] sliceLootIcons;
 
@@ -107,178 +245,33 @@ public class SliceManager : MonoBehaviour
     //public Dictionary<PieceColor, Texture> slicecolorToSprite;
 
     ////public Dictionary<PieceSymbol, Texture> limiterSliceSymbolToSprite; // this was used for 3D limiters
-    //public Dictionary<PieceSymbol, Sprite> limiterSliceSymbolToSprite;
     ////public Dictionary<PieceColor, Texture> limiterSlicecolorToSprite; // this was used for 3D limiters
-    //public Dictionary<PieceColor, Sprite> limiterSlicecolorToSprite;
+
     ////public Dictionary<PieceColor, Material> pieceColorToColor;
 
     ////public Dictionary<LootPacks, Sprite> lootToIcon;
 
     //List<int> possibleSlotsTemp;
 
-    ////public List<Slice> fullSlices;
+    ////public List<Slice> populatedSlices;
     //public List<GameObject> activeLocksLockAnims;
     ////GameObject go;
 
     //private int fourRandomSlicePos;
 
 
-    //public void SpawnSlices(int numOfSlices)
-    //{
-    //    if (numOfSlices > 0)
-    //    {
-    //        fullSlices = new List<Slice>();
-
-    //        possibleSlotsTemp = new List<int>();
-
-    //        for (int i = 0; i < sliceSlots.Length; i++)
-    //        {
-    //            possibleSlotsTemp.Add(i);
-    //        }
-
-    //        //if (GameManager.Instance.currentLevel.is12PieceRing)
-    //        //{
-    //        //    SpawnTwelveRingSlices(numOfSlices);
-    //        //}
-    //        //else
-    //        //{
-    //        //    SpawnEightRingSlices(numOfSlices);
-    //        //}
 
 
-    //        //if (GameManager.Instance.currentLevel.levelIndexInZone == ZoneManagerHelpData.Instance.currentZoneCheck.maxLevelReachedInZone || GameManager.Instance.currentLevel.isGrindLevel || CheatingSaveData.instance.canRepeatLevels)
-    //        //{
-    //        //    for (int i = 0; i < fullSlices.Count; i++)
-    //        //    {
-    //        //        fullSlices[i].SetSliceLootData(GameManager.Instance.currentLevel.RewardBags[Random.Range(0, GameManager.Instance.currentLevel.RewardBags.Length)]);
-    //        //    }
-    //        //}
-
-    //        //}
-
-    //        /// Distribute Key to a random slice
-    //        //if (ZoneManager.Instance.isKeyLevel)
-    //        //{
-    //        //    int randomSlice = Random.Range(0, fullSlices.Count);
-    //        //    Debug.Log(randomSlice);
-    //        //    fullSlices[randomSlice].isKey = true;
-    //        //    ////// KEY HERE
-    //        //}
-    //    }
-    //}
 
 
-    //public void SpawnEightRingSlices(int numOfSlices)
-    //{
-    //    if (GameManager.Instance.currentLevel.RandomSlicePositions)
-    //    {
-    //        int randomPos = Random.Range(0, sliceSlots.Length);
-
-    //        fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
-
-    //        if (numOfSlices == 2)
-    //        {
-    //            for (int i = 1; i < numOfSlices; i++)
-    //            {
-    //                randomPos += 4;
-
-    //                if (randomPos >= sliceSlots.Length)
-    //                {
-    //                    randomPos -= sliceSlots.Length;
-    //                }
-
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
-
-    //            }
-
-    //        }
-    //        else if (numOfSlices == 3)
-    //        {
-    //            for (int i = 1; i < numOfSlices; i++)
-    //            {
-    //                randomPos += 3;
-
-    //                if (randomPos >= sliceSlots.Length)
-    //                {
-    //                    randomPos -= sliceSlots.Length;
-    //                }
-
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
-
-    //            }
-    //        }
-    //        else if (numOfSlices == 4)
-    //        {
-    //            for (int i = 1; i < numOfSlices; i++)
-    //            {
-    //                randomPos += 2;
-
-    //                if (randomPos >= sliceSlots.Length)
-    //                {
-    //                    randomPos -= sliceSlots.Length;
-    //                }
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
-
-    //            }
-    //        }
-    //        else if (numOfSlices > 4)
-    //        {
-    //            possibleSlotsTemp.Remove(randomPos);
-
-    //            for (int i = 0; i < 3; i++)
-    //            {
-    //                randomPos += 2;
-
-    //                if (randomPos >= sliceSlots.Length)
-    //                {
-    //                    randomPos -= sliceSlots.Length;
-    //                }
-
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
-
-    //                possibleSlotsTemp.Remove(randomPos);
-    //            }
-
-    //            int slicesLeft = numOfSlices - fullSlices.Count;
-
-    //            for (int i = 0; i < slicesLeft; i++)
-    //            {
-    //                randomPos = Random.Range(0, possibleSlotsTemp.Count);
-
-    //                fullSlices.Add(sliceSlots[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
-
-    //                possibleSlotsTemp.Remove(possibleSlotsTemp[randomPos]);
-    //            }
-    //        }
-
-    //        for (int i = 0; i < fullSlices.Count; i++)
-    //        {
-    //            fullSlices[i].SetSliceData(fullSlices[i].transform, GameManager.Instance.currentLevel.slicesToSpawn[i].sliceToSpawn, GameManager.Instance.currentLevel.slicesToSpawn[i].isLock, GameManager.Instance.currentLevel.slicesToSpawn[i].isLoot, GameManager.Instance.currentLevel.slicesToSpawn[i].isLimiter);
-    //        }
-    //    }
-    //    else
-    //    {
-
-    //        for (int i = 0; i < GameManager.Instance.currentLevel.slicesToSpawn.Length; i++)
-    //        {
-    //            fullSlices.Add(sliceSlots[GameManager.Instance.currentLevel.specificSliceSpots[i]].transform.GetComponent<Slice>());
-    //        }
-
-
-    //        for (int i = 0; i < fullSlices.Count; i++)
-    //        {
-    //            fullSlices[i].SetSliceData(sliceSlots[GameManager.Instance.currentLevel.specificSliceSpots[i]].transform, GameManager.Instance.currentLevel.slicesToSpawn[i].sliceToSpawn, GameManager.Instance.currentLevel.slicesToSpawn[i].isLock, GameManager.Instance.currentLevel.slicesToSpawn[i].isLoot, GameManager.Instance.currentLevel.slicesToSpawn[i].isLimiter);
-    //        }
-    //    }
-    //}
 
     //public void SpawnTwelveRingSlices(int numOfSlices)
     //{
     //    if (GameManager.Instance.currentLevel.RandomSlicePositions)
     //    {
-    //        int randomPos = Random.Range(0, sliceSlots.Length);
+    //        int randomPos = Random.Range(0, boardSlices.Length);
 
-    //        fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
+    //        populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
 
     //        if (numOfSlices == 2)
     //        {
@@ -286,12 +279,12 @@ public class SliceManager : MonoBehaviour
     //            {
     //                randomPos += 6;
 
-    //                if (randomPos >= sliceSlots.Length)
+    //                if (randomPos >= boardSlices.Length)
     //                {
-    //                    randomPos -= sliceSlots.Length;
+    //                    randomPos -= boardSlices.Length;
     //                }
 
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
+    //                populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
 
     //            }
 
@@ -302,12 +295,12 @@ public class SliceManager : MonoBehaviour
     //            {
     //                randomPos += 4;
 
-    //                if (randomPos >= sliceSlots.Length)
+    //                if (randomPos >= boardSlices.Length)
     //                {
-    //                    randomPos -= sliceSlots.Length;
+    //                    randomPos -= boardSlices.Length;
     //                }
 
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
+    //                populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
 
     //            }
     //        }
@@ -317,11 +310,11 @@ public class SliceManager : MonoBehaviour
     //            {
     //                randomPos += 3;
 
-    //                if (randomPos >= sliceSlots.Length)
+    //                if (randomPos >= boardSlices.Length)
     //                {
-    //                    randomPos -= sliceSlots.Length;
+    //                    randomPos -= boardSlices.Length;
     //                }
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
+    //                populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
 
     //            }
     //        }
@@ -333,12 +326,12 @@ public class SliceManager : MonoBehaviour
     //            {
     //                randomPos += 3;
 
-    //                if (randomPos >= sliceSlots.Length)
+    //                if (randomPos >= boardSlices.Length)
     //                {
-    //                    randomPos -= sliceSlots.Length;
+    //                    randomPos -= boardSlices.Length;
     //                }
 
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
+    //                populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
 
     //                possibleSlotsTemp.Remove(randomPos);
     //            }
@@ -347,12 +340,12 @@ public class SliceManager : MonoBehaviour
     //            {
     //                randomPos += 2;
 
-    //                if (randomPos >= sliceSlots.Length)
+    //                if (randomPos >= boardSlices.Length)
     //                {
-    //                    randomPos -= sliceSlots.Length;
+    //                    randomPos -= boardSlices.Length;
     //                }
 
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
+    //                populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
 
     //                possibleSlotsTemp.Remove(randomPos);
     //            }
@@ -365,31 +358,31 @@ public class SliceManager : MonoBehaviour
     //            {
     //                randomPos += 2;
 
-    //                if (randomPos >= sliceSlots.Length)
+    //                if (randomPos >= boardSlices.Length)
     //                {
-    //                    randomPos -= sliceSlots.Length;
+    //                    randomPos -= boardSlices.Length;
     //                }
 
-    //                fullSlices.Add(sliceSlots[randomPos].transform.GetComponent<Slice>());
+    //                populatedSlices.Add(boardSlices[randomPos].transform.GetComponent<Slice>());
 
     //                possibleSlotsTemp.Remove(randomPos);
     //            }
 
-    //            int slicesLeft = numOfSlices - fullSlices.Count;
+    //            int slicesLeft = numOfSlices - populatedSlices.Count;
 
     //            for (int i = 0; i < slicesLeft; i++)
     //            {
     //                randomPos = Random.Range(0, possibleSlotsTemp.Count);
 
-    //                fullSlices.Add(sliceSlots[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
+    //                populatedSlices.Add(boardSlices[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
 
     //                possibleSlotsTemp.Remove(possibleSlotsTemp[randomPos]);
     //            }
     //        }
 
-    //        for (int i = 0; i < fullSlices.Count; i++)
+    //        for (int i = 0; i < populatedSlices.Count; i++)
     //        {
-    //            fullSlices[i].SetSliceData(fullSlices[i].transform, GameManager.Instance.currentLevel.slicesToSpawn[i].sliceToSpawn, GameManager.Instance.currentLevel.slicesToSpawn[i].isLock, GameManager.Instance.currentLevel.slicesToSpawn[i].isLoot, GameManager.Instance.currentLevel.slicesToSpawn[i].isLimiter);
+    //            populatedSlices[i].SetSliceData(populatedSlices[i].transform, GameManager.Instance.currentLevel.slicesToSpawn[i].sliceToSpawn, GameManager.Instance.currentLevel.slicesToSpawn[i].isLock, GameManager.Instance.currentLevel.slicesToSpawn[i].isLoot, GameManager.Instance.currentLevel.slicesToSpawn[i].isLimiter);
     //        }
     //    }
     //    else
@@ -397,13 +390,13 @@ public class SliceManager : MonoBehaviour
 
     //        for (int i = 0; i < GameManager.Instance.currentLevel.slicesToSpawn.Length; i++)
     //        {
-    //            fullSlices.Add(sliceSlots[GameManager.Instance.currentLevel.specificSliceSpots[i]].transform.GetComponent<Slice>());
+    //            populatedSlices.Add(boardSlices[GameManager.Instance.currentLevel.specificSliceSpots[i]].transform.GetComponent<Slice>());
     //        }
 
 
-    //        for (int i = 0; i < fullSlices.Count; i++)
+    //        for (int i = 0; i < populatedSlices.Count; i++)
     //        {
-    //            fullSlices[i].SetSliceData(sliceSlots[GameManager.Instance.currentLevel.specificSliceSpots[i]].transform, GameManager.Instance.currentLevel.slicesToSpawn[i].sliceToSpawn, GameManager.Instance.currentLevel.slicesToSpawn[i].isLock, GameManager.Instance.currentLevel.slicesToSpawn[i].isLoot, GameManager.Instance.currentLevel.slicesToSpawn[i].isLimiter);
+    //            populatedSlices[i].SetSliceData(boardSlices[GameManager.Instance.currentLevel.specificSliceSpots[i]].transform, GameManager.Instance.currentLevel.slicesToSpawn[i].sliceToSpawn, GameManager.Instance.currentLevel.slicesToSpawn[i].isLock, GameManager.Instance.currentLevel.slicesToSpawn[i].isLoot, GameManager.Instance.currentLevel.slicesToSpawn[i].isLimiter);
     //        }
     //    }
     //}
@@ -411,11 +404,11 @@ public class SliceManager : MonoBehaviour
     //{
     //    if (numOfSlices > 0)
     //    {
-    //        fullSlices = new List<Slice>();
+    //        populatedSlices = new List<Slice>();
 
     //        possibleSlotsTemp = new List<int>();
 
-    //        for (int i = 0; i < sliceSlots.Length; i++)
+    //        for (int i = 0; i < boardSlices.Length; i++)
     //        {
     //            possibleSlotsTemp.Add(i);
     //        }
@@ -433,7 +426,7 @@ public class SliceManager : MonoBehaviour
     //                int randomPos = 0;
 
 
-    //                //fullSlices.Add(sliceSlots[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
+    //                //populatedSlices.Add(boardSlices[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
     //                //RemovePositions(randomPos);
 
     //                if (numOfSlices < 4)
@@ -441,49 +434,49 @@ public class SliceManager : MonoBehaviour
 
     //                    randomPos = Random.Range(0, possibleSlotsTemp.Count);
 
-    //                    fullSlices.Add(sliceSlots[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
+    //                    populatedSlices.Add(boardSlices[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
 
     //                    RemovePositions(possibleSlotsTemp[randomPos]);
     //                }
     //                else if (numOfSlices == 4)
     //                {
-    //                    fullSlices.Add(sliceSlots[fourRandomSlicePos].transform.GetComponent<Slice>());
+    //                    populatedSlices.Add(boardSlices[fourRandomSlicePos].transform.GetComponent<Slice>());
 
     //                    //for (int j = 1; j < numOfSlices; j++)
     //                    //{
     //                    fourRandomSlicePos += 2;
 
-    //                    if (fourRandomSlicePos >= sliceSlots.Length)
+    //                    if (fourRandomSlicePos >= boardSlices.Length)
     //                    {
-    //                        fourRandomSlicePos -= sliceSlots.Length;
+    //                        fourRandomSlicePos -= boardSlices.Length;
     //                    }
 
     //                    //}
     //                }
     //                else
     //                {
-    //                    if (fullSlices.Count < 4)
+    //                    if (populatedSlices.Count < 4)
     //                    {
-    //                        fullSlices.Add(sliceSlots[fourRandomSlicePos].transform.GetComponent<Slice>());
+    //                        populatedSlices.Add(boardSlices[fourRandomSlicePos].transform.GetComponent<Slice>());
     //                        possibleSlotsTemp.Remove(fourRandomSlicePos);
 
-    //                        // for (int j = 1; j < sliceSlots.Length / 2; j++)
+    //                        // for (int j = 1; j < boardSlices.Length / 2; j++)
     //                        //{
     //                        fourRandomSlicePos += 2;
 
-    //                        if (fourRandomSlicePos >= sliceSlots.Length)
+    //                        if (fourRandomSlicePos >= boardSlices.Length)
     //                        {
-    //                            fourRandomSlicePos -= sliceSlots.Length;
+    //                            fourRandomSlicePos -= boardSlices.Length;
     //                        }
     //                        //}
     //                    }
     //                    else
     //                    {
-    //                        for (int j = 0; j < numOfSlices - sliceSlots.Length / 2; j++)
+    //                        for (int j = 0; j < numOfSlices - boardSlices.Length / 2; j++)
     //                        {
     //                            randomPos = Random.Range(0, possibleSlotsTemp.Count);
 
-    //                            fullSlices.Add(sliceSlots[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
+    //                            populatedSlices.Add(boardSlices[possibleSlotsTemp[randomPos]].transform.GetComponent<Slice>());
     //                            possibleSlotsTemp.Remove(possibleSlotsTemp[randomPos]);
     //                        }
     //                    }
@@ -500,31 +493,31 @@ public class SliceManager : MonoBehaviour
     //                {
     //                    int specifPos = GameManager.Instance.copyOfSpecificSliceSpotsTutorial[0];
 
-    //                    fullSlices.Add(sliceSlots[specifPos].transform.GetComponent<Slice>());
+    //                    populatedSlices.Add(boardSlices[specifPos].transform.GetComponent<Slice>());
 
     //                    GameManager.Instance.copyOfSpecificSliceSpotsTutorial.RemoveAt(0);
     //                }
     //            }
     //        }
 
-    //        for (int k = 0; k < fullSlices.Count; k++)
+    //        for (int k = 0; k < populatedSlices.Count; k++)
     //        {
-    //            fullSlices[k].SetSliceData(fullSlices[k].transform, GameManager.Instance.currentLevel.slicesToSpawn[k].sliceToSpawn, GameManager.Instance.currentLevel.slicesToSpawn[k].isLock, GameManager.Instance.currentLevel.slicesToSpawn[k].isLoot, GameManager.Instance.currentLevel.slicesToSpawn[k].isLimiter);
+    //            populatedSlices[k].SetSliceData(populatedSlices[k].transform, GameManager.Instance.currentLevel.slicesToSpawn[k].sliceToSpawn, GameManager.Instance.currentLevel.slicesToSpawn[k].isLock, GameManager.Instance.currentLevel.slicesToSpawn[k].isLoot, GameManager.Instance.currentLevel.slicesToSpawn[k].isLimiter);
     //        }
 
     //        if (GameManager.Instance.currentLevel.levelIndexInZone == ZoneManagerHelpData.Instance.currentZoneCheck.maxLevelReachedInZone || GameManager.Instance.currentLevel.isGrindLevel || CheatingSaveData.instance.canRepeatLevels)
     //        {
-    //            for (int i = 0; i < fullSlices.Count; i++)
+    //            for (int i = 0; i < populatedSlices.Count; i++)
     //            {
-    //                fullSlices[i].SetSliceLootData(GameManager.Instance.currentLevel.RewardBags[Random.Range(0, GameManager.Instance.currentLevel.RewardBags.Length)]);
+    //                populatedSlices[i].SetSliceLootData(GameManager.Instance.currentLevel.RewardBags[Random.Range(0, GameManager.Instance.currentLevel.RewardBags.Length)]);
     //            }
     //        }
 
     //        //if (ZoneManager.Instance.isKeyLevel)
     //        //{
-    //        //    int randomSlice = Random.Range(0, fullSlices.Count);
+    //        //    int randomSlice = Random.Range(0, populatedSlices.Count);
     //        //    Debug.Log(randomSlice);
-    //        //    fullSlices[randomSlice].isKey = true;
+    //        //    populatedSlices[randomSlice].isKey = true;
 
     //        //    ////// KEY HERE
     //        //}
@@ -535,7 +528,7 @@ public class SliceManager : MonoBehaviour
     //{
     //    possibleSlotsTemp.Remove(rPos);
 
-    //    if (rPos == sliceSlots.Length - 1)
+    //    if (rPos == boardSlices.Length - 1)
     //    {
     //        possibleSlotsTemp.Remove(0);
     //    }
@@ -546,7 +539,7 @@ public class SliceManager : MonoBehaviour
 
     //    if (rPos == 0)
     //    {
-    //        possibleSlotsTemp.Remove(sliceSlots.Length - 1);
+    //        possibleSlotsTemp.Remove(boardSlices.Length - 1);
     //    }
     //    else
     //    {

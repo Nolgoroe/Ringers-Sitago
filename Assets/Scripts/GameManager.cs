@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     //public int currentFilledCellCount;
     //public int unsuccessfullConnectionCount;
-    //public int unsuccessfullSlicesCount;
+    //public int unsuccesspopulatedSlicesCount;
 
     //public bool levelStarted;
     //public bool clickedPlayButton; /// why do I need this?
@@ -149,6 +149,23 @@ public class GameManager : MonoBehaviour
 
 
         InitAllSystems();
+
+
+        SliceManager.instance.SpawnSlices(currentMap.slicesToSpawn.Length);
+
+        if(currentMap.powerupsForMap.Length > 0)
+        {
+            foreach (PowerUp power in currentMap.powerupsForMap)
+            {
+                PowerupProperties prop = PowerUpManager.instance.powerupButtons.Where(p => p.powerupType == power).SingleOrDefault();
+
+                if (prop)
+                {
+                    prop.numOfUses += 3;
+                    prop.canBeSelected = true;
+                }
+            }
+        }
 
         //LevelEnded = false;
         //levelStarted = true;
@@ -427,7 +444,7 @@ public class GameManager : MonoBehaviour
 
     //    currentFilledCellCount = 0;
     //    unsuccessfullConnectionCount = 0;
-    //    unsuccessfullSlicesCount = 0;
+    //    unsuccesspopulatedSlicesCount = 0;
     //}
 
     //public bool CheckEndLevel(bool cheat)
@@ -493,7 +510,7 @@ public class GameManager : MonoBehaviour
     //        //UIManager.Instance.dealButton.interactable = false;
 
     //        //UIManager.Instance.DisableCommitButton();
-    //        if (currentFilledCellCount == currentLevel.cellsCountInLevel && unsuccessfullConnectionCount == 0 && unsuccessfullSlicesCount == 0)
+    //        if (currentFilledCellCount == currentLevel.cellsCountInLevel && unsuccessfullConnectionCount == 0 && unsuccesspopulatedSlicesCount == 0)
     //        {
     //            if (ZoneManagerHelpData.Instance.currentZoneCheck)
     //            {

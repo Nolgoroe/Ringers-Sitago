@@ -7,11 +7,11 @@ using System;
 
 public enum PowerUp
 {
-    
-    Switch,
     Joker,
-    PieceBomb,
-    SliceBomb,
+
+    //Switch,
+    //PieceBomb,
+    //SliceBomb,
     None
 }
 
@@ -19,6 +19,9 @@ public enum PowerUp
 public class PowerUpManager : MonoBehaviour
 {
     public static PowerUpManager instance;
+
+    public static bool IsUsingPowerUp;
+    public static bool HasUsedPowerUp;
 
 
     [Header("Deal Related")]
@@ -28,6 +31,14 @@ public class PowerUpManager : MonoBehaviour
     public float delayClipMove;
     public float timeToAnimateMove;
     public float WaitTimeBeforeIn;
+
+    [Header("Power up")]
+    public PowerupProperties currentlyInUse;
+    public Piece ObjectToUsePowerUpOn;
+
+    [Header("Lists and arrays")]
+    public List<PowerupProperties> powerupButtons;
+
     //public GameObject powerupButtonPreab;
     //public GameObject specialPowerPrefabLeft/*, specialPowerPrefabRight*/;
     //public GameObject selectedPowerupVFX;
@@ -44,15 +55,10 @@ public class PowerUpManager : MonoBehaviour
     //public Sprite[] specialPowerupSpritesON;
 
 
-    //public List<PowerupProperties> powerupButtons;
 
-    //public static bool IsUsingPowerUp;
-    //public static bool HasUsedPowerUp;
     //public static GameObject ObjectToUsePowerUpOn;
 
-    //public LayerMask layerToHit;
 
-    //public PowerupProperties currentlyInUse;
 
     //public int instnatiatedZonesCounter = 0;
 
@@ -127,6 +133,122 @@ public class PowerUpManager : MonoBehaviour
         //}
     }
 
+
+    private void Start()
+    {
+        for (int i = 0; i < powerupButtons.Count; i++)
+        {
+            AssignPowerUp((PowerUp)i, powerupButtons[i]);
+        }
+    }
+
+    public void AssignPowerUp(PowerUp ThePower, PowerupProperties theButton)
+    {
+        theButton.interactEvent.AddListener(() => UsingPowerup(theButton));
+
+        PowerupProperties prop = theButton.gameObject.GetComponent<PowerupProperties>();
+        switch (ThePower)
+        {
+            case PowerUp.Joker:
+                theButton.interactEvent.AddListener(() => CallJokerCoroutine(prop));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void UsingPowerup(PowerupProperties prop)
+    {
+        if (prop.numOfUses > 0 && prop.canBeSelected)
+        {
+            currentlyInUse = prop.gameObject.GetComponent<PowerupProperties>();
+
+            prop.canBeSelected = false;
+
+            IsUsingPowerUp = true;
+        }
+    }
+    public void CallJokerCoroutine(PowerupProperties prop)
+    {
+        if(prop.numOfUses > 0)
+        {
+            StartCoroutine(JokerPower(prop));
+        }
+    }
+
+    public IEnumerator JokerPower(PowerupProperties prop)
+    {
+        yield return new WaitUntil(() => HasUsedPowerUp == true);
+
+        bool successfulUse = false;
+
+        if (ObjectToUsePowerUpOn.leftChild.symbolOfPiece != PieceSymbol.Joker) ///// If 1 of the sub pieces is a joker - so is the other. If the symbol is a joker then the color is awell
+        {
+
+            if (ObjectToUsePowerUpOn.partOfBoard)
+            {
+                ObjectToUsePowerUpOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
+                ObjectToUsePowerUpOn.leftChild.colorOfPiece = PieceColor.Joker;
+
+                ObjectToUsePowerUpOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
+                ObjectToUsePowerUpOn.rightChild.colorOfPiece = PieceColor.Joker;
+
+                ObjectToUsePowerUpOn.leftChild.SetPieceAsJoker();
+                ObjectToUsePowerUpOn.rightChild.SetPieceAsJoker();
+            }
+            else
+            {
+                ObjectToUsePowerUpOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
+                ObjectToUsePowerUpOn.leftChild.colorOfPiece = PieceColor.Joker;
+
+                ObjectToUsePowerUpOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
+                ObjectToUsePowerUpOn.rightChild.colorOfPiece = PieceColor.Joker;
+
+                ObjectToUsePowerUpOn.leftChild.SetPieceAsJoker();
+                ObjectToUsePowerUpOn.rightChild.SetPieceAsJoker();
+            }
+
+            successfulUse = true;
+
+
+            FinishedUsingPowerup(successfulUse, prop);
+
+            Debug.Log("Joker");
+        }
+        else
+        {
+            FinishedUsingPowerup(false, prop);
+        }
+    }
+
+    public void FinishedUsingPowerup(bool successfull, PowerupProperties prop)
+    {
+        StopAllCoroutines();
+
+        ObjectToUsePowerUpOn = null;
+
+        IsUsingPowerUp = false;
+        currentlyInUse = null;
+        HasUsedPowerUp = false;
+
+        if (successfull)
+        {
+            prop.numOfUses--;
+        }
+
+        ReactivatePowerButtons();
+    }
+
+    public void ReactivatePowerButtons()
+    {
+        Debug.LogError("reactivating");
+
+        foreach (PowerupProperties but in powerupButtons)
+        {
+            but.canBeSelected = true;
+        }
+    }
+
     //}
     //private void Start()
     //{
@@ -154,85 +276,6 @@ public class PowerUpManager : MonoBehaviour
     //    }
 
     //}
-    //public void AssignPowerUp(PowerUp ThePower, PowerupProperties theButton)
-    //{
-    //    //if (ThePower != PowerUp.ExtraDeal)
-    //    //{
-    //        theButton.interactEvent.AddListener(() => UsingPowerup(theButton));
-    //    //}
-
-    //    PowerupProperties prop = theButton.gameObject.GetComponent<PowerupProperties>();
-    //    switch (ThePower)
-    //    {
-    //        case PowerUp.Joker:
-    //            theButton.interactEvent.AddListener(() => CallJokerCoroutine(prop));
-    //            break;
-    //        case PowerUp.Switch:
-    //            theButton.interactEvent.AddListener(() => CallSwitchPowerCoroutine(prop));
-    //            break;
-    //        case PowerUp.PieceBomb:
-    //            theButton.interactEvent.AddListener(() => CallPieceBombPowerCoroutine(prop));
-    //            break;
-    //        case PowerUp.SliceBomb:
-    //            theButton.interactEvent.AddListener(() => CallSliceBombPowerCoroutine(prop));
-    //            break;
-    //        //case PowerUp.ExtraDeal:
-    //        //    theButton.onClick.AddListener(() => ExtraDealPower(prop));
-    //        //    break;
-    //        //case PowerUp.FourColorTransform:
-    //        //    theButton.onClick.AddListener(() => CallFourColorPowerCoroutine(prop));
-    //        //    break;
-    //        //case PowerUp.FourShapeTransform:
-    //        //    theButton.onClick.AddListener(() => CallFourSymbolPowerCoroutine(prop));
-    //        //    break;
-    //        default:
-    //            break;
-    //    }
-    //}
-    //public void InstantiatePowerUps(EquipmentData data)
-    //{
-
-    //    GameObject go = Instantiate(powerupButtonPreab, instnatiateZones[instnatiatedZonesCounter].transform);
-
-    //    instnatiatedZonesCounter++;
-
-    //    PowerupProperties prop = go.GetComponent<PowerupProperties>();
-
-    //    prop.connectedEquipment = data;
-
-    //    PowerUp current = data.power;
-
-    //    go.name = current.ToString();
-
-    //    prop.SetProperties(current);
-
-    //    prop.numOfUses = data.numOfUses;
-
-    //    prop.FindNumOfUsesTextObject();
-
-    //    prop.UpdateNumOfUsesText();
-    //    //if (current == PowerUp.FourColorTransform)
-    //    //{
-    //    //    prop.transformColor = data.specificColor;
-    //    //}
-    //    //else if(current == PowerUp.FourShapeTransform)
-    //    //{
-    //    //    prop.transformSymbol = data.specificSymbol;
-    //    //}
-
-    //    if (prop.connectedEquipment.scopeOfUses == 0) /// 0 = daily 1 = per patch
-    //    {
-    //        go.GetComponent<PowerupProperties>().canBeSelected = prop.connectedEquipment.nextTimeAvailable == null || prop.connectedEquipment.nextTimeAvailable == "";
-    //    }
-    //    else
-    //    {
-    //        go.GetComponent<PowerupProperties>().canBeSelected = true;
-    //        //Debug.Log("Can be selected");
-    //    }
-    //    AssignPowerUp(current, go.GetComponent<PowerupProperties>());
-
-    //    powerupButtons.Add(go.GetComponent<PowerupProperties>());
-    //}
 
     //public void ExtraDealPower(PowerupProperties prop)
     //{
@@ -249,21 +292,7 @@ public class PowerUpManager : MonoBehaviour
     //    Debug.Log("Extra Deal");
 
     //}
-    //public void CallJokerCoroutine(PowerupProperties prop)
-    //{
-    //    if (TutorialSequence.Instacne.duringSequence)
-    //    {
-    //        if (TutorialSequence.Instacne.currentSpecificTutorial == SpecificTutorialsEnum.JokerTutorial && TutorialSequence.Instacne.specificTutorials[(int)GameManager.Instance.currentLevel.specificTutorialEnum - 1].phase[TutorialSequence.Instacne.currentPhaseInSequenceSpecific].isPowerupPhase)
-    //        {
-    //            TutorialSequence.Instacne.IncrementPhaseInSpecificTutorial();
-    //            StartCoroutine(JokerPower(prop));
-    //        }
-    //    }
-    //    else
-    //    {
-    //        StartCoroutine(JokerPower(prop));
-    //    }
-    //}
+
     //public void CallSwitchPowerCoroutine(PowerupProperties prop)
     //{
     //    if (TutorialSequence.Instacne.duringSequence)
@@ -318,78 +347,7 @@ public class PowerUpManager : MonoBehaviour
     //{
     //    StartCoroutine(FourSymbolPower(prop));
     //}
-    //public IEnumerator JokerPower(PowerupProperties prop)
-    //{
-    //    layerToHit = LayerMask.GetMask("Piece Parent");
-    //    yield return new WaitUntil(() => HasUsedPowerUp == true);
 
-    //    bool successfulUse = false;
-
-    //    Piece toWorkOn = ObjectToUsePowerUpOn.GetComponent<Piece>();
-
-    //    if(toWorkOn.leftChild.symbolOfPiece != PieceSymbol.Joker) ///// If 1 of the sub pieces is a joker - so is the other. If the symbol is a joker then the color is awell
-    //    {
-
-    //        if (toWorkOn.partOfBoard /*&& !toWorkOn.isLocked*/)
-    //        {
-    //            InstantiatePotionAnimObject((int)prop.powerupType);
-    //            SoundManager.Instance.PlaySound(Sounds.PotionUse);
-
-    //            yield return new WaitForSeconds(2.5f);
-
-    //            toWorkOn.transform.parent.GetComponent<Cell>().RemovePiece(false);
-
-    //            toWorkOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
-    //            toWorkOn.leftChild.colorOfPiece = PieceColor.Joker;
-
-    //            toWorkOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
-    //            toWorkOn.rightChild.colorOfPiece = PieceColor.Joker;
-
-    //            toWorkOn.leftChild.SetPieceAsJoker();
-    //            toWorkOn.rightChild.SetPieceAsJoker();
-
-    //            toWorkOn.transform.parent.GetComponent<Cell>().AddPiece(toWorkOn.transform, false);
-
-    //            successfulUse = true;
-    //            GameAnalytics.NewDesignEvent(PlayfabManager.instance.playerName + "Used potion:" + "Joker potion");
-    //        }
-    //        else
-    //        {
-    //            InstantiatePotionAnimObject((int)prop.powerupType);
-    //            SoundManager.Instance.PlaySound(Sounds.PotionUse);
-
-    //            yield return new WaitForSeconds(2.5f);
-
-    //            toWorkOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
-    //            toWorkOn.leftChild.colorOfPiece = PieceColor.Joker;
-
-    //            toWorkOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
-    //            toWorkOn.rightChild.colorOfPiece = PieceColor.Joker;
-
-    //            toWorkOn.leftChild.SetPieceAsJoker();
-    //            toWorkOn.rightChild.SetPieceAsJoker();
-
-    //            successfulUse = true;
-    //            GameAnalytics.NewDesignEvent(PlayfabManager.instance.playerName + "Used potion:" + "Joker potion");
-    //        }
-
-
-    //        ShakePiecePowerUp(toWorkOn.gameObject);
-
-    //        FinishedUsingPowerup(successfulUse, prop);
-
-
-    //        if (TutorialSequence.Instacne.currentSpecificTutorial == SpecificTutorialsEnum.JokerTutorial)
-    //        {
-    //            TutorialSequence.Instacne.IncrementPhaseInSpecificTutorial();
-    //        }
-    //        Debug.Log("Joker");
-    //    }
-    //    else
-    //    {
-    //        FinishedUsingPowerup(false, prop);
-    //    }
-    //}
     //public IEnumerator SwitchPower(PowerupProperties prop)
     //{
     //    layerToHit = LayerMask.GetMask("Piece Parent");
@@ -705,67 +663,7 @@ public class PowerUpManager : MonoBehaviour
     //        FinishedUsingPowerup(false, prop);
     //    }
     //}
-    //public void UsingPowerup(PowerupProperties butt)
-    //{
-    //    SoundManager.Instance.PlaySound(Sounds.PotionSelect);
 
-    //    if (TutorialSequence.Instacne.duringSequence) /// this if statemene does exactly the same as the else??????
-    //    {
-    //        if (TutorialSequence.Instacne.specificTutorials[(int)GameManager.Instance.currentLevel.specificTutorialEnum - 1].phase[TutorialSequence.Instacne.currentPhaseInSequenceSpecific].isPowerupPhase)
-    //        {
-    //            currentlyInUse = butt.gameObject.GetComponent<PowerupProperties>();
-    //            UIManager.Instance.ActivateUsingPowerupMessage(true);
-
-    //            foreach (PowerupProperties but in powerupButtons)
-    //            {
-    //                if (but.interactEvent != butt.interactEvent)
-    //                {
-    //                    but.canBeSelected = false;
-    //                }
-    //                else
-    //                {
-    //                    but.canBeSelected = false;
-    //                    //originalPotionPos = butt.gameObject.transform.position;
-    //                    //Vector3 pos = butt.gameObject.transform.position;
-    //                    //pos.y += 0.1f;
-
-    //                    //LeanTween.move(butt.gameObject, pos, 0.5f).setEase(LeanTweenType.easeInOutQuad); // animate
-
-    //                    LeanTween.scale(but.gameObject, new Vector3(but.transform.localScale.x - 8, but.transform.localScale.y - 8, 1), 0.1f).setOnComplete(() => ScalePotionBack(but.gameObject));
-    //                    Instantiate(selectedPowerupVFX, but.transform);
-    //                }
-    //            }
-
-    //            StartCoroutine(WaitForEndFrame());
-    //        }
-    //    }
-    //    else
-    //    {
-    //        currentlyInUse = butt.gameObject.GetComponent<PowerupProperties>();
-    //        UIManager.Instance.ActivateUsingPowerupMessage(true);
-
-    //        foreach (PowerupProperties but in powerupButtons)
-    //        {
-    //            if (but != butt)
-    //            {
-    //                but.canBeSelected = false;
-    //            }
-    //            else
-    //            {
-    //                but.canBeSelected = false;
-    //                //originalPotionPos = butt.gameObject.transform.position;
-    //                //Vector3 pos = butt.gameObject.transform.position;
-    //                //pos.y += 0.1f;
-
-    //                //LeanTween.move(butt.gameObject, pos, 0.5f).setEase(LeanTweenType.easeInOutQuad); // animate
-    //                LeanTween.scale(but.gameObject, new Vector3(but.transform.localScale.x - 8, but.transform.localScale.y - 8, 1), 0.1f).setOnComplete(() => ScalePotionBack(but.gameObject));
-    //                Instantiate(selectedPowerupVFX, but.transform);
-    //            }
-    //        }
-
-    //        StartCoroutine(WaitForEndFrame());
-    //    }
-    //}
 
     //public void ScalePotionBack(GameObject toScale)
     //{
@@ -800,135 +698,8 @@ public class PowerUpManager : MonoBehaviour
     //    //LeanTween.move(prop.gameObject, originalPotionPos, 0.4f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => ReactivatePowerButtons()); // animate
     //}
 
-    //public void FinishedUsingPowerup(bool successfull, PowerupProperties prop)
-    //{
-    //    StopAllCoroutines();
-    //    UIManager.Instance.ActivateUsingPowerupMessage(false);
-
-    //    IsUsingPowerUp = false;
-    //    currentlyInUse = null;
-    //    HasUsedPowerUp = false;
-    //    layerToHit = new LayerMask();
 
 
-    //    EquipmentData ED = null;
-
-    //    for (int i = 0; i < prop.transform.childCount; i++)
-    //    {
-    //        if (prop.transform.GetChild(i).CompareTag("DestroyVFX"))
-    //        {
-    //            Destroy(prop.transform.GetChild(i).gameObject);
-    //        }
-    //    }
-
-    //    if (successfull)
-    //    {
-
-    //        if (TutorialSequence.Instacne.duringSequence)
-    //        {
-    //            bool singleCellPhase = TutorialSequence.Instacne.specificTutorials[(int)GameManager.Instance.currentLevel.specificTutorialEnum - 1].phase[TutorialSequence.Instacne.currentPhaseInSequenceSpecific].isSingleCellPhase;
-    //            bool singleSlicePhase = TutorialSequence.Instacne.specificTutorials[(int)GameManager.Instance.currentLevel.specificTutorialEnum - 1].phase[TutorialSequence.Instacne.currentPhaseInSequenceSpecific].isSingleSlice;
-
-    //            if (singleCellPhase || singleSlicePhase)
-    //            {
-    //                ED = PlayerManager.Instance.ownedPowerups.Where(p => (p.power == prop.connectedEquipment.power && p.isTutorialPower == prop.connectedEquipment.isTutorialPower)).First();
-
-    //            }
-    //        }
-    //        else
-    //        {
-    //            ED = PlayerManager.Instance.ownedPowerups.Where(p => p.power == prop.connectedEquipment.power).First();
-    //        }
-
-    //        if (ED != null)
-    //        {
-    //            ED.numOfUses--;
-
-    //            prop.numOfUses--;
-
-    //            prop.UpdateNumOfUsesText();
-    //        }
-    //        else
-    //        {
-    //            Debug.LogError("Something very wrong happened here - stop the finished using power coroutine");
-    //            return;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        SoundManager.Instance.PlaySound(Sounds.NegativeSound);
-    //    }
-    //    //if (prop.connectedEquipment.isTutorialPower)
-    //    //{
-    //    //    if (prop.numOfUses == 0)
-    //    //    {
-    //    //        ReactivatePowerButtons();
-    //    //        powerupButtons.Remove(prop.GetComponent<Button>());
-    //    //        Destroy(prop.gameObject, 0.55f);
-    //    //    }
-    //    //}
-    //    //else
-    //    //{
-    //    ReactivatePowerButtons();
-    //    //LeanTween.move(prop.gameObject, originalPotionPos, 0.4f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => ReactivatePowerButtons()); // animate
-
-    //    if (prop.numOfUses == 0 && prop.connectedEquipment.scopeOfUses == 0) //// if the num of uses is 0 and the scope is cooldown and not per match
-    //    {
-    //        //EquipmentData ED = PlayerManager.Instance.ownedPowerups.Where(p => p.name == prop.connectedEquipment.name).First();
-
-    //        ED.nextTimeAvailable = System.DateTime.Now.AddSeconds(ED.timeForCooldown).ToString(); ///// change the datetime for equipment on player
-
-    //        PlayerManager.Instance.equipmentInCooldown.Add(ED);
-    //        //PlayerManager.Instance.SavePlayerData();
-    //        //PlayfabManager.instance.SaveAllGameData();
-    //    }
-
-    //    if (prop.numOfUses == 0 && prop.connectedEquipment.scopeOfUses == 1) //// if the num of uses is 0 and the scope is per match
-    //    {
-    //        //EquipmentData ED = PlayerManager.Instance.ownedPowerups.Where(p => p.name == prop.connectedEquipment.name).First();
-
-    //        PlayerManager.Instance.activePowerups.Remove(ED.power);
-    //        PlayerManager.Instance.ownedPowerups.Remove(ED);
-    //        //PlayerManager.Instance.SavePlayerData();
-    //        //PlayfabManager.instance.SaveAllGameData();
-
-    //        powerupButtons.Remove(prop.GetComponent<PowerupProperties>());
-    //        //Destroy(prop.gameObject, 0.45f);            
-    //        Destroy(prop.gameObject);
-
-    //        ReactivatePowerButtons();
-    //    }
-
-    //    if (successfull)
-    //    {
-    //        PlayfabManager.instance.SaveGameData(new SystemsToSave[] { SystemsToSave.Player });
-    //    }
-
-    //    //}
-
-    //    //Vector3 pos = prop.gameObject.transform.position;
-    //    //pos.y -= 0.1f;
-
-
-    //}
-
-    //public void ReactivatePowerButtons()
-    //{
-    //    Debug.LogError("reactivating");
-    //    foreach (PowerupProperties but in powerupButtons)
-    //    {
-    //        if (but.gameObject.GetComponent<PowerupProperties>().numOfUses > 0)
-    //        {
-    //            but.canBeSelected = true;
-    //        }
-    //        else
-    //        {
-    //            but.canBeSelected = false;
-    //        }
-    //    }
-
-    //    //originalPotionPos = Vector3.zero;
-    //}
 
     //public void CallSpecialPowerUp(InGameSpecialPowerUp IGSP)
     //{

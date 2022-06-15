@@ -35,7 +35,7 @@ public class SubPiece : MonoBehaviour
     {
         if (symbolOfPiece == PieceSymbol.Joker)
         {
-            SetPieceAsNormalMat();
+            SetPieceAsNormal();
         }
 
         if (GameManager.instance.currentMap.levelAvailableColors.Length > 0 || GameManager.instance.currentMap.levelAvailableSymbols.Length > 0)
@@ -415,10 +415,14 @@ public class SubPiece : MonoBehaviour
     public void SetPieceAsJoker()
     {
         //rend.material = GameManager.Instance.powerupManager.jokerMat;
+
+        Debug.LogError("Joker piece display!");
     }
 
-    public void SetPieceAsNormalMat()
+    public void SetPieceAsNormal()
     {
+        Debug.LogError("Normal piece display!");
+
         //rend.material = GameManager.Instance.clipManager.generalPieceMat;
     }
 

@@ -276,30 +276,30 @@ public class Cell : MonoBehaviour/*, IDropHandler*/
     //            {
     //                if (pieceHeld.leftChild.relevantSlice.fulfilledCondition)
     //                {
-    //                    GameManager.Instance.unsuccessfullSlicesCount++;
+    //                    GameManager.Instance.unsuccesspopulatedSlicesCount++;
     //                    SoundManager.Instance.PlaySound(Sounds.RuneLimiterUnMatch);
     //                }
     //                else
     //                {
-    //                    GameManager.Instance.unsuccessfullSlicesCount--;
+    //                    GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //                }
     //            }
     //            //else
     //            //{
     //            //    if (!pieceHeld.leftChild.relevantSlice.fulfilledCondition)
     //            //    {
-    //            //        GameManager.Instance.unsuccessfullSlicesCount--;
+    //            //        GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //            //    }
     //            //}
 
     //            //if (!leftCell.isFull)
     //            //{
 
-    //            //    GameManager.Instance.unsuccessfullSlicesCount--;
+    //            //    GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //            //}
     //            //else
     //            //{
-    //            //    GameManager.Instance.unsuccessfullSlicesCount++;
+    //            //    GameManager.Instance.unsuccesspopulatedSlicesCount++;
     //            //}
     //        }
     //    }
@@ -314,29 +314,29 @@ public class Cell : MonoBehaviour/*, IDropHandler*/
     //            {
     //                if (pieceHeld.rightChild.relevantSlice.fulfilledCondition)
     //                {
-    //                    GameManager.Instance.unsuccessfullSlicesCount++;
+    //                    GameManager.Instance.unsuccesspopulatedSlicesCount++;
     //                    SoundManager.Instance.PlaySound(Sounds.RuneLimiterUnMatch);
     //                }
     //                else
     //                {
-    //                    GameManager.Instance.unsuccessfullSlicesCount--;
+    //                    GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //                }
     //            }
     //            //else
     //            //{
     //            //    if (!pieceHeld.rightChild.relevantSlice.fulfilledCondition)
     //            //    {
-    //            //        GameManager.Instance.unsuccessfullSlicesCount--;
+    //            //        GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //            //    }
     //            //}
 
     //            //if (!rightCell.isFull)
     //            //{
-    //            //    GameManager.Instance.unsuccessfullSlicesCount--;
+    //            //    GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //            //}
     //            //else
     //            //{
-    //            //    GameManager.Instance.unsuccessfullSlicesCount++;
+    //            //    GameManager.Instance.unsuccesspopulatedSlicesCount++;
     //            //}
     //        }
     //    }
@@ -358,7 +358,7 @@ public class Cell : MonoBehaviour/*, IDropHandler*/
 
     //            //if (pieceHeld.leftChild.relevantSlice.hasSlice)
     //            //{
-    //            //    GameManager.Instance.unsuccessfullSlicesCount--;
+    //            //    GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //            //}
 
     //        }
@@ -366,7 +366,7 @@ public class Cell : MonoBehaviour/*, IDropHandler*/
     //        {
     //            //if (pieceHeld.leftChild.relevantSlice.hasSlice)
     //            //{
-    //            //    GameManager.Instance.unsuccessfullSlicesCount--;
+    //            //    GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //            //}
 
     //            //pieceHeld.leftChild.gameObject.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");
@@ -408,7 +408,7 @@ public class Cell : MonoBehaviour/*, IDropHandler*/
 
     //            //if (pieceHeld.rightChild.relevantSlice.hasSlice)
     //            //{
-    //            //    GameManager.Instance.unsuccessfullSlicesCount--;
+    //            //    GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //            //}
 
     //            pieceHeld.rightChild.isBadConnection = false;
@@ -419,7 +419,7 @@ public class Cell : MonoBehaviour/*, IDropHandler*/
     //        {
     //            //if (pieceHeld.rightChild.relevantSlice.hasSlice)
     //            //{
-    //            //    GameManager.Instance.unsuccessfullSlicesCount--;
+    //            //    GameManager.Instance.unsuccesspopulatedSlicesCount--;
     //            //}
 
     //            //pieceHeld.rightChild.gameObject.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");

@@ -6,21 +6,23 @@ using UnityEngine.UI;
 [System.Serializable]
 public enum PieceColor
 {
+    General,
     Purple,
     Blue,
     Yellow,
     Green,
     Pink,
-    Joker
+    Joker,
 }
 [System.Serializable]
 public enum PieceSymbol
 {
+    General,
     FireFly,
     Badger,
     Goat,
     Turtle,
-    Joker
+    Joker,
 }
 
 public class Piece : MonoBehaviour
@@ -30,7 +32,7 @@ public class Piece : MonoBehaviour
     //public bool isLocked;
     //public bool isStone;
     //public bool isDuringConnectionAnim;
-    //public bool partOfBoard;
+    public bool partOfBoard;
 
     public void SetPieces()
     {

@@ -17,15 +17,16 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     }
 
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        transform.right = SliceManager.instance.gameObject.transform.position - transform.position;
-
-        transform.position = eventData.position;
-    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("Pointer down");
+
+        if (PowerUpManager.IsUsingPowerUp)
+        {
+            return;
+        }
+
         GameplayController.instance.originalPieceRotation = transform.localRotation;
         GameplayController.instance.originalParent = transform.parent;
 
@@ -62,8 +63,30 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     }
 
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (PowerUpManager.IsUsingPowerUp)
+        {
+            return;
+        }
+
+        transform.right = SliceManager.instance.gameObject.transform.position - transform.position;
+
+        transform.position = eventData.position;
+    }
+
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (PowerUpManager.IsUsingPowerUp)
+        {
+            PowerUpManager.instance.ObjectToUsePowerUpOn = relatedPiece;
+
+            PowerUpManager.HasUsedPowerUp = true;
+
+            Debug.Log("Used power");
+            return;
+        }
+
         relatedPiece.rightChild.EnableRaycast();
         relatedPiece.leftChild.EnableRaycast();
        
@@ -90,7 +113,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
                 if (!myCell.isFull && GameplayController.instance.CheckOriginalParentIsClip()) // check if we came from clip. if we did we need to repopulate the clip
                 {
+                    relatedPiece.partOfBoard = true;
+
                     ClipManager.instance.PopulateSlot(GameplayController.instance.originalParent.GetComponent<Clip>());
+
+                    GameManager.instance.totalPlacedPieces++; // to check for end of level
                 }
 
                 if (myCell.isFull) // check if going in a cell that is already full
@@ -118,8 +145,6 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
                     ConnectionManager.instance.CheckConnection(myCell, myCellIndex);
 
-                    GameManager.instance.totalPlacedPieces++; // to check for end of level
-
                     GameManager.instance.CheckEndLevel();
 
                 }
@@ -137,5 +162,4 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         Debug.Log("pointer up");
     }
-
 }
