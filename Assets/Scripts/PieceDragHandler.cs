@@ -178,7 +178,13 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         if (goodFinish)
         {
+            myCell.isFull = true;
+            relatedPiece.transform.SetParent(myCell.transform);
+            myCell.SnapFollowerToCell();
+
             GameManager.instance.currentMapIndex++;
+
+            GameManager.instance.ResetDataStartLevelStartNormal();
         }
         else
         {

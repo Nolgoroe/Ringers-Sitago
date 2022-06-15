@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: Map 5
   m_EditorClassIdentifier: 
   is12PieceRing: 0
-  boardPrefab: {fileID: 0}
-  clipPrefab: {fileID: 0}
+  boardPrefab: {fileID: 3949929346964926985, guid: 8da360bca5875a84c900db09bd9767e8,
+    type: 3}
+  clipPrefab: {fileID: 2439966666677837825, guid: e620613d70297ed40a52b4f4b6c05782,
+    type: 3}
   cellsCountInLevel: 8
-  RandomSlicePositions: 0
+  RandomSlicePositions: 1
   allowRepeatSlices: 0
+  powerupsForMap: 
   stoneTiles: []
   slicesToSpawn: []
   levelAvailableColors: 
   levelAvailableSymbols: 
+  specificSliceSpots: 
