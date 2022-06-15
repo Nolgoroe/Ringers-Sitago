@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     private GraphicRaycaster graphicRaycaster;
     private Canvas canvas;
+    private Piece relatedPiece;
 
+    private void Start()
+    {
+        relatedPiece = GetComponent<Piece>();
+    }
 
 
     public void OnDrag(PointerEventData eventData)
@@ -23,16 +29,22 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         GameplayController.instance.originalPieceRotation = transform.localRotation;
         GameplayController.instance.originalParent = transform.parent;
 
-        GameplayController.instance.draggingPiece = transform.GetComponent<Piece>();
+        GameplayController.instance.draggingPiece = relatedPiece;
         GameplayController.instance.originalPiecePos = transform.GetComponent<RectTransform>().anchoredPosition;
 
         if (GameplayController.instance.CheckOriginalParentIsCell())
         {
-            GameplayController.instance.originalParent.GetComponent<Cell>().isFull = false;
+            Cell myCell = GameplayController.instance.originalParent.GetComponent<Cell>();
+            int myCellIndex = System.Array.IndexOf(SliceManager.instance.boardCells, myCell);
+
+            ConnectionManager.instance.CheckConnectionsOnPickup(myCell, myCellIndex); // check connection here to see how many "bad connections" are left
+
+            myCell.isFull = false;
+            myCell.heldPiece = null;
         }
 
-        GameplayController.instance.draggingPiece.rightChild.DisableRaycast(); // so we don't check against ourselves what we hit
-        GameplayController.instance.draggingPiece.leftChild.DisableRaycast();
+        relatedPiece.rightChild.DisableRaycast(); // so we don't check against ourselves what we hit
+        relatedPiece.leftChild.DisableRaycast();
 
         canvas = GetComponentInParent<Canvas>();
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>(); /// this helps us detect what we landed on later
@@ -52,8 +64,8 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        GameplayController.instance.draggingPiece.rightChild.EnableRaycast();
-        GameplayController.instance.draggingPiece.leftChild.EnableRaycast();
+        relatedPiece.rightChild.EnableRaycast();
+        relatedPiece.leftChild.EnableRaycast();
        
         List<RaycastResult> results = new List<RaycastResult>();
         graphicRaycaster.Raycast(eventData, results);
@@ -62,13 +74,13 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         foreach (var hit in results)
         {
             // If we found a cell
-            Cell cell = hit.gameObject.GetComponent<Cell>();
+            Cell myCell = hit.gameObject.GetComponent<Cell>();
 
-            if (cell)
+            if (myCell)
             {
                 if (GameplayController.instance.CheckOriginalParentIsCell()) // if I hit the cell I was already on
                 {
-                    if (cell == GameplayController.instance.originalParent.GetComponent<Cell>())
+                    if (myCell == GameplayController.instance.originalParent.GetComponent<Cell>())
                     {
                         GameplayController.instance.ReturnHome();
                         return;
@@ -76,25 +88,40 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 }
 
 
-                if (!cell.isFull && GameplayController.instance.CheckOriginalParentIsClip()) // check if we came from clip. if we did we need to repopulate the clip
+                if (!myCell.isFull && GameplayController.instance.CheckOriginalParentIsClip()) // check if we came from clip. if we did we need to repopulate the clip
                 {
                     ClipManager.instance.PopulateSlot(GameplayController.instance.originalParent.GetComponent<Clip>());
                 }
 
-                if (cell.isFull) // check if going in a cell that is already full
+                if (myCell.isFull) // check if going in a cell that is already full
                 {
                     GameplayController.instance.ReturnHome();
                 }
                 else // fill cell with piece
                 {
-                    cell.isFull = true;
+                    myCell.isFull = true;
 
-                    GameplayController.instance.draggingPiece.transform.SetParent(cell.transform);
+                    relatedPiece.transform.SetParent(myCell.transform);
 
-                    cell.SnapFollowerToCell();
+                    myCell.SnapFollowerToCell();
+                    myCell.PopulateCellHeldPiece(relatedPiece);
 
-                    GameplayController.instance.draggingPiece.rightChild.EnableRaycast();
-                    GameplayController.instance.draggingPiece.leftChild.EnableRaycast();
+                    relatedPiece.rightChild.EnableRaycast();
+                    relatedPiece.leftChild.EnableRaycast();
+
+
+
+
+                    // Send to check connection here
+
+                    int myCellIndex = System.Array.IndexOf(SliceManager.instance.boardCells, myCell);
+
+                    ConnectionManager.instance.CheckConnection(myCell, myCellIndex);
+
+                    GameManager.instance.totalPlacedPieces++; // to check for end of level
+
+                    GameManager.instance.CheckEndLevel();
+
                 }
 
 
@@ -110,4 +137,5 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         Debug.Log("pointer up");
     }
+
 }

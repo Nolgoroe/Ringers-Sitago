@@ -34,40 +34,26 @@ public class GameplayController: MonoBehaviour
         canMovePieces = true;
     }
 
-    private void Update()
-    {
-        // normal controls
-        //if (/*PowerUpManager.IsUsingPowerUp*/)
-        //{
-            //NormalControls();
-            //return;
-        //}
-    }
-
     public void ReturnHome()
     {
         draggingPiece.transform.SetParent(originalParent);
 
         if (CheckOriginalParentIsCell())
         {
-            originalParent.GetComponent<Cell>().isFull = true;
+            Cell myCell = originalParent.GetComponent<Cell>();
+
+            myCell.isFull = true;
+            myCell.heldPiece = draggingPiece;
+
+            int myCellIndex = System.Array.IndexOf(SliceManager.instance.boardCells, myCell); // we need to check connection again here if we just return to the same cell
+
+            ConnectionManager.instance.CheckConnection(myCell, myCellIndex);
         }
 
         draggingPiece.GetComponent<RectTransform>().anchoredPosition = originalPiecePos;
         draggingPiece.transform.localRotation = originalPieceRotation; ///// reset piece rotation to it's original local rotation
 
         ResetControlData();
-        //if (followerTarget.transform.parent.GetComponent<Cell>())
-        //{
-        //    followerTarget.transform.parent.GetComponent<Cell>().AddPiece(followerTarget, false);
-        //}
-
-        //else
-        //{
-        //    previousHeighlightChosen.GetComponent<Cell>().RemoveToSubPiecesOnBoardTemp();
-        //}
-
-        //followerTarget = null;
     }
 
     public void ResetControlData()
@@ -96,208 +82,6 @@ public class GameplayController: MonoBehaviour
 
         return false;
     }
-
-    //public void NormalControls()
-    //{
-    //        //if (Input.GetMouseButtonDown(0))
-    //        //{
-    //        //    //hasclickedPowerUp = false;
-
-    //        //    mouseRay = Camera.main.ScreenPointToRay(new Vector3(touch.position.x, touch.position.y, 0));
-
-    //        //    transform.position = mouseRay.origin;
-    //        //    cursorPos.position = mouseRay.origin + mouseRay.direction * distanceFromBoard;
-
-    //        //    if (gameBoard)
-    //        //    {
-    //        //        cursorPos.position = new Vector3(cursorPos.position.x, cursorPos.position.y, gameBoard.transform.position.z);
-    //        //    }
-
-    //        //    RaycastHit hit;
-
-    //        //    if (Physics.Raycast(mouseRay, out hit, rayLength, pieceLayer))
-    //        //    {
-    //        //        Piece p = hit.transform.parent.GetComponent<Piece>();
-    //        //        //Debug.Log(hit.transform.name);
-    //        //        if (!followerTarget && !p.isDuringConnectionAnim && !AnimationManager.instance.endLevelAnimationON)
-    //        //        {
-    //        //            if (canMovePieces)
-    //        //            {
-    //        //                GrabPiece(p);
-    //        //            }
-    //        //        }
-    //        //    }
-
-    //        //    //// Shoot ray
-    //        //    ///Hit Something
-    //        //    ///If hit piece - cache referance for it
-    //        //    ///Make piece follow mouse
-    //        //}
-
-    //        //if (touch.phase == TouchPhase.Moved)
-    //        //{
-    //        //    mouseRay = Camera.main.ScreenPointToRay(new Vector3(touch.position.x, touch.position.y, 0));
-    //        //    //transform.position = mouseRay.origin;
-    //        //    cursorPos.position = mouseRay.origin + mouseRay.direction * distanceFromBoard;
-    //        //    if (gameBoard)
-    //        //    {
-    //        //        cursorPos.position = new Vector3(cursorPos.position.x, cursorPos.position.y, gameBoard.transform.position.z);
-    //        //    }
-
-    //        //    if (followerTarget && !followerTarget.GetComponent<Piece>().isDuringConnectionAnim)
-    //        //    {
-    //        //        MoveFollower();
-    //        //    }
-    //        //}
-
-    //        //if (touch.phase == TouchPhase.Ended)
-    //        //{
-    //        //    RaycastHit hit;
-
-    //        //    if (Physics.Raycast(mouseRay, out hit, rayLength, boardCellLayer))
-    //        //    {
-    //        //        if (TutorialSequence.Instacne.duringSequence)
-    //        //        {
-    //        //            if (GameManager.Instance.currentLevel.isSpecificTutorial && GameManager.Instance.currentLevel.specificTutorialEnum != SpecificTutorialsEnum.lootTutorial)
-    //        //            {
-    //        //                if (TutorialSequence.Instacne.specificTutorials[(int)GameManager.Instance.currentLevel.specificTutorialEnum - 1].phase[TutorialSequence.Instacne.currentPhaseInSequenceSpecific].targetCells.Length > 0)
-    //        //                {
-    //        //                    if (TutorialSequence.Instacne.specificTutorials[(int)GameManager.Instance.currentLevel.specificTutorialEnum - 1].phase[TutorialSequence.Instacne.currentPhaseInSequenceSpecific].targetCells.Contains(hit.transform.GetComponent<Cell>().cellIndex))
-    //        //                    {
-    //        //                        ConnectionManager.Instance.ConnectionManagerAnim(hit.transform.GetComponent<Cell>().cellIndex, hit.transform.GetComponent<Cell>().isOuter);
-    //        //                    }
-    //        //                    else
-    //        //                    {
-    //        //                        SnapFollower(null);
-    //        //                    }
-    //        //                }
-    //        //                else
-    //        //                {
-    //        //                    SnapFollower(null);
-    //        //                }
-    //        //            }
-    //        //            else
-    //        //            {
-    //        //                if (TutorialSequence.Instacne.levelSequences[GameManager.Instance.currentLevel.tutorialIndexForList].phase[TutorialSequence.Instacne.currentPhaseInSequenceLevels].targetCells.Length > 0)
-    //        //                {
-    //        //                    if (TutorialSequence.Instacne.levelSequences[GameManager.Instance.currentLevel.tutorialIndexForList].phase[TutorialSequence.Instacne.currentPhaseInSequenceLevels].targetCells.Contains(hit.transform.GetComponent<Cell>().cellIndex))
-    //        //                    {
-    //        //                        ConnectionManager.Instance.ConnectionManagerAnim(hit.transform.GetComponent<Cell>().cellIndex, hit.transform.GetComponent<Cell>().isOuter);
-    //        //                    }
-    //        //                    else
-    //        //                    {
-    //        //                        SnapFollower(null);
-    //        //                    }
-    //        //                }
-    //        //                else
-    //        //                {
-    //        //                    SnapFollower(null);
-    //        //                }
-    //        //            }
-    //        //        }
-    //        //        else
-    //        //        {
-    //        //            if (followerTarget && !followerTarget.GetComponent<Piece>().isDuringConnectionAnim)
-    //        //            {
-    //        //                if (!hit.transform.GetComponent<Cell>().isFull && !hit.transform.GetComponent<Cell>().isDuringConnectionAnim)
-    //        //                {
-    //        //                    //Debug.Log("In first");
-    //        //                    //Debug.Log(hit.transform.name + "UAHSIUASUBFS");
-    //        //                    ConnectionManager.Instance.ConnectionManagerAnim(hit.transform.GetComponent<Cell>().cellIndex, hit.transform.GetComponent<Cell>().isOuter);
-    //        //                }
-    //        //                else
-    //        //                {
-    //        //                    SnapFollower(null);
-    //        //                }
-
-    //        //                //SnapFollower(hit.transform);
-    //        //            }
-    //        //        }
-    //        //    }
-    //        //    else
-    //        //    {
-    //        //        float minDist = 1000;
-
-    //        //        Collider closest = null;
-
-    //        //        Collider[] hitColliders = Physics.OverlapSphere(cursorPos.position, radiusCollide, boardCellLayer);
-
-    //        //        if (hitColliders.Length != 0)
-    //        //        {
-    //        //            foreach (Collider col in hitColliders)
-    //        //            {
-    //        //                if (Vector3.Distance(col.transform.position, cursorPos.transform.position) < minDist)
-    //        //                {
-    //        //                    minDist = Vector3.Distance(col.transform.position, cursorPos.transform.position);
-    //        //                    closest = col;
-    //        //                }
-
-    //        //            }
-    //        //        }
-
-    //        //        if (closest != null)
-    //        //        {
-    //        //            if (TutorialSequence.Instacne.duringSequence && GameManager.Instance.currentLevel.isTutorial)
-    //        //            {
-    //        //                if (TutorialSequence.Instacne.levelSequences[GameManager.Instance.currentLevel.tutorialIndexForList].phase[TutorialSequence.Instacne.currentPhaseInSequenceLevels].targetCells.Length > 0)
-    //        //                {
-    //        //                    if (TutorialSequence.Instacne.levelSequences[GameManager.Instance.currentLevel.tutorialIndexForList].phase[TutorialSequence.Instacne.currentPhaseInSequenceLevels].targetCells.Contains(closest.transform.GetComponent<Cell>().cellIndex))
-    //        //                    {
-    //        //                        ConnectionManager.Instance.ConnectionManagerAnim(closest.transform.GetComponent<Cell>().cellIndex, closest.transform.GetComponent<Cell>().isOuter);
-    //        //                    }
-    //        //                    else
-    //        //                    {
-    //        //                        SnapFollower(null);
-    //        //                    }
-    //        //                }
-    //        //                else
-    //        //                {
-    //        //                    SnapFollower(null);
-    //        //                }
-
-    //        //            }
-    //        //            else
-    //        //            {
-    //        //                if (followerTarget && !followerTarget.GetComponent<Piece>().isDuringConnectionAnim)
-    //        //                {
-    //        //                    if (!closest.transform.GetComponent<Cell>().isFull && !closest.transform.GetComponent<Cell>().isDuringConnectionAnim)
-    //        //                    {
-    //        //                        ConnectionManager.Instance.ConnectionManagerAnim(closest.GetComponent<Cell>().cellIndex, closest.GetComponent<Cell>().isOuter);
-    //        //                        Debug.Log("In Second");
-    //        //                    }
-    //        //                    else
-    //        //                    {
-    //        //                        SnapFollower(null);
-    //        //                    }
-    //        //                }
-    //        //            }
-    //        //        }
-    //        //        else
-    //        //        {
-    //        //            if (followerTarget)
-    //        //            {
-    //        //                if (!followerTarget.GetComponent<Piece>().isDuringConnectionAnim)
-    //        //                {
-    //        //                    SnapFollower(null);
-    //        //                }
-    //        //            }
-    //        //        }
-    //        //    }
-
-    //        //    if (previousHeighlightChosen)
-    //        //    {
-    //        //        previousHeighlightChosen.GetComponent<Cell>().TurnOffHighlighParticle();
-
-    //        //        previousHeighlightChosen = null;
-    //        //    }
-
-    //        //    ///If we have a piece - drop it
-    //        //    ///If its in the board - snap
-    //        //    ///If not in board - Snap back to original pos and parent
-    //        //    ///If on board but slot full - snap to origin
-    //        //    ///
-    //        //}
-    //}
 
 
 

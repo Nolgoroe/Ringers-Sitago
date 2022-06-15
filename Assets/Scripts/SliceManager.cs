@@ -7,14 +7,15 @@ public enum SliceCatagory
 {
     Shape,
     Color,
-    SpecificShape,
-    SpecificColor,
 }
 
 public class SliceManager : MonoBehaviour
 {
     public static SliceManager instance;
 
+    [Header("Board Parts")]
+    public Cell[] boardCells;  
+    public Slice[] boardSlices;
 
     private void Awake()
     {
@@ -62,7 +63,6 @@ public class SliceManager : MonoBehaviour
 
     //public Texture emptyScrollTexture;
 
-    //public Transform[] sliceSlots;
 
     ////public Sprite[] lootSliceSymbolSprites;
     ////public Sprite[] lootSliceColorSprites;

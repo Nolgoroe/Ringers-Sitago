@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     [Header("In game Data")]
     public LevelScriptableObject currentMap;
     public Transform instantiateUnder;
+    public int totalPlacedPieces;
+    public int unsuccessfullConnectionsCount;
 
     //public static bool LevelEnded;
 
@@ -72,6 +74,13 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    public void CheckEndLevel()
+    {
+        if(totalPlacedPieces == currentMap.cellsCountInLevel)
+        {
+            Debug.LogError("END LEVEL HERE");
+        }
+    }
 
     ////private void Update()
     ////{

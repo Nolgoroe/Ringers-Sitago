@@ -8,6 +8,7 @@ public class SubPiece : MonoBehaviour
 {
     public PieceSymbol symbolOfPiece;
     public PieceColor colorOfPiece;
+    public bool isGoodConnected;
 
     //public Renderer rend;
     int randomColor;

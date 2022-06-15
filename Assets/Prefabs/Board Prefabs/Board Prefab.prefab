@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233407e32284d0c479eb17a477b32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childSlice: {fileID: 0}
 --- !u!1 &3949929346313427583
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFull: 0
+  heldPiece: {fileID: 0}
+  connectedSlices: []
 --- !u!61 &3524354156491437947
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -210,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233407e32284d0c479eb17a477b32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childSlice: {fileID: 0}
 --- !u!1 &3949929346643957128
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,6 +266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFull: 0
+  heldPiece: {fileID: 0}
+  connectedSlices: []
 --- !u!61 &3627650316282154311
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -372,6 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233407e32284d0c479eb17a477b32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childSlice: {fileID: 0}
 --- !u!1 &3949929346749277379
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +432,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFull: 0
+  heldPiece: {fileID: 0}
+  connectedSlices: []
 --- !u!61 &4580044115895690171
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -534,6 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233407e32284d0c479eb17a477b32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childSlice: {fileID: 0}
 --- !u!1 &3949929346821110029
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +679,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44af11ff7cd617488edb0e9d66e1290, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardCells:
+  - {fileID: 3949929347099291055}
+  - {fileID: 3949929346643957130}
+  - {fileID: 3949929347334128070}
+  - {fileID: 3949929347444460980}
+  - {fileID: 3949929346313427521}
+  - {fileID: 3949929346749277381}
+  - {fileID: 3949929347538569652}
+  - {fileID: 3949929347181025422}
+  boardSlices:
+  - {fileID: 3949929346073393835}
+  - {fileID: 3949929346777828384}
+  - {fileID: 3949929347890315376}
+  - {fileID: 3949929346521393190}
+  - {fileID: 3949929348039918524}
+  - {fileID: 3949929347014105803}
+  - {fileID: 3949929346687782239}
+  - {fileID: 3949929347713812098}
 --- !u!1 &3949929347014105801
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,6 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233407e32284d0c479eb17a477b32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childSlice: {fileID: 0}
 --- !u!1 &3949929347099291053
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,6 +797,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFull: 0
+  heldPiece: {fileID: 0}
+  connectedSlices: []
 --- !u!61 &2269652795996203552
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -879,6 +914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFull: 0
+  heldPiece: {fileID: 0}
+  connectedSlices: []
 --- !u!61 &5415496557119954633
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -993,6 +1031,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFull: 0
+  heldPiece: {fileID: 0}
+  connectedSlices: []
 --- !u!61 &5112474176483263066
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1107,6 +1148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFull: 0
+  heldPiece: {fileID: 0}
+  connectedSlices: []
 --- !u!61 &6776556795424209651
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1221,6 +1265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFull: 0
+  heldPiece: {fileID: 0}
+  connectedSlices: []
 --- !u!61 &1129869498292488435
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1375,6 +1422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233407e32284d0c479eb17a477b32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childSlice: {fileID: 0}
 --- !u!1 &3949929347890315374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,6 +1471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233407e32284d0c479eb17a477b32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childSlice: {fileID: 0}
 --- !u!1 &3949929348039918522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,3 +1520,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233407e32284d0c479eb17a477b32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childSlice: {fileID: 0}

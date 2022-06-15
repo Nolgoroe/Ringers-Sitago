@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Slice : MonoBehaviour
 {
+    public GameObject childSlice;
+
+    public SliceCatagory sliceCatagory;
+
     //public PieceColor sliceColor;
     //public PieceSymbol sliceSymbol;
     //public SliceCatagory sliceCatagory;

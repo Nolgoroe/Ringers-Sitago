@@ -7,6 +7,9 @@ public class Cell : MonoBehaviour/*, IDropHandler*/
 {    
     public bool isFull;
 
+    public Piece heldPiece;
+    public Slice[] connectedSlices;
+
     //public void OnDrop(PointerEventData eventData)
     //{
     //    Debug.Log(transform.name);
@@ -31,14 +34,17 @@ public class Cell : MonoBehaviour/*, IDropHandler*/
     //    //GameplayController.instance.ResetControlData();
     //}
 
+
     public void SnapFollowerToCell()
     {
         GameplayController.instance.draggingPiece.transform.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
         GameplayController.instance.draggingPiece.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90f));
-    }            
+    }
 
-
-
+    public void PopulateCellHeldPiece(Piece p)
+    {
+        heldPiece = p;
+    }
 
 
 

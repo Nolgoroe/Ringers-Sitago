@@ -12,23 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09857d5ddc968604aadfe3ae38479a9d, type: 3}
   m_Name: Map 10
   m_EditorClassIdentifier: 
-  worldName: 
-  isGrindLevel: 0
   is12PieceRing: 0
-  isDoubleRing: 0
-  isBoss: 0
-  isAnimalLevel: 1
-  isReleaseAnimalToDen: 0
   boardPrefab: {fileID: 0}
   clipPrefab: {fileID: 0}
-  levelNum: 0
-  worldNum: 0
-  levelIndexInZone: 0
-  numIndexForLeaderBoard: 0
-  tutorialIndexForList: 0
-  cellsCountInLevel: 0
+  cellsCountInLevel: 8
   RandomSlicePositions: 0
   allowRepeatSlices: 0
-  specificAnimalForLevel: {fileID: 0}
   stoneTiles: []
   slicesToSpawn: []
+  levelAvailableColors: 
+  levelAvailableSymbols: 
