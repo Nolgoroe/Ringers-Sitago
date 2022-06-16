@@ -9,7 +9,7 @@ public enum PieceColor
     General,
     Purple,
     Blue,
-    Yellow,
+    Brown,
     Green,
     Pink,
     Joker,
@@ -18,10 +18,11 @@ public enum PieceColor
 public enum PieceSymbol
 {
     General,
-    FireFly,
-    Badger,
-    Goat,
-    Turtle,
+    Bird,
+    Frog,
+    Leopard,
+    Piranha,
+    Snake,
     Joker,
 }
 
@@ -36,9 +37,18 @@ public class Piece : MonoBehaviour
         bool isSamePiece = true;
         int repeatIndicator = 0;
 
+        int counter = 0;
 
         while (isSamePiece)
         {
+            counter++;
+
+            if(counter > 1000)
+            {
+                Debug.LogError("WHAT");
+                return;
+            }
+
             rightChild.SetPiece();
             leftChild.SetPiece();
 

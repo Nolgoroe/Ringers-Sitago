@@ -11,6 +11,8 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private Canvas canvas;
     private Piece relatedPiece;
 
+    public Vector3 dragRotationOffset;
+
     private void Start()
     {
         relatedPiece = GetComponent<Piece>();
@@ -22,7 +24,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         Debug.Log("Pointer down");
 
-        if (PowerUpManager.IsUsingPowerUp)
+        if (PowerUpManager.IsUsingPowerUp || GameManager.instance.gameDone)
         {
             return;
         }
@@ -44,8 +46,8 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             myCell.heldPiece = null;
         }
 
-        relatedPiece.rightChild.DisableRaycast(); // so we don't check against ourselves what we hit
-        relatedPiece.leftChild.DisableRaycast();
+        DisableRaycast(); // so we don't check against ourselves what we hit
+        DisableRaycast();
 
         canvas = GetComponentInParent<Canvas>();
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>(); /// this helps us detect what we landed on later
@@ -53,7 +55,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         transform.SetParent(GameplayController.instance.dragParent); // this is the gameplay canvas - we do this so the piece renders over all other 2D elements
 
 
-        transform.right = SliceManager.instance.gameObject.transform.position - transform.position;
+        transform.up = -(SliceManager.instance.gameObject.transform.position - transform.position);
 
         transform.position = eventData.position;
 
@@ -65,18 +67,23 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (PowerUpManager.IsUsingPowerUp)
+        if (PowerUpManager.IsUsingPowerUp || GameManager.instance.gameDone)
         {
             return;
         }
 
-        transform.right = SliceManager.instance.gameObject.transform.position - transform.position;
+        transform.up = -(SliceManager.instance.gameObject.transform.position - transform.position);
 
         transform.position = eventData.position;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (GameManager.instance.gameDone)
+        {
+            return;
+        }
+
         if (PowerUpManager.IsUsingPowerUp)
         {
             PowerUpManager.instance.ObjectToUsePowerUpOn = relatedPiece;
@@ -86,13 +93,14 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             Debug.Log("Used power");
             return;
         }
-
-        relatedPiece.rightChild.EnableRaycast();
-        relatedPiece.leftChild.EnableRaycast();
        
         List<RaycastResult> results = new List<RaycastResult>();
         graphicRaycaster.Raycast(eventData, results);
         // Check all hits
+
+
+        EnableRaycast();
+        EnableRaycast();
 
         foreach (var hit in results)
         {
@@ -178,6 +186,10 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         if (goodFinish)
         {
+            ScoreManager.instance.AddRingCompletionScore();
+
+            ScoreManager.instance.hasClickedDeal = false;
+
             myCell.isFull = true;
             relatedPiece.transform.SetParent(myCell.transform);
             myCell.SnapFollowerToCell();
@@ -195,7 +207,17 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             myCell.ResetCellHeldPiece();
             GameplayController.instance.ReturnHome();
 
-            UIManager.instance.RingCouldNotBeCompletedText();
+            UIManager.instance.HeaderFadeInText("The force is weak with you! BEGONE!");
         }
+    }
+
+
+    public void DisableRaycast()
+    {
+        transform.GetComponent<Image>().raycastTarget = false;
+    }
+    public void EnableRaycast()
+    {
+        transform.GetComponent<Image>().raycastTarget = true;
     }
 }

@@ -61,9 +61,7 @@ public class PowerUpManager : MonoBehaviour
         {
             RectTransform toMove = ClipManager.instance.slots[i].transform.GetChild(0).GetComponent<RectTransform>();
 
-            LeanTween.move(toMove, piecesDealPositionsOut[i], timeToAnimateMove).setEase(LeanTweenType.easeInOutQuad).setMoveLocal(); // animate
-
-            //SoundManager.Instance.PlaySound(Sounds.PieceMoveDeal);
+            LeanTween.move(toMove, piecesDealPositionsOut[i], timeToAnimateMove).setEase(LeanTweenType.easeInOutQuad); // animate
 
             yield return new WaitForSeconds(delayClipMove);
         }
@@ -88,15 +86,12 @@ public class PowerUpManager : MonoBehaviour
 
     public void Deal()
     {
-        //CameraShake.ShakeOnce();
+        if (!GameManager.instance.gameDone)
+        {
+            ScoreManager.instance.hasClickedDeal = true;
 
-        //if (!UIManager.isUsingUI)
-        //{
-            //SoundManager.Instance.PlaySound(Sounds.DealButton);
-            //UIManager.Instance.turnOnDealVFX();
             StartCoroutine(DealCooldown(dealCooldown));
-
-        //}
+        }
     }
 
 
@@ -200,6 +195,11 @@ public class PowerUpManager : MonoBehaviour
         if (successfull)
         {
             prop.numOfUses--;
+        }
+
+        if(prop.numOfUses <= 0)
+        {
+            prop.GetComponent<Button>().interactable = false;
         }
 
         ReactivatePowerButtons();

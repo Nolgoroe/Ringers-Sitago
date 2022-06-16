@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
     [Header("Gameplay")]
     public GameObject gameplayCanvas;
     public GameObject destroyAllParent;
+    public TMP_Text timerText;
+    public TMP_Text scoreText;
 
     [Header("Main Menu")]
     public GameObject mainMenu;
@@ -35,6 +37,10 @@ public class UIManager : MonoBehaviour
     public GameObject systemMessages;
     public TMP_Text headerText;
     public float speedFadeOutHeadText;
+
+    [Header("System Data")]
+    public TMP_Text gameVersionText;
+
     private void Awake()
     {
         instance = this;
@@ -47,6 +53,12 @@ public class UIManager : MonoBehaviour
         fadeIntoLevelScreen.SetActive(false);
         gameplayCanvas.SetActive(false);
         systemMessages.SetActive(false);
+
+        timerText.text = "";
+        scoreText.text = "0";
+
+
+        gameVersionText.text = Application.version;
     }
 
     public IEnumerator FadeIntoLevelAction()
@@ -77,16 +89,19 @@ public class UIManager : MonoBehaviour
 
     public void RestartCurrentLevel()
     {
-        GameManager.instance.ResetCurrentLevel();
+        if (!GameManager.instance.gameDone)
+        {
+            GameManager.instance.ResetCurrentLevel();
+        }
     }
 
-    public void RingCouldNotBeCompletedText()
+    public void HeaderFadeInText(string toSay)
     {
         systemMessages.SetActive(true);
 
         headerText.color = new Color(headerText.color.r, headerText.color.g, headerText.color.b, 1);
 
-        headerText.text = "The force is weak with you! BEGONE!";
+        headerText.text = toSay;
 
         LeanTween.value(headerText.gameObject, 1, 0, speedFadeOutHeadText).setOnComplete(() => systemMessages.SetActive(false)).setOnUpdate((float val) =>
         {
@@ -95,5 +110,25 @@ public class UIManager : MonoBehaviour
             newColor.a = val;
             sr.color = newColor;
         });
+    }
+
+    public void DisplayGameTime(float timeDisplay)
+    {
+        if(timeDisplay < 0)
+        {
+            timeDisplay = 0;
+            Debug.Log("hazza");
+        }
+
+        float minutes = Mathf.FloorToInt(timeDisplay / 60);
+        float seconds = Mathf.FloorToInt(timeDisplay % 60);
+
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
     }
 }

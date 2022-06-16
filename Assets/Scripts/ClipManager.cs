@@ -5,8 +5,17 @@ using System;
 
 public class ClipManager : MonoBehaviour
 {
+    [Serializable]
+    public class ColorsToSprites
+    {
+        public PieceColor matColor;
+        public Sprite[] symbolSprites;
+    }
+
     public static ClipManager instance;
     public Clip[] slots;
+    public ColorsToSprites[] colorsToSprites;
+    public Sprite jokerSprite;
 
 
 
@@ -14,6 +23,7 @@ public class ClipManager : MonoBehaviour
     [Header("Prefabs")]
     public GameObject piecePrefab;
     public GameObject corruptedPiecePrefab;
+
 
     private void Awake()
     {

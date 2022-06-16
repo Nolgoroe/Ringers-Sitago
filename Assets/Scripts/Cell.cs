@@ -13,7 +13,7 @@ public class Cell : MonoBehaviour
     public void SnapFollowerToCell()
     {
         GameplayController.instance.draggingPiece.transform.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-        GameplayController.instance.draggingPiece.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90f));
+        GameplayController.instance.draggingPiece.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0f));
     }
 
     public void PopulateCellHeldPiece(Piece p)

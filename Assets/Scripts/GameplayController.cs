@@ -14,13 +14,13 @@ public class GameplayController: MonoBehaviour
     [Header("Required Elements")]
     public GameObject gameBoard;
     public GameObject gameClip;
+    public Transform dragParent;
 
     [Header("Control Data")]
     public Piece draggingPiece;
     public Transform originalParent;
     public Quaternion originalPieceRotation;
     public Vector3 originalPiecePos;
-    public Transform dragParent;
 
     private void Awake()
     {

@@ -17,15 +17,49 @@ public class GameManager : MonoBehaviour
     public int totalPlacedPieces;
     public int unsuccessfullConnectionsCount;
     public int currentMapIndex;
+    public bool timeCounting;
+    public bool gameStarted;
+    public bool gameDone;
 
     [Header("game setup data")]
     public LevelScriptableObject[] allLevels;
+    public float timerTime;
 
     private void Awake()
     {
         instance = this;
     }
 
+    private void Start()
+    {
+        timeCounting = true;
+    }
+
+    private void Update()
+    {
+        if (gameStarted)
+        {
+            if (timeCounting)
+            {
+                if (timerTime > 0)
+                {
+                    timerTime -= Time.deltaTime;
+
+                    UIManager.instance.DisplayGameTime(timerTime);
+                }
+                else
+                {
+                    timerTime = 0;
+                    gameDone = true;
+                    timeCounting = false;
+
+                    UIManager.instance.HeaderFadeInText("Time is up young padowan!");
+
+                    LockAllTilesInGame();
+                }
+            }
+        }
+    }
     public bool CheckEndLevel()
     {
         Debug.LogError("END LEVEL HERE");
@@ -38,8 +72,11 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public void StartLevel(bool DoFade)
+    public void StartTheGame(bool DoFade)
     {
+        SoundManager.instance.PlayMusic();
+        gameStarted = true;
+
         UIManager.instance.mainMenu.SetActive(false);
 
         if (DoFade)
@@ -81,6 +118,7 @@ public class GameManager : MonoBehaviour
 
         SliceManager.instance.SpawnSlices(currentMap.slicesToSpawn.Length);
 
+
         if(currentMap.powerupsForMap.Length > 0)
         {
             foreach (PowerUp power in currentMap.powerupsForMap)
@@ -91,6 +129,8 @@ public class GameManager : MonoBehaviour
                 {
                     prop.numOfUses += 3;
                     prop.canBeSelected = true;
+
+                    prop.GetComponent<Button>().interactable = true;
                 }
             }
         }
@@ -141,5 +181,27 @@ public class GameManager : MonoBehaviour
     {
         totalPlacedPieces = 0;
         unsuccessfullConnectionsCount = 0;
+        ScoreManager.instance.hasClickedDeal = false;
+    }
+
+    public void RestartCompleteRun()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void LockAllTilesInGame()
+    {
+        GameObject[] pieces = GameObject.FindGameObjectsWithTag("MainPiece");
+
+        foreach (var item in pieces)
+        {
+            item.GetComponent<Image>().raycastTarget = false;
+        }
+
+        if (GameplayController.instance.draggingPiece)
+        {
+            GameplayController.instance.ReturnHome();
+            GameplayController.instance.ResetControlData();
+        }
     }
 }

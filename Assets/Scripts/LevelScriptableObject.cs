@@ -27,6 +27,7 @@ public class sliceToSpawnDataStruct
 public class LevelScriptableObject : ScriptableObject
 {
     public bool is12PieceRing;
+    public int indexForScore;
 
     public GameObject boardPrefab;
     public GameObject clipPrefab;
