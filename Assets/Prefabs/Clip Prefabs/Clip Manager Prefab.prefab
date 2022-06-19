@@ -325,7 +325,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 9d69c6ea7566dcc4e92df31cc7926090, type: 3}
     - {fileID: 21300000, guid: 31f1f6cbae713c74399d32247dbf6333, type: 3}
     - {fileID: 21300000, guid: 1cb5212430fa32a4b8e4461d7d1e946d, type: 3}
-  jokerSprite: {fileID: 21300000, guid: 69a6e76c45708b94f868bea10a05b26e, type: 3}
+  jokerSprite: {fileID: 21300000, guid: 29eabb2a0eeb7ac488501c6496a04946, type: 3}
   piecePrefab: {fileID: 2423071656934592458, guid: ae5427d17a077124ea78ae9cb3fb3ca8,
     type: 3}
   corruptedPiecePrefab: {fileID: 0}
