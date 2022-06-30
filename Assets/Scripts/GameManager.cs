@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         timeCounting = true;
+
+        StartTheGame(false);
     }
 
     private void Update()
@@ -53,7 +55,7 @@ public class GameManager : MonoBehaviour
                     gameDone = true;
                     timeCounting = false;
 
-                    UIManager.instance.HeaderFadeInText("Time is up young padowan!");
+                    UIManager.instance.HeaderAppearText("Time is up!");
 
                     LockAllTilesInGame();
                 }

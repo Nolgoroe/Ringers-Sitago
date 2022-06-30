@@ -95,21 +95,34 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void HeaderFadeInText(string toSay)
+    public void HeaderFadeInText(string toSay, float fadeSpeed)
     {
+        LeanTween.cancel(headerText.gameObject);
+
         systemMessages.SetActive(true);
 
         headerText.color = new Color(headerText.color.r, headerText.color.g, headerText.color.b, 1);
 
         headerText.text = toSay;
 
-        LeanTween.value(headerText.gameObject, 1, 0, speedFadeOutHeadText).setOnComplete(() => systemMessages.SetActive(false)).setOnUpdate((float val) =>
+        LeanTween.value(headerText.gameObject, 1, 0, fadeSpeed).setOnComplete(() => systemMessages.SetActive(false)).setOnUpdate((float val) =>
         {
             TMP_Text sr = headerText.GetComponent<TMP_Text>();
             Color newColor = sr.color;
             newColor.a = val;
             sr.color = newColor;
         });
+    }
+    public void HeaderAppearText(string toSay)
+    {
+        LeanTween.cancel(headerText.gameObject);
+
+        systemMessages.SetActive(true);
+        headerText.gameObject.SetActive(true);
+
+        headerText.color = new Color(headerText.color.r, headerText.color.g, headerText.color.b, 1);
+
+        headerText.text = toSay;
     }
 
     public void DisplayGameTime(float timeDisplay)
