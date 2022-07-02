@@ -31,14 +31,16 @@ public class ScoreManager : MonoBehaviour
 
         int ringIndex = GameManager.instance.currentMap.indexForScore;
 
+        //add score for ring completion
         currentScore += ringCompleteScoreGive + (ringIndex * ringCompleteScoreGiveMulti);
 
+        //add score if time is more than 30 seconds
         if(GameManager.instance.timerTime > 30)
         {
             currentScore += ringCompleteScoreGiveUnder30 + (ringIndex * ringCompleteScoreGiveUnder30Multi);
         }
 
-
+        // add score if hasn't clicked "Deal" button
         if (!hasClickedDeal)
         {
             currentScore += ringCompleteScoreGiveNoDeal + (ringIndex * ringCompleteScoreGiveNoDealMulti);

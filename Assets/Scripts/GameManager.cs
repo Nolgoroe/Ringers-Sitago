@@ -37,31 +37,6 @@ public class GameManager : MonoBehaviour
         StartTheGame(false);
     }
 
-    private void Update()
-    {
-        if (gameStarted)
-        {
-            if (timeCounting)
-            {
-                if (timerTime > 0)
-                {
-                    timerTime -= Time.deltaTime;
-
-                    UIManager.instance.DisplayGameTime(timerTime);
-                }
-                else
-                {
-                    timerTime = 0;
-                    gameDone = true;
-                    timeCounting = false;
-
-                    UIManager.instance.HeaderAppearText("Time is up!");
-
-                    LockAllTilesInGame();
-                }
-            }
-        }
-    }
     public bool CheckEndLevel()
     {
         Debug.LogError("END LEVEL HERE");
@@ -186,24 +161,24 @@ public class GameManager : MonoBehaviour
         ScoreManager.instance.hasClickedDeal = false;
     }
 
-    public void RestartCompleteRun()
-    {
-        SceneManager.LoadScene(0);
-    }
+    //public void RestartCompleteRun()
+    //{
+    //    SceneManager.LoadScene(0);
+    //}
 
-    public void LockAllTilesInGame()
-    {
-        GameObject[] pieces = GameObject.FindGameObjectsWithTag("MainPiece");
+    //public void LockAllTilesInGame()
+    //{
+    //    GameObject[] pieces = GameObject.FindGameObjectsWithTag("MainPiece");
 
-        foreach (var item in pieces)
-        {
-            item.GetComponent<Image>().raycastTarget = false;
-        }
+    //    foreach (var item in pieces)
+    //    {
+    //        item.GetComponent<Image>().raycastTarget = false;
+    //    }
 
-        if (GameplayController.instance.draggingPiece)
-        {
-            GameplayController.instance.ReturnHome();
-            GameplayController.instance.ResetControlData();
-        }
-    }
+    //    if (GameplayController.instance.draggingPiece)
+    //    {
+    //        GameplayController.instance.ReturnHome();
+    //        GameplayController.instance.ResetControlData();
+    //    }
+    //}
 }

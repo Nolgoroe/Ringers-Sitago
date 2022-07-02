@@ -113,31 +113,17 @@ public class UIManager : MonoBehaviour
             sr.color = newColor;
         });
     }
-    public void HeaderAppearText(string toSay)
-    {
-        LeanTween.cancel(headerText.gameObject);
+    //public void HeaderAppearText(string toSay)
+    //{
+    //    LeanTween.cancel(headerText.gameObject);
 
-        systemMessages.SetActive(true);
-        headerText.gameObject.SetActive(true);
+    //    systemMessages.SetActive(true);
+    //    headerText.gameObject.SetActive(true);
 
-        headerText.color = new Color(headerText.color.r, headerText.color.g, headerText.color.b, 1);
+    //    headerText.color = new Color(headerText.color.r, headerText.color.g, headerText.color.b, 1);
 
-        headerText.text = toSay;
-    }
-
-    public void DisplayGameTime(float timeDisplay)
-    {
-        if(timeDisplay < 0)
-        {
-            timeDisplay = 0;
-            Debug.Log("hazza");
-        }
-
-        float minutes = Mathf.FloorToInt(timeDisplay / 60);
-        float seconds = Mathf.FloorToInt(timeDisplay % 60);
-
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
+    //    headerText.text = toSay;
+    //}
 
     public void QuitGame()
     {
