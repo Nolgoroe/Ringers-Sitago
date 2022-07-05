@@ -37,6 +37,14 @@ public class GameManager : MonoBehaviour
         StartTheGame(false);
     }
 
+    private void Update()
+    {
+        if (gameStarted)
+        {
+            timerTime += Time.deltaTime;
+        }
+    }
+
     public bool CheckEndLevel()
     {
         Debug.LogError("END LEVEL HERE");
@@ -51,6 +59,8 @@ public class GameManager : MonoBehaviour
 
     public void StartTheGame(bool DoFade)
     {
+        timerTime = 0;
+
         SoundManager.instance.PlayMusic();
         gameStarted = true;
 
@@ -69,6 +79,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetDataStartLevelStartNormal()
     {
+        timerTime = 0;
+
         for (int i = 0; i < instantiateUnder.childCount; i++)
         {
             Destroy(instantiateUnder.GetChild(i).gameObject);
@@ -96,7 +108,7 @@ public class GameManager : MonoBehaviour
         SliceManager.instance.SpawnSlices(currentMap.slicesToSpawn.Length);
 
 
-        if(currentMap.powerupsForMap.Length > 0)
+        if (currentMap.powerupsForMap.Length > 0)
         {
             foreach (PowerUp power in currentMap.powerupsForMap)
             {
@@ -104,10 +116,23 @@ public class GameManager : MonoBehaviour
 
                 if (prop)
                 {
-                    prop.numOfUses += 3;
+                    prop.numOfUses += 1;
                     prop.canBeSelected = true;
 
                     prop.GetComponent<Button>().interactable = true;
+                }
+            }
+        }
+        else
+        {
+            foreach (PowerupProperties prop in PowerUpManager.instance.powerupButtons)
+            {
+                if (prop)
+                {
+                    prop.numOfUses = 0;
+                    prop.canBeSelected = false;
+
+                    prop.GetComponent<Button>().interactable = false;
                 }
             }
         }
@@ -160,25 +185,4 @@ public class GameManager : MonoBehaviour
         unsuccessfullConnectionsCount = 0;
         ScoreManager.instance.hasClickedDeal = false;
     }
-
-    //public void RestartCompleteRun()
-    //{
-    //    SceneManager.LoadScene(0);
-    //}
-
-    //public void LockAllTilesInGame()
-    //{
-    //    GameObject[] pieces = GameObject.FindGameObjectsWithTag("MainPiece");
-
-    //    foreach (var item in pieces)
-    //    {
-    //        item.GetComponent<Image>().raycastTarget = false;
-    //    }
-
-    //    if (GameplayController.instance.draggingPiece)
-    //    {
-    //        GameplayController.instance.ReturnHome();
-    //        GameplayController.instance.ResetControlData();
-    //    }
-    //}
 }

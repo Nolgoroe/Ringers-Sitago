@@ -207,7 +207,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             myCell.ResetCellHeldPiece();
             GameplayController.instance.ReturnHome();
 
-            UIManager.instance.HeaderFadeInText("The ring cannot be completed!", 1.5f);
+            UIManager.instance.HeaderFadeInText("The ring cannot be completed!", 2f);
         }
     }
 

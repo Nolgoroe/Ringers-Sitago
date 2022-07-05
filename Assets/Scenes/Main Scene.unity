@@ -2919,7 +2919,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 290c7f76ad83e354b986c49ce199ec16, type: 2}
   - {fileID: 11400000, guid: 5d5956ee88dd74f4799dcbcda66be1c6, type: 2}
   - {fileID: 11400000, guid: a395722041ecabc4bb0be6a4133c0209, type: 2}
-  timerTime: 90
+  timerTime: 0
 --- !u!4 &1902367177
 Transform:
   m_ObjectHideFlags: 0

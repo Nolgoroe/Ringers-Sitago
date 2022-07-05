@@ -46,6 +46,22 @@ public class ScoreManager : MonoBehaviour
             currentScore += ringCompleteScoreGiveNoDeal + (ringIndex * ringCompleteScoreGiveNoDealMulti);
         }
 
+        //if (GameManager.instance.timerTime < 30 && !hasClickedDeal)
+        //{
+        //    UIManager.instance.HeaderFadeInText("", 2f);
+        //}
+        //else if (!hasClickedDeal)
+        //{
+        //    UIManager.instance.HeaderFadeInText("", 2f);
+        //}
+        //else if (GameManager.instance.timerTime < 30)
+        //{
+        //    UIManager.instance.HeaderFadeInText("", 2f);
+        //}
+        //else
+        //{
+        //    UIManager.instance.HeaderFadeInText("", 2f);
+        //}
 
         UIManager.instance.scoreText.text = currentScore.ToString();
     }
