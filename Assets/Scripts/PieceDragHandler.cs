@@ -12,10 +12,12 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private Piece relatedPiece;
 
     public Vector3 dragRotationOffset;
-
+    RectTransform rect;
     private void Start()
     {
         relatedPiece = GetComponent<Piece>();
+        rect = transform.GetComponent<RectTransform>();
+
     }
 
 
@@ -57,7 +59,9 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         transform.up = -(SliceManager.instance.gameObject.transform.position - transform.position);
 
-        transform.position = eventData.position;
+        Vector3 screenPoint = eventData.position;
+        screenPoint.z = GameplayController.instance.planeDistanceCamera;
+        transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
 
 
         Debug.Log(transform.name);
@@ -74,7 +78,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         transform.up = -(SliceManager.instance.gameObject.transform.position - transform.position);
 
-        transform.position = eventData.position;
+        Vector3 screenPoint = eventData.position;
+        screenPoint.z = GameplayController.instance.planeDistanceCamera;
+        transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
+
+
     }
 
     public void OnPointerUp(PointerEventData eventData)

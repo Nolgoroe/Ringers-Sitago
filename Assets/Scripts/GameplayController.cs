@@ -21,12 +21,17 @@ public class GameplayController: MonoBehaviour
     public Transform originalParent;
     public Quaternion originalPieceRotation;
     public Vector3 originalPiecePos;
+    public float planeDistanceCamera;
 
     private void Awake()
     {
         instance = this;
     }
 
+    private void Start()
+    {
+        planeDistanceCamera = UIManager.instance.gameplayCanvas.GetComponent<Canvas>().planeDistance;
+    }
     public void InitLeve()
     {
         gameBoard = SliceManager.instance.gameObject;
