@@ -18,20 +18,16 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    [Header("Fade into Level")]
-    public GameObject fadeIntoLevelScreen;
-    public float fadeIntoLevelSpeed;
-    public float fadeIntoLevelDelay;
+    //[Header("Fade into Level")]
+    //public GameObject fadeIntoLevelScreen;
+    //public float fadeIntoLevelSpeed;
+    //public float fadeIntoLevelDelay;
 
     [Header("Gameplay")]
     public GameObject gameplayCanvas;
     public GameObject destroyAllParent;
     public TMP_Text timerText;
     public TMP_Text scoreText;
-
-    [Header("Main Menu")]
-    public GameObject mainMenu;
-
 
     [Header("System Messages")]
     public GameObject systemMessages;
@@ -48,9 +44,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        mainMenu.SetActive(true);
-
-        fadeIntoLevelScreen.SetActive(false);
+        //fadeIntoLevelScreen.SetActive(false);
         gameplayCanvas.SetActive(false);
         systemMessages.SetActive(false);
 
@@ -61,31 +55,31 @@ public class UIManager : MonoBehaviour
         gameVersionText.text = Application.version;
     }
 
-    public IEnumerator FadeIntoLevelAction()
-    {
-        fadeIntoLevelScreen.SetActive(true);
+    //public IEnumerator FadeIntoLevelAction()
+    //{
+    //    fadeIntoLevelScreen.SetActive(true);
 
-        LeanTween.value(fadeIntoLevelScreen, 0, 1, fadeIntoLevelSpeed).setEase(LeanTweenType.linear).setOnComplete(() => GameManager.instance.ResetDataStartLevelStartNormal()).setOnUpdate((float val) =>
-        {
-            Image sr = fadeIntoLevelScreen.GetComponent<Image>();
-            Color newColor = sr.color;
-            newColor.a = val;
-            sr.color = newColor;
-        });
+    //    LeanTween.value(fadeIntoLevelScreen, 0, 1, fadeIntoLevelSpeed).setEase(LeanTweenType.linear).setOnComplete(() => GameManager.instance.ResetDataStartLevelStartNormal()).setOnUpdate((float val) =>
+    //    {
+    //        Image sr = fadeIntoLevelScreen.GetComponent<Image>();
+    //        Color newColor = sr.color;
+    //        newColor.a = val;
+    //        sr.color = newColor;
+    //    });
 
-        yield return new WaitForSeconds(fadeIntoLevelDelay);
+    //    yield return new WaitForSeconds(fadeIntoLevelDelay);
 
-        LeanTween.value(fadeIntoLevelScreen, 1, 0, fadeIntoLevelSpeed).setEase(LeanTweenType.linear).setOnUpdate((float val) =>
-        {
-            Image sr = fadeIntoLevelScreen.GetComponent<Image>();
-            Color newColor = sr.color;
-            newColor.a = val;
-            sr.color = newColor;
-        });
+    //    LeanTween.value(fadeIntoLevelScreen, 1, 0, fadeIntoLevelSpeed).setEase(LeanTweenType.linear).setOnUpdate((float val) =>
+    //    {
+    //        Image sr = fadeIntoLevelScreen.GetComponent<Image>();
+    //        Color newColor = sr.color;
+    //        newColor.a = val;
+    //        sr.color = newColor;
+    //    });
 
-        yield return new WaitForSeconds(fadeIntoLevelSpeed + 0.1f);
-        fadeIntoLevelScreen.SetActive(false);
-    }
+    //    yield return new WaitForSeconds(fadeIntoLevelSpeed + 0.1f);
+    //    fadeIntoLevelScreen.SetActive(false);
+    //}
 
     public void RestartCurrentLevel()
     {

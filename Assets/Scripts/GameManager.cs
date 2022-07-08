@@ -64,16 +64,14 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.PlayMusic();
         gameStarted = true;
 
-        UIManager.instance.mainMenu.SetActive(false);
-
-        if (DoFade)
-        {
-            StartCoroutine(UIManager.instance.FadeIntoLevelAction());
-        }
-        else
-        {
+        //if (DoFade)
+        //{
+        //    StartCoroutine(UIManager.instance.FadeIntoLevelAction());
+        //}
+        //else
+        //{
             ResetDataStartLevelStartNormal();
-        }
+        //}
 
     }
 
