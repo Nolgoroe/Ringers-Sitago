@@ -7,6 +7,7 @@ public enum SliceCatagory
 {
     Shape,
     Color,
+    None
 }
 
 public class SliceManager : MonoBehaviour

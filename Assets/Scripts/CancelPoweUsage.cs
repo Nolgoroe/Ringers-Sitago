@@ -12,6 +12,7 @@ public class CancelPoweUsage : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        Debug.LogError("Deactivated power");
         if (PowerUpManager.IsUsingPowerUp)
         {
             PowerUpManager.instance.FinishedUsingPowerup(false, PowerUpManager.instance.currentlyInUse);

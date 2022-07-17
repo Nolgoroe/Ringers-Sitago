@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Cell : MonoBehaviour
-{    
+{
+    public int cellIndex;
     public bool isFull;
 
     public Piece heldPiece;
-    public Slice[] connectedSlices;
+    public Slice leftSlice, rightSlice;
 
     public Transform goodConnectLeft, goodConnectRight;
     public Transform badConnectLeft, badConnectRight;
@@ -21,6 +22,9 @@ public class Cell : MonoBehaviour
     public void PopulateCellHeldPiece(Piece p)
     {
         heldPiece = p;
+
+        ConnectionManager.instance.subPiecesOnBoardTempAlgoritm[cellIndex * 2] = heldPiece.leftChild;
+        ConnectionManager.instance.subPiecesOnBoardTempAlgoritm[cellIndex * 2 + 1] = heldPiece.rightChild;
     }
     public void ResetCellHeldPiece()
     {

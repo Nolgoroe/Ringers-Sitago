@@ -46,4 +46,8 @@ public class LevelScriptableObject : ScriptableObject
     public PieceSymbol[] levelAvailableSymbols;
 
     public int[] specificSliceSpots;
+
+
+    [Header("Algorithm")]
+    public int algoritmStepsWanted;
 }

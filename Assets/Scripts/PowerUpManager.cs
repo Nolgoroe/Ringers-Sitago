@@ -31,6 +31,7 @@ public class PowerUpManager : MonoBehaviour
     public float delayClipMove;
     public float timeToAnimateMove;
     public float WaitTimeBeforeIn;
+    public float timesClickedDeal;
 
     [Header("Power up")]
     public PowerupProperties currentlyInUse;
@@ -70,6 +71,24 @@ public class PowerUpManager : MonoBehaviour
         yield return new WaitForSeconds(WaitTimeBeforeIn);
         ClipManager.instance.DealAnimClipLogic();
 
+
+        if(GameManager.instance.totalPlacedPieces == 7)
+        {
+            ConnectionManager.instance.StartLastClipAlgoritm();
+            yield return new WaitUntil(() => ConnectionManager.instance.hasFinishedAlgorithm == true);
+
+            int randomNum = UnityEngine.Random.Range(0, 4);
+            Debug.LogError(randomNum);
+
+            if (ConnectionManager.instance.decidedAlgoritmPath != null)
+            {
+                ClipManager.instance.RefreshSpecificSlot(randomNum, ConnectionManager.instance.decidedAlgoritmPath);
+            }
+        }
+
+
+
+
         for (int i = ClipManager.instance.slots.Length - 1; i > -1; i--)
         {
             RectTransform toMove = ClipManager.instance.slots[i].transform.GetChild(0).GetComponent<RectTransform>();
@@ -89,6 +108,7 @@ public class PowerUpManager : MonoBehaviour
         if (!GameManager.instance.gameDone)
         {
             ScoreManager.instance.hasClickedDeal = true;
+            timesClickedDeal++;
 
             StartCoroutine(DealCooldown(dealCooldown));
         }
@@ -158,6 +178,15 @@ public class PowerUpManager : MonoBehaviour
             ObjectToUsePowerUpOn.SetPieceAsJoker();
             successfulUse = true;
 
+            if (ObjectToUsePowerUpOn.partOfBoard)
+            {
+                Cell c = ObjectToUsePowerUpOn.transform.parent.GetComponent<Cell>();
+                int cellIndex = System.Array.IndexOf(SliceManager.instance.boardCells, c);
+
+                ConnectionManager.instance.CheckConnectionsOnPickup(c, cellIndex);
+
+                ConnectionManager.instance.CheckConnection(c, cellIndex);
+            }
 
             FinishedUsingPowerup(successfulUse, prop);
 

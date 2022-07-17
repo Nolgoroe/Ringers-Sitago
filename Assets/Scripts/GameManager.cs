@@ -97,7 +97,8 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.gameplayCanvas.SetActive(true);
 
-        Instantiate(currentMap.boardPrefab, instantiateUnder);
+        GameObject board =  Instantiate(currentMap.boardPrefab, instantiateUnder);
+        ConnectionManager.instance.GrabCellList(board.transform);
 
         Instantiate(currentMap.clipPrefab, instantiateUnder);
 
@@ -168,7 +169,8 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.gameplayCanvas.SetActive(true);
 
-        Instantiate(currentMap.boardPrefab, instantiateUnder);
+        GameObject board = Instantiate(currentMap.boardPrefab, instantiateUnder);
+        ConnectionManager.instance.GrabCellList(board.transform);
 
         Instantiate(currentMap.clipPrefab, instantiateUnder);
 
@@ -182,5 +184,6 @@ public class GameManager : MonoBehaviour
         totalPlacedPieces = 0;
         unsuccessfullConnectionsCount = 0;
         ScoreManager.instance.hasClickedDeal = false;
+        PowerUpManager.instance.timesClickedDeal = 0;
     }
 }

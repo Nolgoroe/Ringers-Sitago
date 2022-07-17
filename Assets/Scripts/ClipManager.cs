@@ -76,8 +76,19 @@ public class ClipManager : MonoBehaviour
             RerollSlotPieceData(p);
         }
     }
+
     public void RerollSlotPieceData(Piece p)
     {
         p.SetPieces();
+    }
+
+    public void RefreshSpecificSlot(int index, EdgePathFoundData dataNeeded)
+    {
+        Piece p = slots[index].GetComponentInChildren<Piece>();
+        SetPieceSpecificData(p, dataNeeded);
+    }
+    public void SetPieceSpecificData(Piece p, EdgePathFoundData dataNeeded)
+    {
+        p.SetPiecesSpecificData(dataNeeded);
     }
 }

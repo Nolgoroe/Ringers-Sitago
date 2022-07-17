@@ -130,6 +130,12 @@ public class Piece : MonoBehaviour
         }
     }
 
+    public void SetPiecesSpecificData(EdgePathFoundData dataNeeded)
+    {
+        rightChild.SetPieceSpecific(dataNeeded.rightAnimalSymbolNeeded, dataNeeded.rightColorNeeded);
+        leftChild.SetPieceSpecific(dataNeeded.leftAnimalSymbolNeeded, dataNeeded.leftColorNeeded);
+    }
+
     public bool CheckNoRepeatPieceClip()
     {
         Piece currectCheckPiece = GetComponent<Piece>();

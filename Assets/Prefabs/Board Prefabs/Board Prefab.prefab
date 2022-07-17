@@ -437,7 +437,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3949929346964926986}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -642,7 +642,7 @@ GameObject:
   m_Layer: 0
   m_Name: Slice
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -732,9 +732,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellIndex: 4
   isFull: 0
   heldPiece: {fileID: 0}
-  connectedSlices: []
+  leftSlice: {fileID: 3949929348039918524}
+  rightSlice: {fileID: 3949929347014105803}
   goodConnectLeft: {fileID: 6277144336553900484}
   goodConnectRight: {fileID: 4802027231645881263}
   badConnectLeft: {fileID: 5338415046379399484}
@@ -815,7 +817,7 @@ GameObject:
   m_Layer: 0
   m_Name: Slice (3)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -905,9 +907,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellIndex: 1
   isFull: 0
   heldPiece: {fileID: 0}
-  connectedSlices: []
+  leftSlice: {fileID: 3949929346777828384}
+  rightSlice: {fileID: 3949929347890315376}
   goodConnectLeft: {fileID: 7087220100257052343}
   goodConnectRight: {fileID: 550098479064922305}
   badConnectLeft: {fileID: 1577352796198380557}
@@ -988,7 +992,7 @@ GameObject:
   m_Layer: 0
   m_Name: Slice (6)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1078,9 +1082,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellIndex: 5
   isFull: 0
   heldPiece: {fileID: 0}
-  connectedSlices: []
+  leftSlice: {fileID: 3949929347014105803}
+  rightSlice: {fileID: 3949929346687782239}
   goodConnectLeft: {fileID: 4802027231645881263}
   goodConnectRight: {fileID: 7949550999646190676}
   badConnectLeft: {fileID: 1132645356515105853}
@@ -1161,7 +1167,7 @@ GameObject:
   m_Layer: 0
   m_Name: Slice (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1236,7 +1242,7 @@ RectTransform:
   - {fileID: 3949929346687782238}
   - {fileID: 3949929347713812097}
   m_Father: {fileID: 3949929346964926986}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1272,9 +1278,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3949929346821110030}
   - {fileID: 4314021384753056261}
   - {fileID: 3949929347625467376}
+  - {fileID: 3949929346821110030}
   - {fileID: 5965514622738776898}
   - {fileID: 9177704577545766320}
   m_Father: {fileID: 0}
@@ -1343,7 +1349,7 @@ GameObject:
   m_Layer: 0
   m_Name: Slice (5)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1433,9 +1439,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellIndex: 0
   isFull: 0
   heldPiece: {fileID: 0}
-  connectedSlices: []
+  leftSlice: {fileID: 3949929346073393835}
+  rightSlice: {fileID: 3949929346777828384}
   goodConnectLeft: {fileID: 8267908650284384712}
   goodConnectRight: {fileID: 7087220100257052343}
   badConnectLeft: {fileID: 6641516873775558871}
@@ -1554,9 +1562,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellIndex: 7
   isFull: 0
   heldPiece: {fileID: 0}
-  connectedSlices: []
+  leftSlice: {fileID: 3949929347713812098}
+  rightSlice: {fileID: 3949929346073393835}
   goodConnectLeft: {fileID: 1296395518917078779}
   goodConnectRight: {fileID: 8267908650284384712}
   badConnectLeft: {fileID: 42064014157633275}
@@ -1675,9 +1685,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellIndex: 2
   isFull: 0
   heldPiece: {fileID: 0}
-  connectedSlices: []
+  leftSlice: {fileID: 3949929347890315376}
+  rightSlice: {fileID: 3949929346521393190}
   goodConnectLeft: {fileID: 550098479064922305}
   goodConnectRight: {fileID: 17174933379346171}
   badConnectLeft: {fileID: 4385458385837689125}
@@ -1796,9 +1808,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellIndex: 3
   isFull: 0
   heldPiece: {fileID: 0}
-  connectedSlices: []
+  leftSlice: {fileID: 3949929346521393190}
+  rightSlice: {fileID: 3949929348039918524}
   goodConnectLeft: {fileID: 17174933379346171}
   goodConnectRight: {fileID: 6277144336553900484}
   badConnectLeft: {fileID: 8594107408558072344}
@@ -1917,9 +1931,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellIndex: 6
   isFull: 0
   heldPiece: {fileID: 0}
-  connectedSlices: []
+  leftSlice: {fileID: 3949929346687782239}
+  rightSlice: {fileID: 3949929347713812098}
   goodConnectLeft: {fileID: 7949550999646190676}
   goodConnectRight: {fileID: 1296395518917078779}
   badConnectLeft: {fileID: 8830807531083478949}
@@ -2023,7 +2039,7 @@ RectTransform:
   - {fileID: 3949929347538569651}
   - {fileID: 3949929347181025421}
   m_Father: {fileID: 3949929346964926986}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2043,7 +2059,7 @@ GameObject:
   m_Layer: 0
   m_Name: Slice (7)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2095,7 +2111,7 @@ GameObject:
   m_Layer: 0
   m_Name: Slice (2)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2147,7 +2163,7 @@ GameObject:
   m_Layer: 0
   m_Name: Slice (4)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

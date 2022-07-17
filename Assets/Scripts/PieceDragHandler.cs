@@ -197,6 +197,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             ScoreManager.instance.AddRingCompletionScore();
 
             ScoreManager.instance.hasClickedDeal = false;
+            PowerUpManager.instance.timesClickedDeal = 0;
 
             myCell.isFull = true;
             relatedPiece.transform.SetParent(myCell.transform);

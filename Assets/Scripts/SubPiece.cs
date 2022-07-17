@@ -49,19 +49,48 @@ public class SubPiece : MonoBehaviour
         SetSubPieceDisplay();
     }
 
+    public void SetPieceSpecific(PieceSymbol symbol, PieceColor color)
+    {
+        int indexcColor = (int)color;
+        int indexcSymbol = (int)symbol;
+
+        if (color == PieceColor.Joker)
+        {
+            indexcColor = Random.Range(0, GameManager.instance.currentMap.levelAvailableColors.Length);
+            indexcSymbol = Random.Range(0, GameManager.instance.currentMap.levelAvailableSymbols.Length);
+        }
+        else
+        {
+            indexcColor = (int)color;
+            indexcSymbol = (int)symbol;
+        }
+
+        colorOfPiece = color;
+        symbolOfPiece = symbol;
+
+
+        indexcColor--;
+        if(indexcColor < 0) // we do -1 since first is general
+        {
+            indexcColor = 0;
+        }
+
+        indexcSymbol--;
+        if(indexcSymbol < 0) // we do -1 since first is general
+        {
+            indexcSymbol = 0;
+        }
+
+        subPieceImage.sprite = ClipManager.instance.colorsToSprites[indexcColor].symbolSprites[indexcSymbol]; 
+
+    }
 
 
     public void SetPieceAsJoker()
     {
-        //subPieceImage.sprite = ClipManager.instance.jokerSprite;
         subPieceImage.enabled = false;
         Debug.LogError("Joker piece display!");
     }
-
-    //public void SetPieceAsNormal()
-    //{
-    //    Debug.LogError("Normal piece display!");
-    //}
 
     void SetSubPieceDisplay()
     {
