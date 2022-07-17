@@ -10,6 +10,8 @@ public class Cell : MonoBehaviour
     public Piece heldPiece;
     public Slice[] connectedSlices;
 
+    public Transform goodConnectLeft, goodConnectRight;
+    public Transform badConnectLeft, badConnectRight;
     public void SnapFollowerToCell()
     {
         GameplayController.instance.draggingPiece.transform.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
@@ -23,5 +25,14 @@ public class Cell : MonoBehaviour
     public void ResetCellHeldPiece()
     {
         heldPiece = null;
+    }
+    
+
+    public void ResetConnectionDisplays()
+    {
+        goodConnectLeft.gameObject.SetActive(false);
+        goodConnectRight.gameObject.SetActive(false);
+        badConnectLeft.gameObject.SetActive(false);
+        badConnectRight.gameObject.SetActive(false);
     }
 }

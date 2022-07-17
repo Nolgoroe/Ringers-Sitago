@@ -53,8 +53,8 @@ public class SubPiece : MonoBehaviour
 
     public void SetPieceAsJoker()
     {
-        subPieceImage.sprite = ClipManager.instance.jokerSprite;
-
+        //subPieceImage.sprite = ClipManager.instance.jokerSprite;
+        subPieceImage.enabled = false;
         Debug.LogError("Joker piece display!");
     }
 

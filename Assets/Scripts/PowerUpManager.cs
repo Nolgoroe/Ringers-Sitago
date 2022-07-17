@@ -146,29 +146,16 @@ public class PowerUpManager : MonoBehaviour
         if (ObjectToUsePowerUpOn.leftChild.symbolOfPiece != PieceSymbol.Joker) ///// If 1 of the sub pieces is a joker - so is the other. If the symbol is a joker then the color is awell
         {
 
-            if (ObjectToUsePowerUpOn.partOfBoard)
-            {
-                ObjectToUsePowerUpOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
-                ObjectToUsePowerUpOn.leftChild.colorOfPiece = PieceColor.Joker;
+            ObjectToUsePowerUpOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
+            ObjectToUsePowerUpOn.leftChild.colorOfPiece = PieceColor.Joker;
 
-                ObjectToUsePowerUpOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
-                ObjectToUsePowerUpOn.rightChild.colorOfPiece = PieceColor.Joker;
+            ObjectToUsePowerUpOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
+            ObjectToUsePowerUpOn.rightChild.colorOfPiece = PieceColor.Joker;
 
-                ObjectToUsePowerUpOn.leftChild.SetPieceAsJoker();
-                ObjectToUsePowerUpOn.rightChild.SetPieceAsJoker();
-            }
-            else
-            {
-                ObjectToUsePowerUpOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
-                ObjectToUsePowerUpOn.leftChild.colorOfPiece = PieceColor.Joker;
+            ObjectToUsePowerUpOn.leftChild.SetPieceAsJoker();
+            ObjectToUsePowerUpOn.rightChild.SetPieceAsJoker();
 
-                ObjectToUsePowerUpOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
-                ObjectToUsePowerUpOn.rightChild.colorOfPiece = PieceColor.Joker;
-
-                ObjectToUsePowerUpOn.leftChild.SetPieceAsJoker();
-                ObjectToUsePowerUpOn.rightChild.SetPieceAsJoker();
-            }
-
+            ObjectToUsePowerUpOn.SetPieceAsJoker();
             successfulUse = true;
 
 

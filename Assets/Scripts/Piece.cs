@@ -32,6 +32,9 @@ public class Piece : MonoBehaviour
 
     public bool partOfBoard;
 
+    public Image connectedImageComponent;
+
+
     public void SetPieces()
     {
         bool isSamePiece = true;
@@ -152,5 +155,10 @@ public class Piece : MonoBehaviour
         }
 
         return false; //// There was no repeat, is same piece = false
+    }
+
+    public void SetPieceAsJoker()
+    {
+        connectedImageComponent.sprite = ClipManager.instance.jokerSprite;
     }
 }

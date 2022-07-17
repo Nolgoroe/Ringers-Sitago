@@ -32,10 +32,12 @@ public class ConnectionManager : MonoBehaviour
             myCell.heldPiece.leftChild.isGoodConnected = false;
             leftCell.heldPiece.rightChild.isGoodConnected = false;
 
+            myCell.ResetConnectionDisplays();
         }
         else
         {
             GameManager.instance.unsuccessfullConnectionsCount--; // we just deleted a "bad" connection from the board
+            myCell.ResetConnectionDisplays();
 
         }
 
@@ -45,10 +47,13 @@ public class ConnectionManager : MonoBehaviour
 
             myCell.heldPiece.rightChild.isGoodConnected = false;
             rightCell.heldPiece.leftChild.isGoodConnected = false;
+            myCell.ResetConnectionDisplays();
+
         }
         else
         {
             GameManager.instance.unsuccessfullConnectionsCount--; // we just deleted a "bad" connection from the board
+            myCell.ResetConnectionDisplays();
 
         }
     }
@@ -87,6 +92,8 @@ public class ConnectionManager : MonoBehaviour
     {
         bool SuccessfulConnectLeft = false;
         bool SuccessfulConnectRight = false;
+
+        myCell.ResetConnectionDisplays();
 
         if (leftCell.heldPiece)
         {
@@ -134,6 +141,7 @@ public class ConnectionManager : MonoBehaviour
             if (leftCell.heldPiece)
             {
                 leftCell.heldPiece.rightChild.isGoodConnected = false; // used when we pick up the piece to decide how many bad connections remain on board
+                myCell.badConnectLeft.gameObject.SetActive(true);
             }
         }
         else
@@ -145,7 +153,9 @@ public class ConnectionManager : MonoBehaviour
             if (leftCell.heldPiece)
             {
                 leftCell.heldPiece.rightChild.isGoodConnected = true; // used when we pick up the piece to decide how many bad connections remain on board
+                myCell.goodConnectLeft.gameObject.SetActive(true);
             }
+
         }
 
         if (!SuccessfulConnectRight)
@@ -156,6 +166,7 @@ public class ConnectionManager : MonoBehaviour
             if (rightCell.heldPiece)
             {
                 rightCell.heldPiece.leftChild.isGoodConnected = false; // used when we pick up the piece to decide how many bad connections remain on board
+                myCell.badConnectRight.gameObject.SetActive(true);
             }
         }
         else
@@ -167,6 +178,7 @@ public class ConnectionManager : MonoBehaviour
             if (rightCell.heldPiece)
             {
                 rightCell.heldPiece.leftChild.isGoodConnected = true; // used when we pick up the piece to decide how many bad connections remain on board
+                myCell.goodConnectRight.gameObject.SetActive(true);
             }
 
         }

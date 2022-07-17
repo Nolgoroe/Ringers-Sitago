@@ -21,9 +21,17 @@ MonoBehaviour:
   cellsCountInLevel: 8
   RandomSlicePositions: 1
   allowRepeatSlices: 0
-  powerupsForMap: 
+  powerupsForMap: 00000000
   stoneTiles: []
-  slicesToSpawn: []
+  slicesToSpawn:
+  - sliceToSpawn: 0
+  - sliceToSpawn: 1
+  - sliceToSpawn: 0
+  - sliceToSpawn: 1
+  - sliceToSpawn: 0
+  - sliceToSpawn: 1
+  - sliceToSpawn: 0
+  - sliceToSpawn: 1
   levelAvailableColors: 010000000200000003000000
   levelAvailableSymbols: 010000000200000003000000
   specificSliceSpots: 
