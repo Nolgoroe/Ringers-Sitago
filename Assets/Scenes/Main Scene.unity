@@ -160,6 +160,7 @@ MonoBehaviour:
   delayClipMove: 0.1
   timeToAnimateMove: 0.5
   WaitTimeBeforeIn: 0.3
+  timesClickedDeal: 0
   currentlyInUse: {fileID: 0}
   ObjectToUsePowerUpOn: {fileID: 0}
   powerupButtons:
@@ -220,7 +221,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9aa5156deb06e384ba70272de90e8f95, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 319a7826c00b2b34b8e6abc2785576f7, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
@@ -1384,6 +1385,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce72842b5e0ad88499f726b1005779d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cells: []
+  movesMade: 0
+  hasFinishedAlgorithm: 0
+  TEMPDelayTime: 0
+  decidedAlgoritmPath:
+    foundCells: []
+    lastCellToMove: {fileID: 0}
+    leftAnimalSymbolNeeded: 0
+    leftColorNeeded: 0
+    rightAnimalSymbolNeeded: 0
+    rightColorNeeded: 0
+  cellsThatCanConnect:
+    possibleCellsPath: []
+  pathsFound:
+    foundCellPath: []
+  subPiecesOnBoardTempAlgoritm: []
 --- !u!1 &1137669306
 GameObject:
   m_ObjectHideFlags: 0
