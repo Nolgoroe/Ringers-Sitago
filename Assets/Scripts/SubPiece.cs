@@ -89,7 +89,7 @@ public class SubPiece : MonoBehaviour
     public void SetPieceAsJoker()
     {
         subPieceImage.enabled = false;
-        Debug.LogError("Joker piece display!");
+        //Debug.LogError("Joker piece display!");
     }
 
     void SetSubPieceDisplay()

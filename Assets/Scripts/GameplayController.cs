@@ -41,6 +41,8 @@ public class GameplayController: MonoBehaviour
 
     public void ReturnHome()
     {
+        SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TilePlacement);
+
         draggingPiece.transform.SetParent(originalParent);
 
         if (CheckOriginalParentIsCell())

@@ -85,6 +85,8 @@ public class UIManager : MonoBehaviour
     {
         if (!GameManager.instance.gameDone)
         {
+            SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.UISFX);
+
             GameManager.instance.ResetCurrentLevel();
         }
     }

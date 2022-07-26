@@ -1,12 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
+public enum AllGameSoundsEnums
+{
+    BGM,
+    TileMatch,
+    TilePlacement,
+    TileUnmatch,
+    UISFX
+}
+
+[System.Serializable]
+public class EnumSoundToFile
+{
+    public AllGameSoundsEnums soundEnum;
+    public AudioSource sound;
+}
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
-    public AudioSource source;
+    public EnumSoundToFile[] allGameSoundsCombos;
 
     public bool isMute;
 
@@ -15,20 +32,35 @@ public class SoundManager : MonoBehaviour
         instance = this;
     }
 
-    public void PlayMusic()
+    public void PlayMusic(AudioSource source)
     {
         if (isMute)
         {
             return;
         }
 
-        if (source.isPlaying)
+        source.volume = 0.1f;
+
+        source.Play();
+
+        //if (source.isPlaying)
+        //{
+        //    return;
+        //}
+        //else
+        //{
+        //    source.Play();
+        //}
+    }
+
+    public void FindSoundToPlay(AllGameSoundsEnums enumToPlay)
+    {
+        EnumSoundToFile soundToPlay = allGameSoundsCombos.Where(P => P.soundEnum == enumToPlay).FirstOrDefault();
+
+        if (soundToPlay != null)
         {
-            source.volume = 0.1f;
-        }
-        else
-        {
-            source.Play();
+            soundToPlay.sound.gameObject.SetActive(true);
+            PlayMusic(soundToPlay.sound);
         }
     }
 
@@ -38,11 +70,17 @@ public class SoundManager : MonoBehaviour
 
         if (isMute)
         {
-            source.volume = 0;
+            foreach (EnumSoundToFile soundCombo in allGameSoundsCombos)
+            {
+                soundCombo.sound.volume = 0;
+            }
         }
         else
         {
-            PlayMusic();
+            foreach (EnumSoundToFile soundCombo in allGameSoundsCombos)
+            {
+                soundCombo.sound.volume = 0.1f;
+            }
         }
     }
 }

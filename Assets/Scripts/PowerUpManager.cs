@@ -107,6 +107,8 @@ public class PowerUpManager : MonoBehaviour
     {
         if (!GameManager.instance.gameDone)
         {
+            SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.UISFX);
+
             ScoreManager.instance.hasClickedDeal = true;
             timesClickedDeal++;
 
@@ -126,6 +128,7 @@ public class PowerUpManager : MonoBehaviour
     public void AssignPowerUp(PowerUp ThePower, PowerupProperties theButton)
     {
         theButton.interactEvent.AddListener(() => UsingPowerup(theButton));
+        theButton.interactEvent.AddListener(() => SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.UISFX));
 
         PowerupProperties prop = theButton.gameObject.GetComponent<PowerupProperties>();
         switch (ThePower)
@@ -190,7 +193,7 @@ public class PowerUpManager : MonoBehaviour
 
             FinishedUsingPowerup(successfulUse, prop);
 
-            Debug.Log("Joker");
+            //Debug.Log("Joker");
         }
         else
         {
@@ -223,7 +226,7 @@ public class PowerUpManager : MonoBehaviour
 
     public void ReactivatePowerButtons()
     {
-        Debug.LogError("reactivating");
+        //Debug.LogError("reactivating");
 
         foreach (PowerupProperties but in powerupButtons)
         {

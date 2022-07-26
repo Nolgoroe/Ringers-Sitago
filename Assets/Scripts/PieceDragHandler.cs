@@ -24,7 +24,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Pointer down");
+        //Debug.Log("Pointer down");
 
         if (PowerUpManager.IsUsingPowerUp || GameManager.instance.gameDone)
         {
@@ -64,7 +64,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
 
 
-        Debug.Log(transform.name);
+        //Debug.Log(transform.name);
 
 
     }
@@ -98,7 +98,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
             PowerUpManager.HasUsedPowerUp = true;
 
-            Debug.Log("Used power");
+            //Debug.Log("Used power");
             return;
         }
        
@@ -153,6 +153,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 }
                 else // fill cell with piece
                 {
+                    SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TilePlacement);
 
                     myCell.isFull = true;                    
                     relatedPiece.transform.SetParent(myCell.transform);
@@ -181,7 +182,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         GameplayController.instance.ReturnHome();
 
-        Debug.Log("pointer up");
+        //Debug.Log("pointer up");
     }
 
     private void LastPieceLogic(Cell myCell)

@@ -32,6 +32,6 @@ public class PowerupProperties : MonoBehaviour, IPointerClickHandler
         {
             interactEvent.Invoke();
         }
-        Debug.Log("Shooting event powerup");
+        //Debug.Log("Shooting event powerup");
     }
 }
