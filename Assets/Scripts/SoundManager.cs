@@ -9,7 +9,8 @@ public enum AllGameSoundsEnums
     TileMatch,
     TilePlacement,
     TileUnmatch,
-    UISFX
+    UISFX,
+    Deal
 }
 
 [System.Serializable]

@@ -107,7 +107,7 @@ public class PowerUpManager : MonoBehaviour
     {
         if (!GameManager.instance.gameDone)
         {
-            SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.UISFX);
+            SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.Deal);
 
             ScoreManager.instance.hasClickedDeal = true;
             timesClickedDeal++;
