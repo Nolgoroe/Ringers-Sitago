@@ -99,23 +99,15 @@ public class ConnectionManager : MonoBehaviour
         Cell rightCell = GetCell(myCellIndex + 1);
 
 
-        //Debug.Log("PICKUP My cell index " + myCell);
-        //Debug.Log("PICKUP Left cell index " + leftCell);
-        //Debug.Log("PICKUP Right cell index " + rightCell);
+        Debug.Log("PICKUP My cell index " + myCell);
+        Debug.Log("PICKUP Left cell index " + leftCell);
+        Debug.Log("PICKUP Right cell index " + rightCell);
 
         CheckConnectionsPickupPiece(myCell, myCellIndex, leftCell, rightCell);
     }
 
     private void CheckConnectionsPickupPiece(Cell myCell, int myCellIndex, Cell leftCell, Cell rightCell)
     {
-        bool hasPlayedConnectSound = false;
-
-        if (myCell.heldPiece.leftChild.isGoodConnected && myCell.heldPiece.rightChild.isGoodConnected)
-        {
-            SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TileUnmatch);
-            hasPlayedConnectSound = true;
-        }
-
         if (myCell.heldPiece.leftChild.isGoodConnected)
         {
             GameManager.instance.unsuccessfullConnectionsCount++; // we just deleted a "good" connection from the board
@@ -124,11 +116,6 @@ public class ConnectionManager : MonoBehaviour
             leftCell.heldPiece.rightChild.isGoodConnected = false;
 
             myCell.ResetConnectionDisplays();
-
-            if (!hasPlayedConnectSound)
-            {
-                SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TileUnmatch);
-            }
         }
         else
         {
@@ -145,10 +132,6 @@ public class ConnectionManager : MonoBehaviour
             rightCell.heldPiece.leftChild.isGoodConnected = false;
             myCell.ResetConnectionDisplays();
 
-            if (!hasPlayedConnectSound)
-            {
-                SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TileUnmatch);
-            }
         }
         else
         {
@@ -164,9 +147,9 @@ public class ConnectionManager : MonoBehaviour
         Cell rightCell = GetCell(myCellIndex + 1);
 
 
-        //Debug.Log("My cell index " + myCell);
-        //Debug.Log("Left cell index " + leftCell);
-        //Debug.Log("Right cell index " + rightCell);
+        Debug.Log("My cell index " + myCell);
+        Debug.Log("Left cell index " + leftCell);
+        Debug.Log("Right cell index " + rightCell);
 
         CheckConnectionsPlacePiece(myCell, myCellIndex, leftCell, rightCell);
     }
@@ -232,14 +215,6 @@ public class ConnectionManager : MonoBehaviour
             }
         }
 
-        bool hasPlayedConnectSound = false;
-
-        if(SuccessfulConnectLeft && SuccessfulConnectRight)
-        {
-            SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TileMatch);
-            hasPlayedConnectSound = true;
-        }
-
         //// do something here after detecting good or bad connections        
         if (!SuccessfulConnectLeft)
         {
@@ -260,11 +235,6 @@ public class ConnectionManager : MonoBehaviour
 
             if (leftCell.heldPiece)
             {
-                if (!hasPlayedConnectSound)
-                {
-                    SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TileMatch);
-                }
-
                 leftCell.heldPiece.rightChild.isGoodConnected = true; // used when we pick up the piece to decide how many bad connections remain on board
                 myCell.goodConnectLeft.gameObject.SetActive(true);
             }
@@ -290,11 +260,6 @@ public class ConnectionManager : MonoBehaviour
 
             if (rightCell.heldPiece)
             {
-                if (!hasPlayedConnectSound)
-                {
-                    SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TileMatch);
-                }
-
                 rightCell.heldPiece.leftChild.isGoodConnected = true; // used when we pick up the piece to decide how many bad connections remain on board
                 myCell.goodConnectRight.gameObject.SetActive(true);
             }

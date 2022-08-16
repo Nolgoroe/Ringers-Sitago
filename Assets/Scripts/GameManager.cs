@@ -61,17 +61,10 @@ public class GameManager : MonoBehaviour
     {
         timerTime = 0;
 
-        SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.BGM);
+        SoundManager.instance.PlayMusic();
         gameStarted = true;
 
-        //if (DoFade)
-        //{
-        //    StartCoroutine(UIManager.instance.FadeIntoLevelAction());
-        //}
-        //else
-        //{
-            ResetDataStartLevelStartNormal();
-        //}
+        ResetDataStartLevelStartNormal();
 
     }
 
@@ -95,8 +88,6 @@ public class GameManager : MonoBehaviour
             currentMap = allLevels[currentMapIndex];
         }
 
-        UIManager.instance.gameplayCanvas.SetActive(true);
-
         GameObject board =  Instantiate(currentMap.boardPrefab, instantiateUnder);
         ConnectionManager.instance.GrabCellList(board.transform);
 
@@ -115,10 +106,7 @@ public class GameManager : MonoBehaviour
 
                 if (prop)
                 {
-                    prop.numOfUses += 1;
                     prop.canBeSelected = true;
-
-                    prop.GetComponent<Button>().interactable = true;
                 }
             }
         }
@@ -128,7 +116,6 @@ public class GameManager : MonoBehaviour
             {
                 if (prop)
                 {
-                    prop.numOfUses = 0;
                     prop.canBeSelected = false;
 
                     prop.GetComponent<Button>().interactable = false;
@@ -167,7 +154,7 @@ public class GameManager : MonoBehaviour
             currentMap = allLevels[currentMapIndex];
         }
 
-        UIManager.instance.gameplayCanvas.SetActive(true);
+        //UIManager.instance.gameplayCanvas.SetActive(true);
 
         GameObject board = Instantiate(currentMap.boardPrefab, instantiateUnder);
         ConnectionManager.instance.GrabCellList(board.transform);

@@ -4,28 +4,30 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Rendering;
 
-public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class PieceDragHandler : MonoBehaviour
 {
-    private GraphicRaycaster graphicRaycaster;
-    private Canvas canvas;
+    //private GraphicRaycaster graphicRaycaster;
+    //private Canvas canvas;
     private Piece relatedPiece;
 
     public Vector3 dragRotationOffset;
     RectTransform rect;
+
+    public LayerMask cellLayer;
+
+    public SortingGroup sortingGroup;
+
     private void Start()
     {
         relatedPiece = GetComponent<Piece>();
         rect = transform.GetComponent<RectTransform>();
-
+        sortingGroup = GetComponent<SortingGroup>();
     }
 
-
-
-    public void OnPointerDown(PointerEventData eventData)
+    private void OnMouseDown()
     {
-        //Debug.Log("Pointer down");
-
         if (PowerUpManager.IsUsingPowerUp || GameManager.instance.gameDone)
         {
             return;
@@ -35,7 +37,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         GameplayController.instance.originalParent = transform.parent;
 
         GameplayController.instance.draggingPiece = relatedPiece;
-        GameplayController.instance.originalPiecePos = transform.GetComponent<RectTransform>().anchoredPosition;
+        GameplayController.instance.originalPiecePos = transform.position;
 
         if (GameplayController.instance.CheckOriginalParentIsCell())
         {
@@ -49,27 +51,19 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         }
 
         DisableRaycast(); // so we don't check against ourselves what we hit
-        DisableRaycast();
-
-        canvas = GetComponentInParent<Canvas>();
-        graphicRaycaster = canvas.GetComponent<GraphicRaycaster>(); /// this helps us detect what we landed on later
 
         transform.SetParent(GameplayController.instance.dragParent); // this is the gameplay canvas - we do this so the piece renders over all other 2D elements
 
 
         transform.up = -(SliceManager.instance.gameObject.transform.position - transform.position);
 
-        Vector3 screenPoint = eventData.position;
-        screenPoint.z = GameplayController.instance.planeDistanceCamera;
+        Vector3 screenPoint = Input.mousePosition;
+        screenPoint.z = -GameplayController.instance.planeDistanceCamera;
         transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
-
-
-        //Debug.Log(transform.name);
-
-
+        sortingGroup.sortingOrder = 20;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnMouseDrag()
     {
         if (PowerUpManager.IsUsingPowerUp || GameManager.instance.gameDone)
         {
@@ -78,15 +72,17 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         transform.up = -(SliceManager.instance.gameObject.transform.position - transform.position);
 
-        Vector3 screenPoint = eventData.position;
-        screenPoint.z = GameplayController.instance.planeDistanceCamera;
+        Vector3 screenPoint = Input.mousePosition;
+        screenPoint.z = -GameplayController.instance.planeDistanceCamera;
         transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
 
 
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnMouseUp()
     {
+        sortingGroup.sortingOrder = 14;
+
         if (GameManager.instance.gameDone)
         {
             return;
@@ -98,22 +94,19 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
             PowerUpManager.HasUsedPowerUp = true;
 
-            //Debug.Log("Used power");
+            Debug.Log("Used power");
             return;
         }
-       
-        List<RaycastResult> results = new List<RaycastResult>();
-        graphicRaycaster.Raycast(eventData, results);
-        // Check all hits
 
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        EnableRaycast();
-        EnableRaycast();
+        RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray, Mathf.Infinity, cellLayer);
 
-        foreach (var hit in results)
+        if (hit2D && hit2D.transform.GetComponent<Cell>())
         {
-            // If we found a cell
-            Cell myCell = hit.gameObject.GetComponent<Cell>();
+            Cell myCell = null;
+
+            myCell = hit2D.transform.GetComponent<Cell>();
 
             if (myCell)
             {
@@ -153,9 +146,8 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 }
                 else // fill cell with piece
                 {
-                    SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TilePlacement);
 
-                    myCell.isFull = true;                    
+                    myCell.isFull = true;
                     relatedPiece.transform.SetParent(myCell.transform);
                     myCell.SnapFollowerToCell();
                     myCell.PopulateCellHeldPiece(relatedPiece);
@@ -180,9 +172,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             }
         }
 
+        EnableRaycast();
+
         GameplayController.instance.ReturnHome();
 
-        //Debug.Log("pointer up");
+        Debug.Log("pointer up");
     }
 
     private void LastPieceLogic(Cell myCell)
@@ -224,10 +218,10 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void DisableRaycast()
     {
-        transform.GetComponent<Image>().raycastTarget = false;
+        //transform.GetComponent<Image>().raycastTarget = false;
     }
     public void EnableRaycast()
     {
-        transform.GetComponent<Image>().raycastTarget = true;
+        //transform.GetComponent<Image>().raycastTarget = true;
     }
 }

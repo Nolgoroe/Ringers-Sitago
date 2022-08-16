@@ -54,7 +54,7 @@ public class ClipManager : MonoBehaviour
         {
             if ((currectCheckPiece.leftChild.colorOfPiece == p.leftChild.colorOfPiece) && (currectCheckPiece.leftChild.symbolOfPiece == p.leftChild.symbolOfPiece))
             {
-                //Debug.Log("Pieces were the same!" + currectCheckPiece + " " + p);
+                Debug.Log("Pieces were the same!" + currectCheckPiece + " " + p);
                 return true; ///// Pieces are the same
             }
         }

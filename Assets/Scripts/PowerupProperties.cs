@@ -7,11 +7,9 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class PowerupProperties : MonoBehaviour, IPointerClickHandler
+public class PowerupProperties : MonoBehaviour
 {
     public PowerUp powerupType;
-
-    public int numOfUses;
 
     public PieceColor transformColor;
     public PieceSymbol transformSymbol;
@@ -23,15 +21,16 @@ public class PowerupProperties : MonoBehaviour, IPointerClickHandler
     public void SetProperties(PowerUp type)
     {
         powerupType = type;
-
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    private void OnMouseDown()
     {
-        if (numOfUses > 0 && canBeSelected)
+        if (canBeSelected)
         {
             interactEvent.Invoke();
         }
-        //Debug.Log("Shooting event powerup");
+
+        Debug.Log("Shooting event powerup");
+
     }
 }

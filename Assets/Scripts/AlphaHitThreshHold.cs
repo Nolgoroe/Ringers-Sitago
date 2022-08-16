@@ -8,7 +8,7 @@ public class AlphaHitThreshHold : MonoBehaviour
     public float alphaThrshhold = 0.1f;
     void Start()
     {
-        GetComponent<Image>().alphaHitTestMinimumThreshold = alphaThrshhold;
+        //GetComponent<Image>().alphaHitTestMinimumThreshold = alphaThrshhold;
     }
 
 }

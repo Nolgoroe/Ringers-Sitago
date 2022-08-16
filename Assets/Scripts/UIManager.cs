@@ -24,10 +24,10 @@ public class UIManager : MonoBehaviour
     //public float fadeIntoLevelDelay;
 
     [Header("Gameplay")]
-    public GameObject gameplayCanvas;
+    //public GameObject gameplayCanvas;
     public GameObject destroyAllParent;
-    public TMP_Text timerText;
-    public TMP_Text scoreText;
+    //public TMP_Text timerText;
+    //public TMP_Text scoreText;
 
     [Header("System Messages")]
     public GameObject systemMessages;
@@ -44,49 +44,15 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        //fadeIntoLevelScreen.SetActive(false);
-        gameplayCanvas.SetActive(false);
         systemMessages.SetActive(false);
-
-        timerText.text = "";
-        scoreText.text = "0";
-
 
         gameVersionText.text = Application.version;
     }
-
-    //public IEnumerator FadeIntoLevelAction()
-    //{
-    //    fadeIntoLevelScreen.SetActive(true);
-
-    //    LeanTween.value(fadeIntoLevelScreen, 0, 1, fadeIntoLevelSpeed).setEase(LeanTweenType.linear).setOnComplete(() => GameManager.instance.ResetDataStartLevelStartNormal()).setOnUpdate((float val) =>
-    //    {
-    //        Image sr = fadeIntoLevelScreen.GetComponent<Image>();
-    //        Color newColor = sr.color;
-    //        newColor.a = val;
-    //        sr.color = newColor;
-    //    });
-
-    //    yield return new WaitForSeconds(fadeIntoLevelDelay);
-
-    //    LeanTween.value(fadeIntoLevelScreen, 1, 0, fadeIntoLevelSpeed).setEase(LeanTweenType.linear).setOnUpdate((float val) =>
-    //    {
-    //        Image sr = fadeIntoLevelScreen.GetComponent<Image>();
-    //        Color newColor = sr.color;
-    //        newColor.a = val;
-    //        sr.color = newColor;
-    //    });
-
-    //    yield return new WaitForSeconds(fadeIntoLevelSpeed + 0.1f);
-    //    fadeIntoLevelScreen.SetActive(false);
-    //}
 
     public void RestartCurrentLevel()
     {
         if (!GameManager.instance.gameDone)
         {
-            SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.UISFX);
-
             GameManager.instance.ResetCurrentLevel();
         }
     }

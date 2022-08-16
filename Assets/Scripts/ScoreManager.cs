@@ -63,6 +63,6 @@ public class ScoreManager : MonoBehaviour
         //    UIManager.instance.HeaderFadeInText("", 2f);
         //}
 
-        UIManager.instance.scoreText.text = currentScore.ToString();
+        //UIManager.instance.scoreText.text = currentScore.ToString();
     }
 }

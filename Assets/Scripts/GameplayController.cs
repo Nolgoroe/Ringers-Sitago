@@ -30,8 +30,9 @@ public class GameplayController: MonoBehaviour
 
     private void Start()
     {
-        planeDistanceCamera = UIManager.instance.gameplayCanvas.GetComponent<Canvas>().planeDistance;
+        planeDistanceCamera = Camera.main.transform.position.z;
     }
+
     public void InitLeve()
     {
         gameBoard = SliceManager.instance.gameObject;
@@ -41,8 +42,6 @@ public class GameplayController: MonoBehaviour
 
     public void ReturnHome()
     {
-        SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.TilePlacement);
-
         draggingPiece.transform.SetParent(originalParent);
 
         if (CheckOriginalParentIsCell())
@@ -57,7 +56,7 @@ public class GameplayController: MonoBehaviour
             ConnectionManager.instance.CheckConnection(myCell, myCellIndex);
         }
 
-        draggingPiece.GetComponent<RectTransform>().anchoredPosition = originalPiecePos;
+        draggingPiece.transform.position = originalPiecePos;
         draggingPiece.transform.localRotation = originalPieceRotation; ///// reset piece rotation to it's original local rotation
 
         ResetControlData();

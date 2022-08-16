@@ -13,14 +13,14 @@ public class SubPiece : MonoBehaviour
     int randomColor;
     int randomSymbol;
 
-    public Image subPieceImage;
+    public SpriteRenderer subPieceSpriteRenderer;
+
+    private void Awake()
+    {
+        subPieceSpriteRenderer = GetComponent<SpriteRenderer>();
+    }
     public void SetPiece()
     {
-        //if (symbolOfPiece == PieceSymbol.Joker)
-        //{
-        //    SetPieceAsNormal();
-        //}
-
         if (GameManager.instance.currentMap.levelAvailableColors.Length > 0 || GameManager.instance.currentMap.levelAvailableSymbols.Length > 0)
         {
 
@@ -81,15 +81,15 @@ public class SubPiece : MonoBehaviour
             indexcSymbol = 0;
         }
 
-        subPieceImage.sprite = ClipManager.instance.colorsToSprites[indexcColor].symbolSprites[indexcSymbol]; 
+        subPieceSpriteRenderer.sprite = ClipManager.instance.colorsToSprites[indexcColor].symbolSprites[indexcSymbol]; 
 
     }
 
 
     public void SetPieceAsJoker()
     {
-        subPieceImage.enabled = false;
-        //Debug.LogError("Joker piece display!");
+        subPieceSpriteRenderer.enabled = false;
+        Debug.LogError("Joker piece display!");
     }
 
     void SetSubPieceDisplay()
@@ -97,6 +97,6 @@ public class SubPiece : MonoBehaviour
         int colorIndex = System.Array.IndexOf(ClipManager.instance.colorsToSprites, ClipManager.instance.colorsToSprites.Where(p => p.matColor == colorOfPiece).SingleOrDefault());
         int symbolIndex = (int)symbolOfPiece - 1; // we do -1 since first index is "GENERAL"
 
-        subPieceImage.sprite = ClipManager.instance.colorsToSprites[colorIndex].symbolSprites[symbolIndex];
+        subPieceSpriteRenderer.sprite = ClipManager.instance.colorsToSprites[colorIndex].symbolSprites[symbolIndex];
     }
 }

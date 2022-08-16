@@ -8,7 +8,7 @@ using System;
 public enum PowerUp
 {
     Joker,
-
+    Deal,
     //Switch,
     //PieceBomb,
     //SliceBomb,
@@ -25,7 +25,7 @@ public class PowerUpManager : MonoBehaviour
 
 
     [Header("Deal Related")]
-    public Button dealButton;
+    public PowerupProperties dealButton;
     public float dealCooldown;
     public Vector3[] piecesDealPositionsOut;
     public float delayClipMove;
@@ -40,29 +40,47 @@ public class PowerUpManager : MonoBehaviour
     [Header("Lists and arrays")]
     public List<PowerupProperties> powerupButtons;
 
+
+    Dictionary<PowerUp, PowerupProperties> PowerupTypeToProperties;
+
     private void Awake()
     {
         instance = this;
+        PowerupTypeToProperties = new Dictionary<PowerUp, PowerupProperties>();
     }
 
+    private void Start()
+    {
+        foreach (var powerup in powerupButtons)
+        {
+            PowerupTypeToProperties.Add(powerup.powerupType, powerup);
+        }
+
+        for (int i = 0; i < System.Enum.GetNames(typeof(PowerUp)).Length; i++)
+        {
+            PowerupProperties props = null;
+            if (PowerupTypeToProperties.TryGetValue((PowerUp)i, out props))
+            {
+                props = PowerupTypeToProperties[(PowerUp)i];
+            }
+
+
+            if (props)
+            {
+                AssignPowerUp(props.powerupType, props);
+            }
+        }
+    }
 
     public IEnumerator DealCooldown(float time)
     {
-        dealButton.interactable = false;
-
-        Image dealButtonImage = dealButton.GetComponent<Image>();
-        dealButtonImage.fillAmount = 0;
-
-        LeanTween.value(dealButtonImage.gameObject, dealButtonImage.fillAmount, 1, time).setOnComplete(() => dealButton.interactable = true).setOnUpdate((float val) =>
-        {
-            dealButtonImage.fillAmount = val;
-        });
+        dealButton.canBeSelected = false;
 
         for (int i = 0; i < ClipManager.instance.slots.Length; i++)
         {
-            RectTransform toMove = ClipManager.instance.slots[i].transform.GetChild(0).GetComponent<RectTransform>();
+            GameObject toMove = ClipManager.instance.slots[i].transform.GetChild(0).gameObject;
 
-            LeanTween.move(toMove, piecesDealPositionsOut[i], timeToAnimateMove).setEase(LeanTweenType.easeInOutQuad); // animate
+            LeanTween.moveLocal(toMove, piecesDealPositionsOut[i], timeToAnimateMove).setEase(LeanTweenType.easeInOutQuad); // animate
 
             yield return new WaitForSeconds(delayClipMove);
         }
@@ -91,59 +109,60 @@ public class PowerUpManager : MonoBehaviour
 
         for (int i = ClipManager.instance.slots.Length - 1; i > -1; i--)
         {
-            RectTransform toMove = ClipManager.instance.slots[i].transform.GetChild(0).GetComponent<RectTransform>();
+            GameObject toMove = ClipManager.instance.slots[i].transform.GetChild(0).gameObject;
 
             
-            LeanTween.move(toMove, Vector3.zero, timeToAnimateMove).setEase(LeanTweenType.easeInOutQuad); // animate
+            LeanTween.move(toMove, Vector3.zero, timeToAnimateMove).setEase(LeanTweenType.easeInOutQuad).setMoveLocal(); // animate
 
             //Invoke("playReturnPiecePlaceSound", ClipManager.instance.timeToAnimateMove - 0.25f);
 
             yield return new WaitForSeconds(delayClipMove);
 
         }
+
     }
 
     public void Deal()
     {
         if (!GameManager.instance.gameDone)
         {
-            SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.Deal);
-
             ScoreManager.instance.hasClickedDeal = true;
             timesClickedDeal++;
 
             StartCoroutine(DealCooldown(dealCooldown));
+            StartCoroutine(ToggleBoolAfterSeconds(dealButton, dealCooldown, true));
         }
     }
 
-
-    private void Start()
+    IEnumerator ToggleBoolAfterSeconds(PowerupProperties dealButton, float seconds, bool isTrue)
     {
-        for (int i = 0; i < powerupButtons.Count; i++)
-        {
-            AssignPowerUp((PowerUp)i, powerupButtons[i]);
-        }
+        yield return new WaitForSeconds(seconds);
+        dealButton.canBeSelected = isTrue;
     }
+
 
     public void AssignPowerUp(PowerUp ThePower, PowerupProperties theButton)
     {
-        theButton.interactEvent.AddListener(() => UsingPowerup(theButton));
-        theButton.interactEvent.AddListener(() => SoundManager.instance.FindSoundToPlay(AllGameSoundsEnums.UISFX));
-
         PowerupProperties prop = theButton.gameObject.GetComponent<PowerupProperties>();
+
         switch (ThePower)
         {
             case PowerUp.Joker:
                 theButton.interactEvent.AddListener(() => CallJokerCoroutine(prop));
+                theButton.interactEvent.AddListener(() => UsingPowerup(theButton));
                 break;
             default:
+                break;
+
+            case PowerUp.Deal:
+                theButton.interactEvent.AddListener(() => Deal());
                 break;
         }
     }
 
     public void UsingPowerup(PowerupProperties prop)
     {
-        if (prop.numOfUses > 0 && prop.canBeSelected)
+        if (prop.canBeSelected)
         {
             currentlyInUse = prop.gameObject.GetComponent<PowerupProperties>();
 
@@ -154,7 +173,7 @@ public class PowerUpManager : MonoBehaviour
     }
     public void CallJokerCoroutine(PowerupProperties prop)
     {
-        if(prop.numOfUses > 0)
+        if(prop.canBeSelected)
         {
             StartCoroutine(JokerPower(prop));
         }
@@ -175,10 +194,10 @@ public class PowerUpManager : MonoBehaviour
             ObjectToUsePowerUpOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
             ObjectToUsePowerUpOn.rightChild.colorOfPiece = PieceColor.Joker;
 
+            ObjectToUsePowerUpOn.SetPieceAsJoker();
             ObjectToUsePowerUpOn.leftChild.SetPieceAsJoker();
             ObjectToUsePowerUpOn.rightChild.SetPieceAsJoker();
 
-            ObjectToUsePowerUpOn.SetPieceAsJoker();
             successfulUse = true;
 
             if (ObjectToUsePowerUpOn.partOfBoard)
@@ -193,7 +212,7 @@ public class PowerUpManager : MonoBehaviour
 
             FinishedUsingPowerup(successfulUse, prop);
 
-            //Debug.Log("Joker");
+            Debug.Log("Joker");
         }
         else
         {
@@ -211,22 +230,15 @@ public class PowerUpManager : MonoBehaviour
         currentlyInUse = null;
         HasUsedPowerUp = false;
 
-        if (successfull)
-        {
-            prop.numOfUses--;
-        }
+        prop.canBeSelected = false;
 
-        if(prop.numOfUses <= 0)
-        {
-            prop.GetComponent<Button>().interactable = false;
-        }
 
-        ReactivatePowerButtons();
+        //ReactivatePowerButtons();
     }
 
     public void ReactivatePowerButtons()
     {
-        //Debug.LogError("reactivating");
+        Debug.LogError("reactivating");
 
         foreach (PowerupProperties but in powerupButtons)
         {

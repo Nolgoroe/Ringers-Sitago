@@ -15,7 +15,7 @@ public class Cell : MonoBehaviour
     public Transform badConnectLeft, badConnectRight;
     public void SnapFollowerToCell()
     {
-        GameplayController.instance.draggingPiece.transform.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        GameplayController.instance.draggingPiece.transform.localPosition = Vector3.zero;
         GameplayController.instance.draggingPiece.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0f));
     }
 

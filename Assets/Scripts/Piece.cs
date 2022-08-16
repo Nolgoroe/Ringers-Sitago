@@ -32,7 +32,7 @@ public class Piece : MonoBehaviour
 
     public bool partOfBoard;
 
-    public Image connectedImageComponent;
+    public Transform normalTile, jokerTile;
 
 
     public void SetPieces()
@@ -165,6 +165,7 @@ public class Piece : MonoBehaviour
 
     public void SetPieceAsJoker()
     {
-        connectedImageComponent.sprite = ClipManager.instance.jokerSprite;
+        jokerTile.gameObject.SetActive(true);
+        normalTile.gameObject.SetActive(false);
     }
 }
