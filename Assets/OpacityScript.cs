@@ -25,4 +25,21 @@ public class OpacityScript : MonoBehaviour
         }
 
     }
+
+    void OnValidate()
+    {
+        childRenderers = GetComponentsInChildren<SpriteRenderer>();
+
+        if (childRenderers.Length > 0)
+        {
+            foreach (SpriteRenderer renderer in childRenderers)
+            {
+                Color color = renderer.color;
+
+                color.a = opacityLevel;
+
+                renderer.color = color;
+            }
+        }
+    }
 }
