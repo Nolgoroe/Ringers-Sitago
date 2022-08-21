@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is12PieceRing: 0
   indexForScore: 6
-  boardPrefab: {fileID: 9186957338185240395, guid: fd81a7186f72e4b4a8732fb4784c2ba9,
+  boardPrefab: {fileID: 173793884014254292, guid: fd81a7186f72e4b4a8732fb4784c2ba9,
     type: 3}
   clipPrefab: {fileID: 2439966666677837825, guid: e620613d70297ed40a52b4f4b6c05782,
     type: 3}

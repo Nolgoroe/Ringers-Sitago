@@ -124,6 +124,12 @@ public class PowerUpManager : MonoBehaviour
 
     public void Deal()
     {
+        if(!dealButton.canBeSelected)
+        {
+
+            return;
+        }
+
         if (!GameManager.instance.gameDone)
         {
             ScoreManager.instance.hasClickedDeal = true;
@@ -230,7 +236,14 @@ public class PowerUpManager : MonoBehaviour
         currentlyInUse = null;
         HasUsedPowerUp = false;
 
-        prop.canBeSelected = false;
+        if(successfull)
+        {
+            prop.canBeSelected = false;
+        }
+        else
+        {
+            prop.canBeSelected = true;
+        }
 
 
         //ReactivatePowerButtons();

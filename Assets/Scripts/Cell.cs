@@ -11,8 +11,8 @@ public class Cell : MonoBehaviour
     public Piece heldPiece;
     public Slice leftSlice, rightSlice;
 
-    public Transform goodConnectLeft, goodConnectRight;
-    public Transform badConnectLeft, badConnectRight;
+    public Animator goodConnectLeft, goodConnectRight;
+    public Animator badConnectLeft, badConnectRight;
     public void SnapFollowerToCell()
     {
         GameplayController.instance.draggingPiece.transform.localPosition = Vector3.zero;

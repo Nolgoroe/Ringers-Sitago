@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2345253908743899490
 Transform:
   m_ObjectHideFlags: 0
@@ -398,7 +398,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 8
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -674,8 +674,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.1
-      minScalar: 0.05
+      scalar: 0.03
+      minScalar: 0.02
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1055,9 +1055,9 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: -0.000003962924, y: 0.0000000037507313, z: 0}
+    m_Position: {x: -0.12987943, y: -0.19496098, z: 0}
     m_Rotation: {x: -0, y: 0, z: 236.32999}
-    m_Scale: {x: 0.03, y: 1, z: 1}
+    m_Scale: {x: 0.0063707638, y: 1, z: 1}
     placementMode: 2
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -1308,7 +1308,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 500
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5526,6 +5526,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Eternity_Particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 5420340101719712252, guid: eccacd7784da8534aaa8d96c6bf4c499,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eccacd7784da8534aaa8d96c6bf4c499, type: 3}

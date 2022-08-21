@@ -11,7 +11,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 2459908230901413748}
-    m_Position: {x: 410, y: 150, z: 0}
+    m_Position: {x: 420, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4014540797299832087}
     m_Position: {x: 415, y: 15, z: 0}
@@ -61,7 +61,7 @@ AnimatorController:
   m_Name: Bad Parent
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: NOW
+  - m_Name: Activate
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -87,7 +87,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: test
+  m_Name: Bad connect
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -115,7 +115,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: NOW
+    m_ConditionEvent: Activate
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2459908230901413748}
@@ -126,7 +126,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.75
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
