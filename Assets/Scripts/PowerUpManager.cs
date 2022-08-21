@@ -66,7 +66,7 @@ public class PowerUpManager : MonoBehaviour
 
 
             if (props)
-            {
+            { 
                 AssignPowerUp(props.powerupType, props);
             }
         }
