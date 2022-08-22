@@ -118,10 +118,12 @@ public class GameManager : MonoBehaviour
                 {
                     prop.canBeSelected = false;
 
-                    prop.GetComponent<Button>().interactable = false;
+                    //prop.GetComponent<Button>().interactable = false;
                 }
             }
         }
+
+        SliceManager.instance.GetComponent<Animator>().SetTrigger("Limiter Appear");
     }
 
     public void InitAllSystems()
@@ -164,6 +166,8 @@ public class GameManager : MonoBehaviour
         InitAllSystems();
 
         SliceManager.instance.SpawnSlices(currentMap.slicesToSpawn.Length);
+
+        SliceManager.instance.GetComponent<Animator>().SetTrigger("Limiter Appear");
     }
 
     private void ResetAllLevelData()

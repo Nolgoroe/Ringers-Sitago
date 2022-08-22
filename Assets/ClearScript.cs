@@ -5,16 +5,18 @@ using UnityEngine.Events;
 
 public class ClearScript : MonoBehaviour
 {
-    public UnityEvent interactEvent;
+    //public UnityEvent interactEvent;
 
     // Start is called before the first frame update
     void Start()
     {
-        interactEvent.AddListener(() => UIManager.instance.RestartCurrentLevel());
+        //interactEvent.AddListener(() => UIManager.instance.RestartCurrentLevel());
     }
 
     private void OnMouseDown()
     {
-        interactEvent.Invoke();
+        SliceManager.instance.GetComponent<Animator>().SetTrigger("Clear");
+
+        //interactEvent.Invoke();
     }
 }

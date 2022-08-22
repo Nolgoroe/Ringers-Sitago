@@ -25,10 +25,7 @@ public class PowerupProperties : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (canBeSelected)
-        {
-            interactEvent.Invoke();
-        }
+        interactEvent.Invoke();
 
         Debug.Log("Shooting event powerup");
 

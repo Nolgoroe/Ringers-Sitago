@@ -42,6 +42,8 @@ public class GameplayController: MonoBehaviour
 
     public void ReturnHome()
     {
+        draggingPiece.GetComponent<Animator>().SetTrigger("Put Down");
+
         draggingPiece.transform.SetParent(originalParent);
 
         if (CheckOriginalParentIsCell())

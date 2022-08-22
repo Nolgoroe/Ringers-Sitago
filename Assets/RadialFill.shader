@@ -4,7 +4,7 @@ Shader "Custom/RadialFill"
 {
 	Properties
 	{
-		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+		_MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
         _Angle("Angle", Range(0, 360)) = 0
         _Arc1("Arc Point 1", Range(0, 360)) = 15

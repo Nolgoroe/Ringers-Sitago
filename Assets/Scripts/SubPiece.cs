@@ -88,7 +88,7 @@ public class SubPiece : MonoBehaviour
 
     public void SetPieceAsJoker()
     {
-        subPieceSpriteRenderer.enabled = false;
+        //subPieceSpriteRenderer.enabled = false;
         Debug.LogError("Joker piece display!");
     }
 

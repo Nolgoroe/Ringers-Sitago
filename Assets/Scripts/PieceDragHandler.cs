@@ -61,6 +61,8 @@ public class PieceDragHandler : MonoBehaviour
         screenPoint.z = -GameplayController.instance.planeDistanceCamera;
         transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
         sortingGroup.sortingOrder = 20;
+
+        GetComponent<Animator>().SetTrigger("Pick Up");
     }
 
     public void OnMouseDrag()
@@ -81,8 +83,6 @@ public class PieceDragHandler : MonoBehaviour
 
     public void OnMouseUp()
     {
-        sortingGroup.sortingOrder = 14;
-
         if (GameManager.instance.gameDone)
         {
             return;
@@ -120,6 +120,7 @@ public class PieceDragHandler : MonoBehaviour
                 }
 
 
+                //this is to check if we're putting the last piece
                 if (!myCell.isFull && GameplayController.instance.CheckOriginalParentIsClip()) // check if we came from clip. if we did we need to repopulate the clip
                 {
                     GameManager.instance.totalPlacedPieces++; // to check for end of level
@@ -140,12 +141,14 @@ public class PieceDragHandler : MonoBehaviour
                 }
 
 
+                // normal place check
                 if (myCell.isFull) // check if going in a cell that is already full
                 {
                     GameplayController.instance.ReturnHome();
                 }
                 else // fill cell with piece
                 {
+                    GetComponent<Animator>().SetTrigger("Put Down");
 
                     myCell.isFull = true;
                     relatedPiece.transform.SetParent(myCell.transform);
@@ -157,12 +160,6 @@ public class PieceDragHandler : MonoBehaviour
                     int myCellIndex = System.Array.IndexOf(SliceManager.instance.boardCells, myCell);
 
                     ConnectionManager.instance.CheckConnection(myCell, myCellIndex);
-                }
-
-                if (GameManager.instance.totalPlacedPieces == GameManager.instance.currentMap.cellsCountInLevel)
-                {
-                    GameManager.instance.CheckEndLevel();
-                    return;
                 }
 
                 GameplayController.instance.ResetControlData();
@@ -200,7 +197,7 @@ public class PieceDragHandler : MonoBehaviour
 
             GameManager.instance.currentMapIndex++;
 
-            GameManager.instance.ResetDataStartLevelStartNormal();
+            SliceManager.instance.GetComponent<Animator>().SetTrigger("Ring Complete");
         }
         else
         {
@@ -212,6 +209,8 @@ public class PieceDragHandler : MonoBehaviour
             GameplayController.instance.ReturnHome();
 
             UIManager.instance.HeaderFadeInText("The ring cannot be completed!", 2f);
+
+            SliceManager.instance.GetComponent<Animator>().SetTrigger("Incorrect Complete");
         }
     }
 

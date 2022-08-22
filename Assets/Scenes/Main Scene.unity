@@ -150,7 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0ae9b3334b58447b6f01ca3d5f2a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dealButton: {fileID: 149251402}
+  dealButton: {fileID: 1339700147}
+  dealButtonDark: {fileID: 447980826}
   dealCooldown: 10
   piecesDealPositionsOut:
   - {x: -7, y: 0, z: 0}
@@ -164,8 +165,8 @@ MonoBehaviour:
   currentlyInUse: {fileID: 0}
   ObjectToUsePowerUpOn: {fileID: 0}
   powerupButtons:
-  - {fileID: 149251402}
-  - {fileID: 2462419077610283568}
+  - {fileID: 1339700147}
+  - {fileID: 1641518742}
 --- !u!4 &47241233
 Transform:
   m_ObjectHideFlags: 0
@@ -332,9 +333,6 @@ GameObject:
   m_Component:
   - component: {fileID: 149251404}
   - component: {fileID: 149251403}
-  - component: {fileID: 149251405}
-  - component: {fileID: 149251402}
-  - component: {fileID: 149251406}
   m_Layer: 0
   m_Name: Deal Button
   m_TagString: Untagged
@@ -342,25 +340,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &149251402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149251401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f74dc318166bd6499d9082709dc40eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerupType: 1
-  transformColor: 0
-  transformSymbol: 0
-  canBeSelected: 1
-  interactEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!212 &149251403
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -421,45 +400,11 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 447980825}
   m_Father: {fileID: 1339700146}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &149251405
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149251401}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1
---- !u!95 &149251406
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149251401}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 54a0c11f953ef0146afed58406319454, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &166324468
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,6 +771,87 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &447980824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 447980825}
+  - component: {fileID: 447980826}
+  m_Layer: 0
+  m_Name: Deal Dark
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &447980825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447980824}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 149251404}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &447980826
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447980824}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4ee56dd6411fcc14cb7e29edeeea5758, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 16
+  m_Sprite: {fileID: 21300000, guid: 306625bef13010449a79d40c8e6865a0, type: 3}
+  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 2, y: 2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &582802542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,9 +1075,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8c853123b3bac44ab42630eeeaef4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!58 &639194881
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1285,6 +1308,7 @@ GameObject:
   - component: {fileID: 1339700146}
   - component: {fileID: 1339700145}
   - component: {fileID: 1339700147}
+  - component: {fileID: 1339700148}
   m_Layer: 0
   m_Name: Deal Button Parent
   m_TagString: Untagged
@@ -1344,10 +1368,26 @@ MonoBehaviour:
   powerupType: 1
   transformColor: 0
   transformSymbol: 0
-  canBeSelected: 0
+  canBeSelected: 1
   interactEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!58 &1339700148
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339700144}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!1 &1374646062
 GameObject:
   m_ObjectHideFlags: 0
@@ -2701,7 +2741,6 @@ GameObject:
   - component: {fileID: 2462419077610283567}
   - component: {fileID: 2462419077610283571}
   - component: {fileID: 2462419077610283566}
-  - component: {fileID: 2462419077610283568}
   - component: {fileID: 2462419077610283569}
   m_Layer: 0
   m_Name: Joker Power Up Movable
@@ -2736,25 +2775,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2462419077610283568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2462419077610283565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f74dc318166bd6499d9082709dc40eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerupType: 0
-  transformColor: 0
-  transformSymbol: 0
-  canBeSelected: 0
-  interactEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!58 &2462419077610283569
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -26,6 +26,7 @@ public class PowerUpManager : MonoBehaviour
 
     [Header("Deal Related")]
     public PowerupProperties dealButton;
+    public SpriteRenderer dealButtonDark;
     public float dealCooldown;
     public Vector3[] piecesDealPositionsOut;
     public float delayClipMove;
@@ -51,6 +52,8 @@ public class PowerUpManager : MonoBehaviour
 
     private void Start()
     {
+        dealButtonDark.gameObject.SetActive(false);
+
         foreach (var powerup in powerupButtons)
         {
             PowerupTypeToProperties.Add(powerup.powerupType, powerup);
@@ -66,7 +69,7 @@ public class PowerUpManager : MonoBehaviour
 
 
             if (props)
-            { 
+            {
                 AssignPowerUp(props.powerupType, props);
             }
         }
@@ -75,6 +78,16 @@ public class PowerUpManager : MonoBehaviour
     public IEnumerator DealCooldown(float time)
     {
         dealButton.canBeSelected = false;
+
+        float startDeal = dealButtonDark.material.GetFloat("_Arc1");
+        float endDeal = 360;
+
+        dealButtonDark.gameObject.SetActive(true);
+
+        LeanTween.value(dealButtonDark.gameObject, startDeal, endDeal, time).setOnComplete(() => AfterDarkDeal()).setOnUpdate((float val) =>
+        {
+            dealButtonDark.material.SetFloat("_Arc1", val);
+        });
 
         for (int i = 0; i < ClipManager.instance.slots.Length; i++)
         {
@@ -90,7 +103,7 @@ public class PowerUpManager : MonoBehaviour
         ClipManager.instance.DealAnimClipLogic();
 
 
-        if(GameManager.instance.totalPlacedPieces == 7)
+        if (GameManager.instance.totalPlacedPieces == 7)
         {
             ConnectionManager.instance.StartLastClipAlgoritm();
             yield return new WaitUntil(() => ConnectionManager.instance.hasFinishedAlgorithm == true);
@@ -111,7 +124,7 @@ public class PowerUpManager : MonoBehaviour
         {
             GameObject toMove = ClipManager.instance.slots[i].transform.GetChild(0).gameObject;
 
-            
+
             LeanTween.move(toMove, Vector3.zero, timeToAnimateMove).setEase(LeanTweenType.easeInOutQuad).setMoveLocal(); // animate
 
             //Invoke("playReturnPiecePlaceSound", ClipManager.instance.timeToAnimateMove - 0.25f);
@@ -124,9 +137,9 @@ public class PowerUpManager : MonoBehaviour
 
     public void Deal()
     {
-        if(!dealButton.canBeSelected)
+        if (!dealButton.canBeSelected)
         {
-
+            dealButton.GetComponent<Animator>().SetTrigger("Not Ready");
             return;
         }
 
@@ -146,7 +159,13 @@ public class PowerUpManager : MonoBehaviour
         dealButton.canBeSelected = isTrue;
     }
 
+    void AfterDarkDeal()
+    {
+        dealButtonDark.material.SetFloat("_Arc1", 0);
+        dealButtonDark.gameObject.SetActive(false);
 
+        dealButton.GetComponent<Animator>().SetTrigger("Ready");
+    }
     public void AssignPowerUp(PowerUp ThePower, PowerupProperties theButton)
     {
         PowerupProperties prop = theButton.gameObject.GetComponent<PowerupProperties>();
@@ -193,6 +212,7 @@ public class PowerUpManager : MonoBehaviour
 
         if (ObjectToUsePowerUpOn.leftChild.symbolOfPiece != PieceSymbol.Joker) ///// If 1 of the sub pieces is a joker - so is the other. If the symbol is a joker then the color is awell
         {
+            ObjectToUsePowerUpOn.GetComponent<Animator>().SetTrigger("Joker Transform");
 
             ObjectToUsePowerUpOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
             ObjectToUsePowerUpOn.leftChild.colorOfPiece = PieceColor.Joker;
@@ -217,6 +237,7 @@ public class PowerUpManager : MonoBehaviour
             }
 
             FinishedUsingPowerup(successfulUse, prop);
+
 
             Debug.Log("Joker");
         }

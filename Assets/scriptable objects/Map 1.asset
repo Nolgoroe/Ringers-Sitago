@@ -23,10 +23,8 @@ MonoBehaviour:
   allowRepeatSlices: 0
   powerupsForMap: 00000000
   stoneTiles: []
-  slicesToSpawn:
-  - sliceToSpawn: 1
-  - sliceToSpawn: 0
-  levelAvailableColors: 010000000200000003000000
+  slicesToSpawn: []
+  levelAvailableColors: 01000000
   levelAvailableSymbols: 010000000200000003000000
   specificSliceSpots: 
   algoritmStepsWanted: 1

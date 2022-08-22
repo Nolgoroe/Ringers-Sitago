@@ -46,6 +46,8 @@ public class ClipManager : MonoBehaviour
         p.SetPieces();
 
         c.pieceInside = p;
+
+        p.GetComponent<Animator>().SetTrigger("Appear");
     }
 
     public bool ComparerPiece(Piece currectCheckPiece, Piece p)
