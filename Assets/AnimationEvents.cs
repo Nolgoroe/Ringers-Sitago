@@ -36,4 +36,9 @@ public class AnimationEvents : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    void ResetDealButton()
+    {
+        PowerUpManager.instance.dealButton.canBeSelected = true;
+    }
 }

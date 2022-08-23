@@ -169,14 +169,7 @@ public class PowerUpManager : MonoBehaviour
             timesClickedDeal++;
 
             StartCoroutine(DealCooldown(dealCooldown));
-            StartCoroutine(ToggleBoolAfterSeconds(dealButton, dealCooldown, true));
         }
-    }
-
-    IEnumerator ToggleBoolAfterSeconds(PowerupProperties dealButton, float seconds, bool isTrue)
-    {
-        yield return new WaitForSeconds(seconds);
-        dealButton.canBeSelected = isTrue;
     }
 
     void AfterDarkDeal()
