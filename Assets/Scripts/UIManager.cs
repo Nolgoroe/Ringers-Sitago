@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
     {
         systemMessages.SetActive(false);
 
-        gameVersionText.text = Application.version;
+        //gameVersionText.text = Application.version;
     }
 
     public void RestartCurrentLevel()

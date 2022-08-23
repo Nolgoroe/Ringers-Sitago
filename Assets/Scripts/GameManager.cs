@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviour
                 if (prop)
                 {
                     prop.canBeSelected = true;
+                    prop.GetComponent<SpriteChanger>().ChangeToCanUse();
                 }
             }
         }

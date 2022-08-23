@@ -39,6 +39,8 @@ public class PieceDragHandler : MonoBehaviour
         GameplayController.instance.draggingPiece = relatedPiece;
         GameplayController.instance.originalPiecePos = transform.position;
 
+        sortingGroup.sortingOrder = 20;
+
         if (GameplayController.instance.CheckOriginalParentIsCell())
         {
             Cell myCell = GameplayController.instance.originalParent.GetComponent<Cell>();
@@ -60,7 +62,6 @@ public class PieceDragHandler : MonoBehaviour
         Vector3 screenPoint = Input.mousePosition;
         screenPoint.z = -GameplayController.instance.planeDistanceCamera;
         transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
-        sortingGroup.sortingOrder = 20;
 
         GetComponent<Animator>().SetTrigger("Pick Up");
     }
@@ -71,6 +72,7 @@ public class PieceDragHandler : MonoBehaviour
         {
             return;
         }
+        sortingGroup.sortingOrder = 20;
 
         transform.up = -(SliceManager.instance.gameObject.transform.position - transform.position);
 

@@ -37,6 +37,9 @@ public class PowerUpManager : MonoBehaviour
     [Header("Power up")]
     public PowerupProperties currentlyInUse;
     public Piece ObjectToUsePowerUpOn;
+    public Transform potionFollowObject;
+
+    //public SpriteChanger potionOriginal;
 
     [Header("Lists and arrays")]
     public List<PowerupProperties> powerupButtons;
@@ -53,6 +56,7 @@ public class PowerUpManager : MonoBehaviour
     private void Start()
     {
         dealButtonDark.gameObject.SetActive(false);
+        potionFollowObject.gameObject.SetActive(false);
 
         foreach (var powerup in powerupButtons)
         {
@@ -72,6 +76,19 @@ public class PowerUpManager : MonoBehaviour
             {
                 AssignPowerUp(props.powerupType, props);
             }
+        }
+    }
+
+    private void Update()
+    {
+        if (IsUsingPowerUp)
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = 10;
+
+            Vector3 pos = Camera.main.ScreenToWorldPoint(mousePosition);
+
+            potionFollowObject.position = pos;
         }
     }
 
@@ -191,6 +208,12 @@ public class PowerUpManager : MonoBehaviour
         {
             currentlyInUse = prop.gameObject.GetComponent<PowerupProperties>();
 
+            // we set the setactibe to true and then false in order to reset the animation to start
+            // where scale is 1 and alpha is 1
+            potionFollowObject.gameObject.SetActive(false);
+            potionFollowObject.gameObject.SetActive(true);
+
+            potionFollowObject.GetComponent<Animator>().SetBool("Blink", true);
             prop.canBeSelected = false;
 
             IsUsingPowerUp = true;
@@ -200,7 +223,15 @@ public class PowerUpManager : MonoBehaviour
     {
         if(prop.canBeSelected)
         {
+            potionFollowObject.gameObject.SetActive(true);
+            potionFollowObject.localScale = Vector3.one;
+            prop.transform.GetComponent<SpriteChanger>().ChangeToCantUse();
+
             StartCoroutine(JokerPower(prop));
+        }
+        else
+        {
+            prop.GetComponent<Animator>().SetTrigger("Not Ready");
         }
     }
 
@@ -254,16 +285,25 @@ public class PowerUpManager : MonoBehaviour
         ObjectToUsePowerUpOn = null;
 
         IsUsingPowerUp = false;
-        currentlyInUse = null;
         HasUsedPowerUp = false;
 
-        if(successfull)
+        if (successfull)
         {
+            potionFollowObject.GetComponent<Animator>().SetTrigger("Deselect");
+            potionFollowObject.GetComponent<Animator>().SetBool("Blink", false);
             prop.canBeSelected = false;
+            prop.GetComponent<SpriteChanger>().ChangeToCantUse();
+
+            currentlyInUse = null;
         }
         else
         {
+            potionFollowObject.GetComponent<Animator>().SetTrigger("Deselect");
+            potionFollowObject.GetComponent<Animator>().SetBool("Blink", false);
+
             prop.canBeSelected = true;
+            prop.GetComponent<SpriteChanger>().ChangeToCanUse();
+
         }
 
 

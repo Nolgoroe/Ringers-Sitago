@@ -31,4 +31,9 @@ public class AnimationEvents : MonoBehaviour
         SortingGroup sorting = GetComponent<SortingGroup>();
         sorting.sortingOrder = 14;
     }
+
+    void SetActiveFalseOnFinish()
+    {
+        gameObject.SetActive(false);
+    }
 }

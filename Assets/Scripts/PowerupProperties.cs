@@ -28,6 +28,5 @@ public class PowerupProperties : MonoBehaviour
         interactEvent.Invoke();
 
         Debug.Log("Shooting event powerup");
-
     }
 }
