@@ -166,7 +166,6 @@ MonoBehaviour:
   ObjectToUsePowerUpOn: {fileID: 0}
   potionFollowObject: {fileID: 2462419077610283567}
   powerupButtons:
-  - {fileID: 1339700147}
   - {fileID: 1641518742}
 --- !u!4 &47241233
 Transform:

@@ -1303,7 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd830e2f4a364b9c63f0418f9d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellIndex: 4
+  cellIndex: 0
   isFull: 0
   heldPiece: {fileID: 0}
   leftSlice: {fileID: 4666911830494033800}

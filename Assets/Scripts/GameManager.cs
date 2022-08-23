@@ -118,6 +118,7 @@ public class GameManager : MonoBehaviour
                 if (prop)
                 {
                     prop.canBeSelected = false;
+                    prop.GetComponent<SpriteChanger>().ChangeToCantUse();
 
                     //prop.GetComponent<Button>().interactable = false;
                 }

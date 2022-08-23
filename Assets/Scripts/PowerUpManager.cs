@@ -77,6 +77,9 @@ public class PowerUpManager : MonoBehaviour
                 AssignPowerUp(props.powerupType, props);
             }
         }
+
+        AssignPowerUp(dealButton.powerupType, dealButton);
+        Debug.LogError("test");
     }
 
     private void Update()
