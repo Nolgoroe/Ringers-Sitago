@@ -42,6 +42,8 @@ public class GameplayController: MonoBehaviour
 
     public void ReturnHome()
     {
+        SoundManager.instance.PlaySound(SoundType.TilePlace);
+
         draggingPiece.GetComponent<Animator>().SetTrigger("Put Down");
 
         draggingPiece.transform.SetParent(originalParent);

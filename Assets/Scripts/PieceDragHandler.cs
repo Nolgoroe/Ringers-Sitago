@@ -150,6 +150,8 @@ public class PieceDragHandler : MonoBehaviour
                 }
                 else // fill cell with piece
                 {
+                    SoundManager.instance.PlaySound(SoundType.TilePlace);
+
                     GetComponent<Animator>().SetTrigger("Put Down");
 
                     myCell.isFull = true;

@@ -169,6 +169,7 @@ public class PowerUpManager : MonoBehaviour
             timesClickedDeal++;
 
             StartCoroutine(DealCooldown(dealCooldown));
+            SoundManager.instance.PlaySound(SoundType.DealSeq);
         }
     }
 

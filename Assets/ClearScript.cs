@@ -16,7 +16,7 @@ public class ClearScript : MonoBehaviour
     private void OnMouseDown()
     {
         SliceManager.instance.GetComponent<Animator>().SetTrigger("Clear");
-
+        SoundManager.instance.PlaySound(SoundType.UISound);
         //interactEvent.Invoke();
     }
 }

@@ -116,6 +116,8 @@ public class ConnectionManager : MonoBehaviour
             leftCell.heldPiece.rightChild.isGoodConnected = false;
 
             myCell.ResetConnectionDisplays();
+
+            SoundManager.instance.PlaySound(SoundType.TileUnmatch);
         }
         else
         {
@@ -132,6 +134,7 @@ public class ConnectionManager : MonoBehaviour
             rightCell.heldPiece.leftChild.isGoodConnected = false;
             myCell.ResetConnectionDisplays();
 
+            SoundManager.instance.PlaySound(SoundType.TileUnmatch);
         }
         else
         {
@@ -239,6 +242,8 @@ public class ConnectionManager : MonoBehaviour
                 leftCell.heldPiece.rightChild.isGoodConnected = true; // used when we pick up the piece to decide how many bad connections remain on board
                 myCell.goodConnectLeft.gameObject.SetActive(true);
                 myCell.goodConnectLeft.SetTrigger("Activate");
+
+                SoundManager.instance.PlaySound(SoundType.TileMatch);
             }
 
         }
@@ -268,6 +273,8 @@ public class ConnectionManager : MonoBehaviour
                 myCell.goodConnectRight.gameObject.SetActive(true);
 
                 myCell.goodConnectRight.SetTrigger("Activate");
+
+                SoundManager.instance.PlaySound(SoundType.TileMatch);
             }
 
         }
