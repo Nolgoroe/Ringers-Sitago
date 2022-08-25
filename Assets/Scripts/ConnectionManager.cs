@@ -228,6 +228,7 @@ public class ConnectionManager : MonoBehaviour
             {
                 leftCell.heldPiece.rightChild.isGoodConnected = false; // used when we pick up the piece to decide how many bad connections remain on board
                 myCell.badConnectLeft.gameObject.SetActive(true);
+                myCell.badConnectLeft.GetComponent<Animator>().enabled = true;
                 myCell.badConnectLeft.SetTrigger("Activate");
             }
         }
@@ -241,6 +242,7 @@ public class ConnectionManager : MonoBehaviour
             {
                 leftCell.heldPiece.rightChild.isGoodConnected = true; // used when we pick up the piece to decide how many bad connections remain on board
                 myCell.goodConnectLeft.gameObject.SetActive(true);
+                myCell.badConnectLeft.GetComponent<Animator>().enabled = true;
                 myCell.goodConnectLeft.SetTrigger("Activate");
 
                 SoundManager.instance.PlaySound(SoundType.TileMatch);

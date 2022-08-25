@@ -41,4 +41,9 @@ public class AnimationEvents : MonoBehaviour
     {
         PowerUpManager.instance.dealButton.canBeSelected = true;
     }
+
+    void DeactivateAnimatorAfterPlay()
+    {
+        GetComponent<Animator>().enabled = false;
+    }
 }
