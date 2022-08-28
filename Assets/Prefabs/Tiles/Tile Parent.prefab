@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2345253908743899490}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joker_Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2345253909249567260}
   - component: {fileID: 2345253909249567261}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2345253909502006130}
   - component: {fileID: 2345253909502006131}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joker_Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2345253909600220937}
   - component: {fileID: 2345253909600220936}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Mask (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 2345253909807194641}
   - component: {fileID: 2345253909807194647}
   - component: {fileID: 2345253909807194640}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Tile_Shine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5090,7 +5090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2345253910101038915}
   - component: {fileID: 2345253910101038268}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5178,7 +5178,7 @@ GameObject:
   - component: {fileID: 3568317913112625890}
   - component: {fileID: 5236143359393569322}
   - component: {fileID: 8564960437035550357}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5323,7 +5323,7 @@ GameObject:
   - component: {fileID: 7677898642434594140}
   - component: {fileID: 4459768215759955416}
   - component: {fileID: 2091645984536760154}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Left child
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5421,7 +5421,7 @@ GameObject:
   - component: {fileID: 5004257138092286025}
   - component: {fileID: 378571093767567276}
   - component: {fileID: 8969024640866098344}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Right child
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5539,6 +5539,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Eternity_Particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 5420340101719712252, guid: eccacd7784da8534aaa8d96c6bf4c499,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5420340101719712252, guid: eccacd7784da8534aaa8d96c6bf4c499,
         type: 3}

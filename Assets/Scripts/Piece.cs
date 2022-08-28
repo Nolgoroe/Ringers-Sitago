@@ -168,4 +168,9 @@ public class Piece : MonoBehaviour
         jokerTile.gameObject.SetActive(true);
         //normalTile.gameObject.SetActive(false);
     }
+    public void SetPieceAsNormal()
+    {
+        jokerTile.gameObject.SetActive(false);
+        normalTile.gameObject.SetActive(true);
+    }
 }

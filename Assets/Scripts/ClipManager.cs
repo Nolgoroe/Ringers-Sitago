@@ -75,6 +75,10 @@ public class ClipManager : MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
         {
             Piece p = slots[i].GetComponentInChildren<Piece>();
+
+            p.GetComponent<Animator>().SetBool("IsJoker", false);
+            p.SetPieceAsNormal();
+
             RerollSlotPieceData(p);
         }
     }

@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public int currentMapIndex;
     public bool timeCounting;
     public bool gameStarted;
-    public bool gameDone;
+    //public bool gameDone;
 
     [Header("game setup data")]
     public LevelScriptableObject[] allLevels;

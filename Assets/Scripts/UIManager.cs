@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     [Header("System Messages")]
     public GameObject systemMessages;
     public TMP_Text headerText;
+    public float waitTimeFadeOut;
     public float speedFadeOutHeadText;
 
     [Header("System Data")]
@@ -51,15 +52,13 @@ public class UIManager : MonoBehaviour
 
     public void RestartCurrentLevel()
     {
-        if (!GameManager.instance.gameDone)
-        {
-            GameManager.instance.ResetCurrentLevel();
-        }
+        GameManager.instance.ResetCurrentLevel();
     }
 
-    public void HeaderFadeInText(string toSay, float fadeSpeed)
+    public IEnumerator HeaderFadeInText(string toSay)
     {
         LeanTween.cancel(headerText.gameObject);
+
 
         systemMessages.SetActive(true);
 
@@ -67,7 +66,9 @@ public class UIManager : MonoBehaviour
 
         headerText.text = toSay;
 
-        LeanTween.value(headerText.gameObject, 1, 0, fadeSpeed).setOnComplete(() => systemMessages.SetActive(false)).setOnUpdate((float val) =>
+        yield return new WaitForSeconds(waitTimeFadeOut);
+
+        LeanTween.value(headerText.gameObject, 1, 0, speedFadeOutHeadText).setOnComplete(() => systemMessages.SetActive(false)).setOnUpdate((float val) =>
         {
             TMP_Text sr = headerText.GetComponent<TMP_Text>();
             Color newColor = sr.color;

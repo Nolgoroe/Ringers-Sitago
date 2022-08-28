@@ -28,7 +28,7 @@ public class PieceDragHandler : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (PowerUpManager.IsUsingPowerUp || GameManager.instance.gameDone)
+        if (PowerUpManager.IsUsingPowerUp)
         {
             return;
         }
@@ -52,8 +52,6 @@ public class PieceDragHandler : MonoBehaviour
             myCell.heldPiece = null;
         }
 
-        DisableRaycast(); // so we don't check against ourselves what we hit
-
         transform.SetParent(GameplayController.instance.dragParent); // this is the gameplay canvas - we do this so the piece renders over all other 2D elements
 
 
@@ -63,12 +61,14 @@ public class PieceDragHandler : MonoBehaviour
         screenPoint.z = -GameplayController.instance.planeDistanceCamera;
         transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
 
+        GetComponent<Animator>().ResetTrigger("Put Down");
+
         GetComponent<Animator>().SetTrigger("Pick Up");
     }
 
     public void OnMouseDrag()
     {
-        if (PowerUpManager.IsUsingPowerUp || GameManager.instance.gameDone)
+        if (PowerUpManager.IsUsingPowerUp)
         {
             return;
         }
@@ -79,26 +79,11 @@ public class PieceDragHandler : MonoBehaviour
         Vector3 screenPoint = Input.mousePosition;
         screenPoint.z = -GameplayController.instance.planeDistanceCamera;
         transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
-
-
     }
 
     public void OnMouseUp()
     {
-        if (GameManager.instance.gameDone)
-        {
-            return;
-        }
-
-        if (PowerUpManager.IsUsingPowerUp)
-        {
-            PowerUpManager.instance.ObjectToUsePowerUpOn = relatedPiece;
-
-            PowerUpManager.HasUsedPowerUp = true;
-
-            Debug.Log("Used power");
-            return;
-        }
+        GetComponent<Animator>().ResetTrigger("Pick Up");
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -129,6 +114,8 @@ public class PieceDragHandler : MonoBehaviour
 
                     if (GameManager.instance.totalPlacedPieces == GameManager.instance.currentMap.cellsCountInLevel)
                     {
+                        GetComponent<Animator>().SetTrigger("Put Down");
+
                         myCell.PopulateCellHeldPiece(relatedPiece);
 
                         LastPieceLogic(myCell);
@@ -173,8 +160,6 @@ public class PieceDragHandler : MonoBehaviour
             }
         }
 
-        EnableRaycast();
-
         GameplayController.instance.ReturnHome();
 
         Debug.Log("pointer up");
@@ -212,19 +197,9 @@ public class PieceDragHandler : MonoBehaviour
             myCell.ResetCellHeldPiece();
             GameplayController.instance.ReturnHome();
 
-            UIManager.instance.HeaderFadeInText("The ring cannot be completed!", 2f);
+           StartCoroutine(UIManager.instance.HeaderFadeInText("The ring cannot be completed!"));
 
             SliceManager.instance.GetComponent<Animator>().SetTrigger("Incorrect Complete");
         }
-    }
-
-
-    public void DisableRaycast()
-    {
-        //transform.GetComponent<Image>().raycastTarget = false;
-    }
-    public void EnableRaycast()
-    {
-        //transform.GetComponent<Image>().raycastTarget = true;
     }
 }

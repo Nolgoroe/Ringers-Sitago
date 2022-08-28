@@ -46,4 +46,9 @@ public class AnimationEvents : MonoBehaviour
     {
         GetComponent<Animator>().enabled = false;
     }
+
+    void ActivateJoker()
+    {
+        transform.GetComponent<Piece>().jokerTile.gameObject.SetActive(true);
+    }
 }

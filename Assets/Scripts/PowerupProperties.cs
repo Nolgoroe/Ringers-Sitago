@@ -18,6 +18,15 @@ public class PowerupProperties : MonoBehaviour
 
     public UnityEvent interactEvent;
 
+    //public CircleCollider2D powerUpCollider;
+
+    //private void Start()
+    //{
+    //    if(powerupType != PowerUp.Deal)
+    //    {
+    //        powerUpCollider = GetComponent<CircleCollider2D>();
+    //    }
+    //}
     public void SetProperties(PowerUp type)
     {
         powerupType = type;
@@ -25,6 +34,11 @@ public class PowerupProperties : MonoBehaviour
 
     private void OnMouseDown()
     {
+        //if(powerUpCollider)
+        //{
+        //    powerUpCollider.enabled = false;
+        //}
+
         interactEvent.Invoke();
 
         Debug.Log("Shooting event powerup");

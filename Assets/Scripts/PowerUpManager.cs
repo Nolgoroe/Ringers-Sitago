@@ -36,7 +36,7 @@ public class PowerUpManager : MonoBehaviour
 
     [Header("Power up")]
     public PowerupProperties currentlyInUse;
-    public Piece ObjectToUsePowerUpOn;
+    public Transform ObjectToUsePowerUpOn;
     public Transform potionFollowObject;
 
     //public SpriteChanger potionOriginal;
@@ -163,14 +163,11 @@ public class PowerUpManager : MonoBehaviour
             return;
         }
 
-        if (!GameManager.instance.gameDone)
-        {
-            ScoreManager.instance.hasClickedDeal = true;
-            timesClickedDeal++;
+        ScoreManager.instance.hasClickedDeal = true;
+        timesClickedDeal++;
 
-            StartCoroutine(DealCooldown(dealCooldown));
-            SoundManager.instance.PlaySound(SoundType.DealSeq);
-        }
+        StartCoroutine(DealCooldown(dealCooldown));
+        SoundManager.instance.PlaySound(SoundType.DealSeq);
     }
 
     void AfterDarkDeal()
@@ -238,23 +235,32 @@ public class PowerUpManager : MonoBehaviour
 
         bool successfulUse = false;
 
-        if (ObjectToUsePowerUpOn.leftChild.symbolOfPiece != PieceSymbol.Joker) ///// If 1 of the sub pieces is a joker - so is the other. If the symbol is a joker then the color is awell
+        Piece toUsePowerOn = ObjectToUsePowerUpOn.GetComponent<Piece>();
+
+        if(toUsePowerOn == null)
+        {
+            Debug.LogError("Coulden't find piece");
+            yield break;
+        }
+
+        if (toUsePowerOn.leftChild.symbolOfPiece != PieceSymbol.Joker) ///// If 1 of the sub pieces is a joker - so is the other. If the symbol is a joker then the color is awell
         {
             ObjectToUsePowerUpOn.GetComponent<Animator>().SetTrigger("Joker Transform");
+            ObjectToUsePowerUpOn.GetComponent<Animator>().SetBool("IsJoker", true);
 
-            ObjectToUsePowerUpOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
-            ObjectToUsePowerUpOn.leftChild.colorOfPiece = PieceColor.Joker;
+            toUsePowerOn.leftChild.symbolOfPiece = PieceSymbol.Joker;
+            toUsePowerOn.leftChild.colorOfPiece = PieceColor.Joker;
 
-            ObjectToUsePowerUpOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
-            ObjectToUsePowerUpOn.rightChild.colorOfPiece = PieceColor.Joker;
+            toUsePowerOn.rightChild.symbolOfPiece = PieceSymbol.Joker;
+            toUsePowerOn.rightChild.colorOfPiece = PieceColor.Joker;
 
-            ObjectToUsePowerUpOn.SetPieceAsJoker();
-            ObjectToUsePowerUpOn.leftChild.SetPieceAsJoker();
-            ObjectToUsePowerUpOn.rightChild.SetPieceAsJoker();
+            toUsePowerOn.SetPieceAsJoker();
+            toUsePowerOn.leftChild.SetPieceAsJoker();
+            toUsePowerOn.rightChild.SetPieceAsJoker();
 
             successfulUse = true;
 
-            if (ObjectToUsePowerUpOn.partOfBoard)
+            if (toUsePowerOn.partOfBoard)
             {
                 Cell c = ObjectToUsePowerUpOn.transform.parent.GetComponent<Cell>();
                 int cellIndex = System.Array.IndexOf(SliceManager.instance.boardCells, c);
@@ -291,7 +297,6 @@ public class PowerUpManager : MonoBehaviour
             prop.canBeSelected = false;
             prop.GetComponent<SpriteChanger>().ChangeToCantUse();
 
-            currentlyInUse = null;
         }
         else
         {
@@ -300,9 +305,14 @@ public class PowerUpManager : MonoBehaviour
 
             prop.canBeSelected = true;
             prop.GetComponent<SpriteChanger>().ChangeToCanUse();
-
+            
+            //if(prop.powerUpCollider)
+            //{
+            //    prop.powerUpCollider.enabled = true;
+            //}
         }
 
+        currentlyInUse = null;
 
         //ReactivatePowerButtons();
     }
