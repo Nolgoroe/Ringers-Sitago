@@ -79,7 +79,6 @@ public class PowerUpManager : MonoBehaviour
         }
 
         AssignPowerUp(dealButton.powerupType, dealButton);
-        Debug.LogError("test");
     }
 
     private void Update()

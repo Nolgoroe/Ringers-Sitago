@@ -18,6 +18,5 @@ public class SpriteChanger : MonoBehaviour
         cantUseObject.SetActive(true);
         canUseObject.SetActive(false);
 
-        Debug.LogError("Changed");
     }
 }

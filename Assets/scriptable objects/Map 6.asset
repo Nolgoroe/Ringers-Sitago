@@ -26,7 +26,7 @@ MonoBehaviour:
   slicesToSpawn:
   - sliceToSpawn: 0
   - sliceToSpawn: 1
-  levelAvailableColors: 01000000020000000300000004000000
-  levelAvailableSymbols: 01000000020000000300000004000000
+  levelAvailableColors: 01000000020000000400000005000000
+  levelAvailableSymbols: 01000000020000000300000005000000
   specificSliceSpots: 
   algoritmStepsWanted: 0

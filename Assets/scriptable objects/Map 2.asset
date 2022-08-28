@@ -21,10 +21,10 @@ MonoBehaviour:
   cellsCountInLevel: 8
   RandomSlicePositions: 1
   allowRepeatSlices: 0
-  powerupsForMap: 00000000
+  powerupsForMap: 
   stoneTiles: []
   slicesToSpawn: []
-  levelAvailableColors: 01000000
+  levelAvailableColors: 020000000400000005000000
   levelAvailableSymbols: 010000000200000003000000
   specificSliceSpots: 
   algoritmStepsWanted: 0

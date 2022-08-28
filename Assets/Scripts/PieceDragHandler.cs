@@ -162,7 +162,6 @@ public class PieceDragHandler : MonoBehaviour
 
         GameplayController.instance.ReturnHome();
 
-        Debug.Log("pointer up");
     }
 
     private void LastPieceLogic(Cell myCell)

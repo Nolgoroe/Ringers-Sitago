@@ -25,7 +25,7 @@ MonoBehaviour:
   stoneTiles: []
   slicesToSpawn:
   - sliceToSpawn: 1
-  levelAvailableColors: 01000000020000000300000004000000
+  levelAvailableColors: 01000000020000000400000005000000
   levelAvailableSymbols: 010000000200000003000000
   specificSliceSpots: 
   algoritmStepsWanted: 0

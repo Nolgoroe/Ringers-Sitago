@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
 
     public bool CheckEndLevel()
     {
-        Debug.LogError("END LEVEL HERE");
 
         if (unsuccessfullConnectionsCount > 0)
         {
@@ -78,6 +77,8 @@ public class GameManager : MonoBehaviour
         }
 
         ResetAllLevelData();
+
+        Debug.Log(allLevels.Length);
 
         if (currentMapIndex > allLevels.Length - 1)
         {
@@ -148,7 +149,7 @@ public class GameManager : MonoBehaviour
         }
 
         ResetAllLevelData();
-
+        Debug.Log(allLevels.Length);
         if (currentMapIndex > allLevels.Length - 1)
         {
             currentMap = allLevels[allLevels.Length - 1];

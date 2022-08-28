@@ -98,11 +98,6 @@ public class ConnectionManager : MonoBehaviour
         Cell leftCell = GetCell(myCellIndex - 1);
         Cell rightCell = GetCell(myCellIndex + 1);
 
-
-        Debug.Log("PICKUP My cell index " + myCell);
-        Debug.Log("PICKUP Left cell index " + leftCell);
-        Debug.Log("PICKUP Right cell index " + rightCell);
-
         CheckConnectionsPickupPiece(myCell, myCellIndex, leftCell, rightCell);
     }
 
@@ -149,10 +144,6 @@ public class ConnectionManager : MonoBehaviour
         Cell leftCell = GetCell(myCellIndex - 1);
         Cell rightCell = GetCell(myCellIndex + 1);
 
-
-        Debug.Log("My cell index " + myCell);
-        Debug.Log("Left cell index " + leftCell);
-        Debug.Log("Right cell index " + rightCell);
 
         CheckConnectionsPlacePiece(myCell, myCellIndex, leftCell, rightCell);
     }
