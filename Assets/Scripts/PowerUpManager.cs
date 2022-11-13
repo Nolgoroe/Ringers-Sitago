@@ -217,7 +217,7 @@ public class PowerUpManager : MonoBehaviour
         if(prop.canBeSelected)
         {
             potionFollowObject.gameObject.SetActive(true);
-            potionFollowObject.localScale = Vector3.one;
+            potionFollowObject.localScale = Vector3.one * 100;
             prop.transform.GetComponent<SpriteChanger>().ChangeToCantUse();
 
             StartCoroutine(JokerPower(prop));
